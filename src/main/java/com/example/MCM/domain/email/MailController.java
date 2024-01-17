@@ -13,9 +13,9 @@ public class MailController {
 
     private final JavaMailSender mailSender;
 
-    private final UserService userService;
-
-    private final UserRepository userRepository;
+//    private final UserService userService;
+//
+//    private final UserRepository userRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -46,56 +46,57 @@ public class MailController {
     }
 
 
-    @PostMapping("/user/findPw/sendEmail")
-    @ResponseBody
-    public void sendEmailForPw(@RequestParam("email") String userEmail, String userName) {
+//    @PostMapping("/user/findPw/sendEmail")
+//    @ResponseBody
+//    public void sendEmailForPw(@RequestParam("email") String userEmail, String userName) {
+//
+//        String tempPw = userService.generateTempPassword();
+//        String from = "admin@ToolTool.com";//보내는 이 메일주소
+//        String to = userEmail;
+//        String title = "임시 비밀번호입니다.";
+//        String content = userName + "님의" + "[임시 비밀번호] " + tempPw + " 입니다. <br/> 접속한 후 비밀번호를 변경해주세요";
+//        try {
+//            MimeMessage mail = mailSender.createMimeMessage();
+//            MimeMessageHelper mailHelper = new MimeMessageHelper(mail, true, "UTF-8");
+//
+//            mailHelper.setFrom(from);
+//            mailHelper.setTo(to);
+//            mailHelper.setSubject(title);
+//            mailHelper.setText(content, true);
+//
+//            mailSender.send(mail);
+//
+//            SiteUser user = userService.getUserByEmailAndUsername(userEmail, userName);
+//            user.setPassword(passwordEncoder.encode(tempPw));
+//            userRepository.save(user);
+//
+//        } catch (Exception e) {
+//            throw new DataNotFoundException("error");
+//        }
+//    }
 
-        String tempPw = userService.generateTempPassword();
-        String from = "admin@ToolTool.com";//보내는 이 메일주소
-        String to = userEmail;
-        String title = "임시 비밀번호입니다.";
-        String content = userName + "님의" + "[임시 비밀번호] " + tempPw + " 입니다. <br/> 접속한 후 비밀번호를 변경해주세요";
-        try {
-            MimeMessage mail = mailSender.createMimeMessage();
-            MimeMessageHelper mailHelper = new MimeMessageHelper(mail, true, "UTF-8");
 
-            mailHelper.setFrom(from);
-            mailHelper.setTo(to);
-            mailHelper.setSubject(title);
-            mailHelper.setText(content, true);
-
-            mailSender.send(mail);
-
-            SiteUser user = userService.getUserByEmailAndUsername(userEmail, userName);
-            user.setPassword(passwordEncoder.encode(tempPw));
-            userRepository.save(user);
-
-        } catch (Exception e) {
-            throw new DataNotFoundException("error");
-        }
-    }
-
-
-    @PostMapping("/user/findId/sendEmail")
-    @ResponseBody
-    public void sendEmailForId(@RequestParam("userEmail") String userEmail, String userName) {
-        String from = "admin@ToolTool.com";//보내는 이 메일주소
-        String to = userEmail;
-        String title = "아이디 찾기 결과입니다.";
-        String content = "[아이디] " + userName + " 입니다. <br/>";
-        try {
-            MimeMessage mail = mailSender.createMimeMessage();
-            MimeMessageHelper mailHelper = new MimeMessageHelper(mail, true, "UTF-8");
-
-            mailHelper.setFrom(from);
-            mailHelper.setTo(to);
-            mailHelper.setSubject(title);
-            mailHelper.setText(content, true);
-
-            mailSender.send(mail);
-
-        } catch (Exception e) {
-            throw new DataNotFoundException("error");
-        }
+//    @PostMapping("/user/findId/sendEmail")
+//    @ResponseBody
+//    public void sendEmailForId(@RequestParam("userEmail") String userEmail, String userName) {
+//        String from = "admin@ToolTool.com";//보내는 이 메일주소
+//        String to = userEmail;
+//        String title = "아이디 찾기 결과입니다.";
+//        String content = "[아이디] " + userName + " 입니다. <br/>";
+//        try {
+//            MimeMessage mail = mailSender.createMimeMessage();
+//            MimeMessageHelper mailHelper = new MimeMessageHelper(mail, true, "UTF-8");
+//
+//            mailHelper.setFrom(from);
+//            mailHelper.setTo(to);
+//            mailHelper.setSubject(title);
+//            mailHelper.setText(content, true);
+//
+//            mailSender.send(mail);
+//
+//        } catch (Exception e) {
+//            throw new DataNotFoundException("error");
+//        }
     }
 }
+
