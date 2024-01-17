@@ -20,6 +20,8 @@ public class Product extends BaseEntity {
 
   private Long price;
 
+  private String fileName;
+
   private String filePath;
 
   private String category;
