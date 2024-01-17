@@ -2,6 +2,7 @@ package com.example.MCM.domain.member.entity;
 
 import com.example.MCM.base.entity.BaseEntity;
 
+import com.example.MCM.domain.member.MemberRole;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
