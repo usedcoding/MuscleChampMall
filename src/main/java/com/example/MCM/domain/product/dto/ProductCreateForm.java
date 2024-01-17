@@ -5,15 +5,13 @@ import lombok.Getter;
 @Getter
 public class ProductCreateForm {
 
-  private String subject;
-
-  private String content;
+  private String name;
 
   private Long price;
 
-  private String fileName;
-
-  private String filePath;
+//  private String fileName;
+//
+//  private String filePath;
 
   private String category;
 
