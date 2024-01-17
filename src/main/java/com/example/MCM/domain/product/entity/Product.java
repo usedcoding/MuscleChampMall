@@ -2,18 +2,15 @@ package com.example.MCM.domain.product.entity;
 
 import com.example.MCM.base.entity.BaseEntity;
 import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-@Entity
 @Getter
 @SuperBuilder(toBuilder = true)
-@AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(callSuper = true)
+@Entity
 public class Product extends BaseEntity {
 
   private String name;
