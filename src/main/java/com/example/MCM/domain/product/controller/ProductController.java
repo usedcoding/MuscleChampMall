@@ -1,6 +1,5 @@
 package com.example.MCM.domain.product.controller;
 
-import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.member.service.MemberService.MemberService;
 import com.example.MCM.domain.product.dto.ProductCreateForm;
 import com.example.MCM.domain.product.entity.Product;
@@ -56,12 +55,11 @@ public class ProductController {
   @PostMapping("/create")
   public String create(@Valid ProductCreateForm productCreateForm,
                        BindingResult bindingResult,
-                       Principal principal,
-                       MultipartFile file) {
+                       Principal principal) {
 
     if (bindingResult.hasErrors()) return "product/create";
 
-    Product product = this.productService.create(productCreateForm, file);
+    Product product = this.productService.create(productCreateForm);
 
     return "redirect:/product/list";
 
