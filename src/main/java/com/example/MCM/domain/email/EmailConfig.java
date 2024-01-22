@@ -12,8 +12,17 @@ import java.util.Properties;
 @Configuration
 @RequiredArgsConstructor
 public class EmailConfig {
+    @Value("${spring.mail.host}")
+    private final String mailHost;
+
     @Value("${spring.mail.password}")
-    private final String emailPassword;
+    private final String mailPassword;
+
+    @Value("${spring.mail.port}")
+    private final int mailPort;
+
+    @Value("${spring.mail.username}")
+    private final String mailUsername;
 
     @Bean
     public JavaMailSender javaMailSender() {
@@ -28,10 +37,10 @@ public class EmailConfig {
 
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setJavaMailProperties(mailProperties);
-        mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(587);
-        mailSender.setUsername("usedcoding@gmail.com");
-        mailSender.setPassword(emailPassword);
+        mailSender.setHost(mailHost);
+        mailSender.setPort(mailPort);
+        mailSender.setUsername(mailUsername);
+        mailSender.setPassword(mailPassword);
         mailSender.setDefaultEncoding("utf-8");
         return mailSender;
     }
