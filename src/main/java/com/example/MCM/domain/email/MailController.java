@@ -1,5 +1,6 @@
 package com.example.MCM.domain.email;
 
+import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -21,7 +22,7 @@ public class MailController {
 
     @GetMapping("/mailCheck")
     @ResponseBody
-    public int processMailCheck(@RequestParam("email") String email) throws Exception {
+    public int processMailCheck(@RequestParam(value = "email" , required = false) String email) throws Exception {
         int mailKey = (int) ((Math.random() * (99999 - 10000 + 1)) + 10000);
 
         String from = "usedcoding@gmail.com";//보내는 이 메일주소
@@ -39,8 +40,8 @@ public class MailController {
 
             mailSender.send(mail);
 
-        } catch (Exception e) {
-            throw new Exception("error");
+        } catch (MessagingException e) {
+            throw new RuntimeException("이메일 전송 중 오류가 발생했습니다.", e);
         }
         return mailKey;
     }

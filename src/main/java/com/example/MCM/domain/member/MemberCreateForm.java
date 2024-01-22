@@ -24,4 +24,7 @@ public class MemberCreateForm {
     @NotEmpty(message = "필수 사항 입니다.")
     private String phoneNumber;
 
+    @NotEmpty(message = "필수 사항 입니다.")
+    private String mailKey;
+
 }

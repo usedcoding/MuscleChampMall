@@ -18,8 +18,8 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/signup")
-    public String signup() {
-        return"signup";
+    public String signup(MemberCreateForm memberCreateForm) {
+        return"member_form";
     }
 
     @PostMapping("/signup")
@@ -49,7 +49,7 @@ public class MemberController {
 
     @GetMapping("/login")
     public String login() {
-        return "login";
+        return "login_form";
     }
 
 }

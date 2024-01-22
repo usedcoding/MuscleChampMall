@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/member/login}">
+    <input type="text" name="email">
+    <input type="text" name="password">
+    <button type="submit"> 로그인 </button>
+    <div>
+        <a href="http://localhost:8080/oauth2/authorization/kakao">카카오 로그인</a>
+    </div>
+</form>
+
+</body>
+</html>

@@ -13,16 +13,17 @@ import java.util.Properties;
 @RequiredArgsConstructor
 public class EmailConfig {
     @Value("${spring.mail.host}")
-    private final String mailHost;
+    private String mailHost;
 
     @Value("${spring.mail.password}")
-    private final String mailPassword;
+    private String mailPassword;
 
     @Value("${spring.mail.port}")
-    private final int mailPort;
+    private int mailPort;
 
     @Value("${spring.mail.username}")
-    private final String mailUsername;
+    private String mailUsername;
+
 
     @Bean
     public JavaMailSender javaMailSender() {

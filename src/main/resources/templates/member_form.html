@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>회원가입</title>
+</head>
+<body>
+<div class="container">
+    <section id="formHolder">
+
+        <section class="row">
+
+            <!-- 회원가입 상단 -->
+            <div class="heading">
+                <div class="headingTop">
+                    <h1>TOOLTOOL</h1>
+                    <p>캠핑 장비가 없어 툴툴대는 당신을 위한</p>
+                    <p>캠핑 장비 리뷰 커뮤니티 서비스</p>
+                </div>
+            </div>
+            <!-- Signup Form -->
+            <div class="signupFormPeice">
+                <form class="signupForm" th:action="@{/member/signup}" th:object="${memberCreateForm}" method="post" enctype="multipart/form-data">
+                    <hr>
+                    <div class="signupInputform">
+                        <div class="signupformfull">
+                            <div>
+                                <label for="avatar1" class="picture">프로필사진</label>
+                                <input accept="image/png, image/jpeg, image/jpg" id="avatar1" name="file" type="file">
+                            </div>
+                            <div class="form-group">
+                                <label for="name">아이디</label>
+                                <input type="text" th:field="*{username}" name="username" id="name" class="name">
+                                <span class="error"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="line-height" for="password">비밀번호</label>
+                                <input type="password" th:field="*{password1}" name="password" id="password"
+                                       class="pass">
+                                <span class="error"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="passwordCon">비밀번호 확인</label>
+                                <input type="password" th:field="*{password2}" name="password2" id="password2"
+                                       class="passConfirm">
+                                <span class="error"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">이메일 </label>
+                                <input type="email" th:field="*{email}" name="email" id="email" class="email">
+                                <button class="emailCF" type="button" onclick="sendEmailConfirmation()" id="emailCF">
+                                    인증번호 보내기
+                                </button>
+                                <span class="error"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="nickname">닉네임<small></small></label>
+                                <input type="text" th:field="*{nickname}" name="nickname" id="nickname">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="mailKey">이메일 인증번호</label>
+                                <input type="text" th:field="*{mailKey}" name="emailToken" id="mailKey"
+                                       class="emailToken">
+                                <span class="error"></span>
+                            </div>
+                            <div class="CTA">
+                                <input type="submit" value="Signup Now" id="submit" onclick="EmailConfirm()">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </section>
+</div>
+</body>
+<script>
+    function sendEmailConfirmation() {
+        // 이메일 주소 가져오기
+        var email = $("#email").val();
+        // AJAX 요청 보내기
+        $.ajax({
+            url: "/mailCheck", // 이메일 인증번호를 보낼 서버의 URL
+            method: "GET",
+            data: {email: email}, // 이메일 주소를 서버로 전달
+            success: function(response) {
+                alert("이메일 인증번호를 전송했습니다.");
+            },
+            error: function(xhr, status, error) {
+                alert("이메일 인증번호 전송에 실패했습니다. 다시 시도해주세요.");
+            }
+        });
+    }
+</script>
+</html>

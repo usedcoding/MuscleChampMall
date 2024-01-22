@@ -24,6 +24,10 @@ public class SecurityConfig {
                 .requestMatchers("/**")
                 .permitAll()
         )
+            .oauth2Login(
+                    oauth2Login -> oauth2Login
+                            .loginPage("/member/login")
+            )
         .csrf().ignoringRequestMatchers(
             new AntPathRequestMatcher("/**"))
         .and()
@@ -35,6 +39,7 @@ public class SecurityConfig {
         .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
         .logoutSuccessUrl("/")
         .invalidateHttpSession(true);
+
 
     return http.build();
   }
