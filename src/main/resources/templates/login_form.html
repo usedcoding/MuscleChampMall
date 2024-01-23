@@ -5,8 +5,8 @@
     <title>Title</title>
 </head>
 <body>
-<form th:action="@{/member/login}">
-    <input type="text" name="email">
+<form th:action="@{/member/login}" method="post">
+    <input type="text" name="username">
     <input type="text" name="password">
     <button type="submit"> 로그인 </button>
     <div>

@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +24,8 @@ public class MemberController {
     }
 
     @PostMapping("/signup")
-    public String signup(@Valid MemberCreateForm memberCreateForm, BindingResult bindingResult) {
+    public String signup(Model model, @Valid MemberCreateForm memberCreateForm, BindingResult bindingResult) {
+
 
         if(bindingResult.hasErrors()) {
             return"member_form";
@@ -44,7 +46,7 @@ public class MemberController {
             bindingResult.reject("signupFailed", e.getMessage());
             return "member_form";
         }
-        return "redirect:/main";
+        return "redirect:/";
     }
 
     @GetMapping("/login")

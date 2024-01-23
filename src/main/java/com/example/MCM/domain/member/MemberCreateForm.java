@@ -2,8 +2,10 @@ package com.example.MCM.domain.member;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class MemberCreateForm {
 
     @NotEmpty(message = "필수 사항 입니다.")
