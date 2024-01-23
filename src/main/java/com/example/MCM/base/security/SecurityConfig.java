@@ -24,10 +24,10 @@ public class SecurityConfig {
                 .requestMatchers("/**")
                 .permitAll()
         )
-            .oauth2Login(
-                    oauth2Login -> oauth2Login
-                            .loginPage("/member/login")
-            )
+        .oauth2Login(
+                oauth2Login -> oauth2Login
+                        .loginPage("/member/login")
+        )
         .csrf().ignoringRequestMatchers(
             new AntPathRequestMatcher("/**"))
         .and()

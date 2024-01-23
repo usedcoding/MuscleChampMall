@@ -26,7 +26,7 @@ public class MemberController {
     public String signup(@Valid MemberCreateForm memberCreateForm, BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
-            return"signup";
+            return"member_form";
         }
 
         if(!memberCreateForm.getPassword1().equals(memberCreateForm.getPassword2())) {
@@ -38,11 +38,11 @@ public class MemberController {
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
-            return "signup_form";
+            return "member_form";
         } catch (Exception e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", e.getMessage());
-            return "signup_form";
+            return "member_form";
         }
         return "redirect:/main";
     }

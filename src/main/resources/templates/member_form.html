@@ -26,13 +26,12 @@
             <!-- Signup Form -->
             <div class="signupFormPeice">
                 <form class="signupForm" th:action="@{/member/signup}" th:object="${memberCreateForm}" method="post" enctype="multipart/form-data">
+                    <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+                        <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+                    </div>
                     <hr>
                     <div class="signupInputform">
                         <div class="signupformfull">
-                            <div>
-                                <label for="avatar1" class="picture">프로필사진</label>
-                                <input accept="image/png, image/jpeg, image/jpg" id="avatar1" name="file" type="file">
-                            </div>
                             <div class="form-group">
                                 <label for="name">아이디</label>
                                 <input type="text" th:field="*{username}" name="username" id="name" class="name">
@@ -49,6 +48,13 @@
                             <div class="form-group">
                                 <label for="passwordCon">비밀번호 확인</label>
                                 <input type="password" th:field="*{password2}" name="password2" id="password2"
+                                       class="passConfirm">
+                                <span class="error"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phoneNumber">전화번호</label>
+                                <input type="test" th:field="*{phoneNumber}" name="phoneNumber" id="phoneNumber"
                                        class="passConfirm">
                                 <span class="error"></span>
                             </div>
@@ -72,9 +78,7 @@
                                        class="emailToken">
                                 <span class="error"></span>
                             </div>
-                            <div class="CTA">
-                                <input type="submit" value="Signup Now" id="submit" onclick="EmailConfirm()">
-                            </div>
+                            <button type="submit"> 회원가입 </button>
                         </div>
                     </div>
                 </form>
