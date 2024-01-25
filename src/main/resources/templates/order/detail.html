@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="">
+  <title>결제 페이지</title>
+</head>
+<div class="container mx-auto">
+  <div class="card w-full flex">
+    <div class="card-header flex items-center justify-center mb-[40px]">
+      <span class="text-5xl">주문 상세정보</span>
+    </div>
+    <table class="w-full mb-[20px]">
+      <thead>
+      <tr class="text-[20px]">
+        <th>상품 이미지</th>
+        <th>상품 번호</th>
+        <th>구매자</th>
+        <th>상품명</th>
+        <th>가격</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="text-center text-[20px] ">
+        <td class="flex justify-center">
+          <img class="w-[120px] h-[150px]" th:src="${product.coverImg}" alt="상품이미지">
+        </td>
+        <td class="">
+          <span th:text="${product.id}"></span>
+        </td>
+        <td class="">
+          <span th:text="${member.lastName}+${member.firstName}"></span>
+        </td>
+        <td class="w-4/12">
+          <span th:text="${product.title}" class="font-bold"></span>
+        </td>
+        <td class="">
+          <span th:text="${product.priceSales} + '원'" class="font-bold"></span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="border border-solid border-gray-400"></div>
+  <div class="mt-[20px] text-end">
+    <form method="get" th:action="@{|{/order/{id}/success}}">
+      <input required type="hidden" name="productId" id="productId" th:value="${product.id}">
+      <button type="button" onclick="pay();" class="btn btn-primary">결제</button>
+      <a href="javascript:history.back()" class="btn btn-secondary ml-2">취소</a>
+    </form>
+  </div>
+</div>
+<script src="https://js.tosspayments.com/v1"></script>
+<script th:inline="javascript">
+
+  let amount = /*[[${product.price}]]*/;
+  let orderName = /*[[${product.name}]]*/;
+  let productId = /*[[${product.id}]]*/;
+
+  let tossPayments = TossPayments("test_ck_ZLKGPx4M3M41oaJJ5zo8BaWypv1o");
+
+  let path = "/order/" + productId + "/";
+  let successUrl = window.location.origin + path + "success";
+  let failUrl = window.location.origin + path + "fail";
+  let callbackUrl = window.location.origin + path + "va_callback";
+  let orderId = new Date().getTime();
+
+  function pay() {
+
+<!--        const productId = document.getElementById("productId").value;-->
+
+      const method = "카드";
+
+      const requestJson = {
+          "amount": amount,
+          "orderId": "sample-" + orderId,
+          "orderName": orderName,
+          "successUrl": successUrl,
+          "failUrl": failUrl,
+          "cardCompany": null,
+          "cardInstallmentPlan": null,
+          "maxCardInstallmentPlan": null,
+          "useCardPoint": false,
+          "customerName": "박토스",
+          "customerEmail": null,
+          "customerMobilePhone": null,
+          "taxFreeAmount": null,
+          "useInternationalCardOnly": false,
+          "flowMode": "DEFAULT",
+          "discountCode": null,
+          "appScheme": null
+      }
+      tossPayments.requestPayment(method, requestJson)
+          .catch(function (error) {
+
+              if (error.code === "USER_CANCEL") {
+                  alert('유저가 취소했습니다.');
+              } else {
+                  alert(error.message);
+              }
+
+          });
+  }
+
+
+</script>
+</html>
