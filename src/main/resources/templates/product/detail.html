@@ -5,6 +5,14 @@
   <title>Title</title>
 </head>
 <body>
-
+  <div>
+    <div th:each="img : ${product.imgPath}" class="flex justify-center my-[40px]">
+      <img th:src="@{${img}}"/>
+    </div>
+    <div th:text="${product.imgName}"></div>
+    <div th:text="${product.id}"></div>
+    <div th:text="${product.name}"></div>
+    <div th:text="${product.description}"></div>
+  </div>
 </body>
 </html>

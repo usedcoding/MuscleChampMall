@@ -5,6 +5,11 @@
   <title>Title</title>
 </head>
 <body>
-
+<div th:each="product : ${productList}">
+  <span th:text="${product.id}"></span>
+  <img th:src="${product.imgPath[0]}" width="100px" height="100px" alt="">
+  <span th:text="${product.name}"></span>
+  <span th:text="${product.price}"></span>
+</div>
 </body>
 </html>

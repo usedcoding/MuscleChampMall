@@ -1,17 +1,23 @@
 package com.example.MCM.domain.product.dto;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
-public class ProductCreateForm {
+@Setter
+public class ProductDto {
 
   private String name;
 
   private Long price;
 
-//  private String fileName;
-//
-//  private String filePath;
+  private String content;
+
+  private String imgPath;
+
+  private String description;
+
+  private String imgName;
 
   private String category;
 

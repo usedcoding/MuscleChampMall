@@ -1,21 +1,32 @@
 package com.example.MCM.domain.product.service;
 
 import com.example.MCM.base.exception.DataNotFoundException.DataNotFoundException;
-import com.example.MCM.domain.product.dto.ProductCreateForm;
+import com.example.MCM.domain.product.dto.ProductDto;
 import com.example.MCM.domain.product.entity.Product;
 import com.example.MCM.domain.product.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class ProductService {
 
   private final ProductRepository productRepository;
+
+  @Value("${custom.originPath}")
+  private String originPath;
 
   public List<Product> getAll() {
     return this.productRepository.findAll();
@@ -29,26 +40,45 @@ public class ProductService {
   }
 
   @Transactional
-  public Product create(ProductCreateForm productCreateForm, String filePath) {
-    try {
-      Product product = Product.builder()
-          .name(productCreateForm.getName())
-          .price(productCreateForm.getPrice())
-          .category(productCreateForm.getCategory())
-          .subCategory(productCreateForm.getSubCategory())
-          .filePath(filePath)
+  public Product create(ProductDto productDto, List<MultipartFile> files) throws IOException {
+
+    String projectPath = System.getProperty("user.dir") + "/src/main/resources/static/upload";
+
+    List<String> fileNames = new ArrayList<>();
+    List<String> filePaths = new ArrayList<>();
+
+    for(MultipartFile file : files) {
+
+      UUID uuid = UUID.randomUUID();
+
+      String fileName = uuid + "_" + file.getOriginalFilename();
+      String filePath = originPath + fileName;
+
+      File saveFile = new File(projectPath, fileName);
+      file.transferTo(saveFile);
+
+      fileNames.add(fileName);
+      filePaths.add(filePath);
+    }
+
+    Product product = Product.builder()
+          .name(productDto.getName())
+          .content(productDto.getContent())
+          .price(productDto.getPrice())
+          .description(productDto.getDescription())
+          .imgPath(filePaths)
+          .imgName(fileNames)
+          .category(productDto.getCategory())
+          .subCategory(productDto.getSubCategory())
           .createDate(LocalDateTime.now())
           .build();
-      this.productRepository.save(product);
-      return product;
-    } catch (Exception e) {
-      e.printStackTrace();
-      throw new RuntimeException("상품 생성에 실패하였습니다.", e);
-    }
+    this.productRepository.save(product);
+
+    return product;
   }
 
   @Transactional
-  public void modify(Product product, ProductCreateForm productCreateForm) {
+  public void modify(Product product, ProductDto productCreateForm) {
     product = product.toBuilder()
         .name(productCreateForm.getName())
         .price(productCreateForm.getPrice())
