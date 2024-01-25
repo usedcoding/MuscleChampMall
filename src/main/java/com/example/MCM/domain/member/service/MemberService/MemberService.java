@@ -5,6 +5,8 @@ import com.example.MCM.domain.member.repository.MemberService.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService {
@@ -15,4 +17,5 @@ public class MemberService {
   public Member findByUsername(String name) {
     return this.memberRepository.findByUsername(name);
   }
+
 }

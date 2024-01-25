@@ -4,13 +4,15 @@ import com.example.MCM.domain.member.service.MemberService.MemberService;
 import com.example.MCM.domain.order.entity.Order;
 import com.example.MCM.domain.order.service.OrderService;
 import com.example.MCM.domain.product.entity.Product;
+import com.example.MCM.domain.product.service.ProductService;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.json.JSONParser;
-import org.json.JSONObject;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -30,6 +32,7 @@ public class OrderController {
 
   @Value("${custom.paymentSecretKey}")
   private String paymentSecretKey;
+  private final ProductService productService;
 
   @GetMapping("/{id}")
   public String detail(Model model,
@@ -89,7 +92,7 @@ public class OrderController {
       model.addAttribute("message", (String) jsonObject.get("message"));
     }
 
-    Member member = this.memberService.getMember(principal.getName());
+    Member member = this.memberService.findByUsername(principal.getName());
     Product product = this.productService.findById(id);
     Order order = this.orderService.createOrder(member, product);
 
