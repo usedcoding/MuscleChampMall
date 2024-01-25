@@ -25,7 +25,7 @@
             </div>
             <!-- Signup Form -->
             <div class="signupFormPeice">
-                <form class="signupForm" th:action="@{/member/signup}" th:object="${memberCreateForm}" method="post" enctype="multipart/form-data">
+                <form class="signupForm" th:action="@{/member/signup}" th:object="${memberCreateDTO}" method="post" enctype="multipart/form-data">
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                     <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
                         <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />

@@ -1,6 +1,6 @@
 package com.example.MCM.domain.member.controller;
 
-import com.example.MCM.domain.member.MemberCreateForm;
+import com.example.MCM.domain.member.dto.MemberCreateDTO;
 import com.example.MCM.domain.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,24 +19,24 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/signup")
-    public String signup(MemberCreateForm memberCreateForm) {
+    public String signup(MemberCreateDTO memberCreateDTO) {
         return"member_form";
     }
 
     @PostMapping("/signup")
-    public String signup(Model model, @Valid MemberCreateForm memberCreateForm, BindingResult bindingResult) {
+    public String signup(Model model, @Valid MemberCreateDTO memberCreateDTO, BindingResult bindingResult) {
 
 
         if(bindingResult.hasErrors()) {
             return"member_form";
         }
 
-        if(!memberCreateForm.getPassword1().equals(memberCreateForm.getPassword2())) {
+        if(!memberCreateDTO.getPassword1().equals(memberCreateDTO.getPassword2())) {
             bindingResult.rejectValue("password2", "passwordInCorrect", "비밀번호가 일치하지 않습니다.");
         }
 
         try {
-            this.memberService.create(memberCreateForm.getUsername(), memberCreateForm.getPassword1(), memberCreateForm.getEmail(), memberCreateForm.getNickname(), memberCreateForm.getPhoneNumber());
+            this.memberService.create(memberCreateDTO.getUsername(), memberCreateDTO.getPassword1(), memberCreateDTO.getEmail(), memberCreateDTO.getNickname(), memberCreateDTO.getPhoneNumber());
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");

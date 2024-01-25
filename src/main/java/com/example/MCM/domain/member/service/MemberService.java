@@ -1,5 +1,6 @@
 package com.example.MCM.domain.member.service;
 
+import com.example.MCM.domain.member.dto.MemberPasswordUpdateDTO;
 import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
@@ -16,6 +17,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
+    //회원가입
     public Member create(String username, String password, String email, String nickname, String phoneNumber) {
         Member member = Member.builder()
                 .username(username)
@@ -28,18 +30,14 @@ public class MemberService {
         return  this.memberRepository.save(member);
     }
 
-    public Member modify (String password, String email, String nickname, String phoneNumber) {
-        Member member = Member.builder()
-                .password(passwordEncoder.encode(password))
-                .email(email)
-                .nickname(nickname)
-                .phoneNumber(phoneNumber)
-                .build();
-        return this.memberRepository.save(member);
+    //비밀번호 변경
+//    public void updateMemberPassword(MemberPasswordUpdateDTO memberPasswordUpdateDTO, String password) {
+//
+//        this.memberRepository.save()
+//
+//    }
 
-    }
-
-
+    //소셜 로그인
     @Transactional
     public Member whenSocialLogin(String providerTypeCode, String username, String nickname) {
         Optional<Member> opMember = findByUsername(username);

@@ -1,4 +1,4 @@
-package com.example.MCM.domain.member;
+package com.example.MCM.domain.member.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class MemberCreateForm {
+public class MemberCreateDTO {
 
     @NotEmpty(message = "필수 사항 입니다.")
     private String username;
