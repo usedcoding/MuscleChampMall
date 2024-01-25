@@ -1,7 +1,7 @@
 package com.example.MCM.domain.product.controller;
 
 import com.example.MCM.domain.member.entity.Member;
-import com.example.MCM.domain.member.service.MemberService.MemberService;
+import com.example.MCM.domain.member.service.MemberService;
 import com.example.MCM.domain.product.dto.ProductDto;
 import com.example.MCM.domain.product.entity.Product;
 import com.example.MCM.domain.product.service.ProductService;

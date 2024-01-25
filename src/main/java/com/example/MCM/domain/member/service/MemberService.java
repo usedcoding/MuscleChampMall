@@ -5,6 +5,7 @@ import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,11 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+
+    public Member getMember(String username) {
+        Optional<Member> member = this.memberRepository.findByUsername(username);
+        return member.get();
+    }
 
     //회원가입
     public Member create(String username, String password, String email, String nickname, String phoneNumber) {
@@ -31,11 +37,20 @@ public class MemberService {
     }
 
     //비밀번호 변경
-//    public void updateMemberPassword(MemberPasswordUpdateDTO memberPasswordUpdateDTO, String password) {
-//
-//        this.memberRepository.save()
-//
-//    }
+    public Member updateMemberPassword(MemberPasswordUpdateDTO memberPasswordUpdateDTO, String username) {
+        Member member = memberRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("이메일이 존재하지 않습니다."));
+
+        if (!passwordEncoder.matches(memberPasswordUpdateDTO.getCurrentPassword(), member.getPassword())) {
+            return null;
+        } else {
+            memberPasswordUpdateDTO.setNewPassword(passwordEncoder.encode(memberPasswordUpdateDTO.getNewPassword()));
+            member = member.toBuilder()
+                            .password(memberPasswordUpdateDTO.getNewPassword())
+                                    .build();
+            memberRepository.save(member);
+            return member;
+        }
+    }
 
     //소셜 로그인
     @Transactional
@@ -54,4 +69,8 @@ public class MemberService {
         return memberRepository.findByUsername(username);
     }
 
+
+    public void saveMember(Member member) {
+        this.memberRepository.save(member);
+    }
 }
