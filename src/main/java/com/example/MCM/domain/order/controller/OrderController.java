@@ -1,6 +1,6 @@
 package com.example.MCM.domain.order.controller;
 import com.example.MCM.domain.member.entity.Member;
-import com.example.MCM.domain.member.service.MemberService.MemberService;
+import com.example.MCM.domain.member.service.MemberService;
 import com.example.MCM.domain.order.entity.Order;
 import com.example.MCM.domain.order.service.OrderService;
 import com.example.MCM.domain.product.entity.Product;

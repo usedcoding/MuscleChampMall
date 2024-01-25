@@ -40,6 +40,11 @@ dependencies {
 
 	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '3.0.5'
+	implementation 'jakarta.mail:jakarta.mail-api:2.1.2'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'com.sun.mail:jakarta.mail:2.0.1'
 }
 
 tasks.named('test') {
