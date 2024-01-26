@@ -74,4 +74,14 @@ public class MemberService {
     public void saveMember(Member member) {
         this.memberRepository.save(member);
     }
+
+    public Member delete (Member member) {
+        member = member.toBuilder()
+                .deleted(LocalDateTime.now())
+                .isDeleted(true)
+                .build();
+        this.memberRepository.save(member);
+        return member;
+
+    }
 }

@@ -6,8 +6,8 @@ import com.example.MCM.domain.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.Objects;
@@ -75,16 +76,15 @@ public class MemberController {
 
     //비밀번호 변경
     @PostMapping("/update/password")
-    public String updatePassword(@Valid MemberPasswordUpdateDTO memberPasswordUpdateDTO, Authentication authentication, Model model) {
+    public String updatePassword(@Valid MemberPasswordUpdateDTO memberPasswordUpdateDTO, Principal principal, Model model) {
             // new password 비교
             if (!Objects.equals(memberPasswordUpdateDTO.getNewPassword(), memberPasswordUpdateDTO.getConfirmPassword())) {
                 model.addAttribute("dto", memberPasswordUpdateDTO);
                 model.addAttribute("differentPassword", "비밀번호가 같지 않습니다.");
                 return "redirect:/member/update/Password";
             }
+            Member result = memberService.updateMemberPassword(memberPasswordUpdateDTO, principal.getName());
 
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            Member result = memberService.updateMemberPassword(memberPasswordUpdateDTO, userDetails.getUsername());
 
             // 현재 비밀번호가 틀렸을 경우
             if (result == null) {
@@ -99,9 +99,13 @@ public class MemberController {
     //개인 정보 변경
     @PostMapping("/update/me")
     public String updateMe(@Valid MemberEmailUpdateDTO memberEmailUpdateDTO, @Valid MemberAddressUpdateDTO memberAddressUpdateDTO, @Valid MemberNicknameUpdateDTO memberNicknameUpdateDTO,
-                           @Valid MemberPhoneNumUpdateDTO memberPhoneNumUpdateDTO, Principal principal) {
+                           @Valid MemberPhoneNumUpdateDTO memberPhoneNumUpdateDTO,BindingResult bindingResult, Principal principal, Authentication authentication) {
 
         Member member = this.memberService.getMember(principal.getName());
+
+        if(bindingResult.hasErrors()) {
+            return"redirect:/update/me";
+        }
 
         //이메일 변경
         if(memberEmailUpdateDTO.getNewEmail() != null) {
@@ -135,5 +139,32 @@ public class MemberController {
             this.memberService.saveMember(member);
         }
         return "redirect:/";
+    }
+
+    @GetMapping("/delete/{username}")
+    public String delete(@PathVariable(value = "username") String username, Model model) {
+        Member member = this.memberService.getMember(username);
+        model.addAttribute("member", member);
+        return"member_delete";
+    }
+
+    @PostMapping("/delete/{username}")
+    public String delete(@PathVariable(value = "username") String username, Principal principal, @Valid MemberDeleteDTO memberDeleteDTO, BindingResult bindingResult) {
+        Member member = this.memberService.getMember(username);
+
+        if(bindingResult.hasErrors()) {
+            return String.format("redirect:/delete/%s", member.getUsername());
+        }
+        if(!member.getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
+        }
+
+        if (memberDeleteDTO.getConfirmPassword().equals(member.getPassword())){
+            this.memberService.delete(member);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
+        }
+
+        return"redirect:/";
     }
 }

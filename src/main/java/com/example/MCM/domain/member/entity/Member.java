@@ -11,6 +11,8 @@ import jakarta.validation.constraints.Email;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDateTime;
+
 @Getter
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -41,5 +43,13 @@ public class Member extends BaseEntity {
   private int mailKey;
 
   private boolean mailAuth;
+
+  private boolean isDeleted = false;
+
+  private LocalDateTime deleted;
+
+  public void updateDeleted() {
+    this.deleted = LocalDateTime.now();
+  }
 
 }
