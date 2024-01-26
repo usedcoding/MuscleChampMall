@@ -38,6 +38,7 @@ class McmApplicationTests {
 		this.memberRepository.save(member);
 	}
 
+	//회원삭제
 	@Test
 	@DisplayName("삭제")
 	void test2() {

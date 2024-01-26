@@ -148,6 +148,7 @@ public class MemberController {
         return"member_delete";
     }
 
+    //회원 삭제
     @PostMapping("/delete/{username}")
     public String delete(@PathVariable(value = "username") String username, Principal principal, @Valid MemberDeleteDTO memberDeleteDTO, BindingResult bindingResult) {
         Member member = this.memberService.getMember(username);
@@ -161,10 +162,11 @@ public class MemberController {
 
         if (memberDeleteDTO.getConfirmPassword().equals(member.getPassword())){
             this.memberService.delete(member);
-        } else {
+        } else if(!memberDeleteDTO.getConfirmPassword().equals(member.getPassword())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
+        } else (member.isDeleted() = true) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "탈퇴된 회원 입니다.");
         }
-
         return"redirect:/";
     }
 }

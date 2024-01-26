@@ -18,6 +18,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
+    //회원 조회
     public Member getMember(String username) {
         Optional<Member> member = this.memberRepository.findByUsername(username);
         return member.get();
@@ -75,6 +76,7 @@ public class MemberService {
         this.memberRepository.save(member);
     }
 
+    //회원 삭제
     public Member delete (Member member) {
         member = member.toBuilder()
                 .deleted(LocalDateTime.now())
