@@ -25,11 +25,13 @@ import java.util.Objects;
 public class MemberController {
     private final MemberService memberService;
 
+    //회원가입
     @GetMapping("/signup")
     public String signup(MemberCreateDTO memberCreateDTO) {
         return "member_form";
     }
 
+    //회원가입
     @PostMapping("/signup")
     public String signup(Model model, @Valid MemberCreateDTO memberCreateDTO, BindingResult bindingResult) {
 
@@ -56,11 +58,13 @@ public class MemberController {
         return "redirect:/";
     }
 
+    //로그인
     @GetMapping("/login")
     public String login() {
         return "login_form";
     }
 
+    //마이페이지
     @GetMapping("/me/{username}")
     public String myPage(Model model, @PathVariable(value = "username")String username) {
        Member member = this.memberService.getMember(username);
@@ -92,12 +96,14 @@ public class MemberController {
             return "redirect:/member/me";
     }
 
+    //개인 정보 변경
     @PostMapping("/update/me")
     public String updateMe(@Valid MemberEmailUpdateDTO memberEmailUpdateDTO, @Valid MemberAddressUpdateDTO memberAddressUpdateDTO, @Valid MemberNicknameUpdateDTO memberNicknameUpdateDTO,
                            @Valid MemberPhoneNumUpdateDTO memberPhoneNumUpdateDTO, Principal principal) {
 
         Member member = this.memberService.getMember(principal.getName());
 
+        //이메일 변경
         if(memberEmailUpdateDTO.getNewEmail() != null) {
             member = member.toBuilder()
                     .email(memberEmailUpdateDTO.getNewEmail())
@@ -105,6 +111,7 @@ public class MemberController {
             this.memberService.saveMember(member);
         }
 
+        //주소 변경
         if(memberAddressUpdateDTO.getNewAddress() != null) {
             member = member.toBuilder()
                     .address(memberAddressUpdateDTO.getNewAddress())
@@ -112,6 +119,7 @@ public class MemberController {
             this.memberService.saveMember(member);
         }
 
+        //닉네임 변경
         if(memberNicknameUpdateDTO.getNewNickname() != null) {
             member = member.toBuilder()
                     .address(memberNicknameUpdateDTO.getNewNickname())
@@ -119,14 +127,13 @@ public class MemberController {
             this.memberService.saveMember(member);
         }
 
+        //전화번호 변경
         if(memberPhoneNumUpdateDTO.getNewPhoneNumber() != null) {
             member = member.toBuilder()
                     .address(memberPhoneNumUpdateDTO.getNewPhoneNumber())
                     .build();
             this.memberService.saveMember(member);
         }
-
         return "redirect:/";
-
     }
 }

@@ -70,6 +70,7 @@ public class MemberService {
     }
 
 
+    //개인정보 변경시 저장 메서드
     public void saveMember(Member member) {
         this.memberRepository.save(member);
     }
