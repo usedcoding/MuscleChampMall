@@ -186,20 +186,25 @@ public class MemberController {
         }
     }
 
+    //비밀번호 찾기 페이지 이동
     @GetMapping("/findPassword")
     public String findPassword() {
         return "password_find";
     }
 
+    //회원 아이디 찾기 이동
     @GetMapping("/findUsername")
     public String findUsername(Model model) {
+        //DTO초기화 코드 없으면 DTO인식이 안됨
         model.addAttribute("memberFindUsernameDTO", new MemberFindUsernameDTO());
         return"username_find";
     }
+
+    //회원 아이디 찾기
     @PostMapping("/findUsername")
     public String findUsername(@Valid MemberFindUsernameDTO memberFindUsernameDTO, Model model){
 
-
+        //DTO에 있는 데이터 호출 후 저장
         Member member = this.memberService.findUsername(memberFindUsernameDTO.getEmail(), memberFindUsernameDTO.getPhoneNumber());
 
         model.addAttribute("member", member);
