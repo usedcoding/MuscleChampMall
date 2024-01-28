@@ -1,5 +1,6 @@
 package com.example.MCM.domain.email;
 
+import com.example.MCM.base.exception.DataNotFoundException.DataNotFoundException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +42,7 @@ public class MailController {
             mailSender.send(mail);
 
         } catch (MessagingException e) {
-            throw new RuntimeException("이메일 전송 중 오류가 발생했습니다.", e);
+            throw new DataNotFoundException("이메일 전송 중 오류가 발생했습니다.");
         }
         return mailKey;
     }

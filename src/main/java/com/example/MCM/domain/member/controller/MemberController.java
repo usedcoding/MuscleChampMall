@@ -69,8 +69,12 @@ public class MemberController {
     @GetMapping("/me/{username}")
     public String myPage(Model model, @PathVariable(value = "username")String username) {
        Member member = this.memberService.getMember(username);
-        model.addAttribute("member", member);
-        return "member_myPage";
+       if(member.isDeleted() == true){
+           throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "회원이 없습니다.");
+       } else {
+           model.addAttribute("member", member);
+           return "member_myPage";
+       }
     }
 
 
@@ -107,45 +111,54 @@ public class MemberController {
             return"redirect:/update/me";
         }
 
-        //이메일 변경
-        if(memberEmailUpdateDTO.getNewEmail() != null) {
-            member = member.toBuilder()
-                    .email(memberEmailUpdateDTO.getNewEmail())
-                    .build();
-            this.memberService.saveMember(member);
-        }
+        if(member.isDeleted() == true){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "회원이 없습니다.");
+        } else {
 
-        //주소 변경
-        if(memberAddressUpdateDTO.getNewAddress() != null) {
-            member = member.toBuilder()
-                    .address(memberAddressUpdateDTO.getNewAddress())
-                    .build();
-            this.memberService.saveMember(member);
-        }
+            //이메일 변경
+            if (memberEmailUpdateDTO.getNewEmail() != null) {
+                member = member.toBuilder()
+                        .email(memberEmailUpdateDTO.getNewEmail())
+                        .build();
+                this.memberService.saveMember(member);
+            }
 
-        //닉네임 변경
-        if(memberNicknameUpdateDTO.getNewNickname() != null) {
-            member = member.toBuilder()
-                    .address(memberNicknameUpdateDTO.getNewNickname())
-                    .build();
-            this.memberService.saveMember(member);
-        }
+            //주소 변경
+            if (memberAddressUpdateDTO.getNewAddress() != null) {
+                member = member.toBuilder()
+                        .address(memberAddressUpdateDTO.getNewAddress())
+                        .build();
+                this.memberService.saveMember(member);
+            }
 
-        //전화번호 변경
-        if(memberPhoneNumUpdateDTO.getNewPhoneNumber() != null) {
-            member = member.toBuilder()
-                    .address(memberPhoneNumUpdateDTO.getNewPhoneNumber())
-                    .build();
-            this.memberService.saveMember(member);
+            //닉네임 변경
+            if (memberNicknameUpdateDTO.getNewNickname() != null) {
+                member = member.toBuilder()
+                        .address(memberNicknameUpdateDTO.getNewNickname())
+                        .build();
+                this.memberService.saveMember(member);
+            }
+
+            //전화번호 변경
+            if (memberPhoneNumUpdateDTO.getNewPhoneNumber() != null) {
+                member = member.toBuilder()
+                        .address(memberPhoneNumUpdateDTO.getNewPhoneNumber())
+                        .build();
+                this.memberService.saveMember(member);
+            }
+            return "redirect:/";
         }
-        return "redirect:/";
     }
 
     @GetMapping("/delete/{username}")
     public String delete(@PathVariable(value = "username") String username, Model model) {
         Member member = this.memberService.getMember(username);
-        model.addAttribute("member", member);
-        return"member_delete";
+        if(member.isDeleted() == true){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "회원이 없습니다.");
+        } else {
+            model.addAttribute("member", member);
+            return "member_delete";
+        }
     }
 
     //회원 삭제
@@ -160,13 +173,16 @@ public class MemberController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
         }
 
-        if (memberDeleteDTO.getConfirmPassword().equals(member.getPassword())){
-            this.memberService.delete(member);
-        } else if(!memberDeleteDTO.getConfirmPassword().equals(member.getPassword())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
-        } else (member.isDeleted() = true) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "탈퇴된 회원 입니다.");
+        if(member.isDeleted() == true){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "회원이 없습니다.");
+        } else {
+
+            if (memberDeleteDTO.getConfirmPassword().equals(member.getPassword())) {
+                this.memberService.delete(member);
+            } else if (!memberDeleteDTO.getConfirmPassword().equals(member.getPassword())) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
+            }
+            return "redirect:/";
         }
-        return"redirect:/";
     }
 }
