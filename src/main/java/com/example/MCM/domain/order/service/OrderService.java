@@ -21,8 +21,8 @@ public class OrderService {
 
   private final OrderItemRepository orderItemRepository;
 
-  public Order getByBuyerAndProductId(String userName, Long productId) {
-    return orderRepository.findByBuyerUserNameAndProductId(userName, productId);
+  public Order getByBuyerAndProductId(String username, Long productId) {
+    return orderRepository.findByBuyerUsernameAndProductId(username, productId);
   }
 
 

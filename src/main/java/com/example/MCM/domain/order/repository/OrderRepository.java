@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
-  Order findByBuyerUserNameAndProductId(String userName, Long productId);
+  Order findByBuyerUsernameAndProductId(String username, Long productId);
 
   List<Order> findByBuyerId(Long id);
 }

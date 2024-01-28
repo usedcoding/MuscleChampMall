@@ -32,6 +32,7 @@ public class OrderController {
 
   @Value("${custom.paymentSecretKey}")
   private String paymentSecretKey;
+
   private final ProductService productService;
 
   @GetMapping("/{id}")
@@ -92,14 +93,14 @@ public class OrderController {
       model.addAttribute("message", (String) jsonObject.get("message"));
     }
 
-    Member member = this.memberService.findByUsername(principal.getName());
+    Member member = this.memberService.getMember(principal.getName());
     Product product = this.productService.findById(id);
     Order order = this.orderService.createOrder(member, product);
 
     model.addAttribute("member", member);
     model.addAttribute("product", product);
     model.addAttribute("order", order);
-    this.cashService.addCashLog(member, member.getLastName(), member.getFirstName(), product, product.getTitle(), amount);
+//    this.cashService.addCashLog(member, member.getLastName(), member.getFirstName(), product, product.getTitle(), amount);
     return "order/success";
   }
 
