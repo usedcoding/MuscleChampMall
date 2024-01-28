@@ -27,3 +27,4 @@ custom:
   resourcePath: file:///Users/parkchang-gyu/Desktop/upload/
   requestPath: /upload/**
   originPath: /upload/
+  paymentSecretKey: test_ck_ZLKGPx4M3M41oaJJ5zo8BaWypv1o

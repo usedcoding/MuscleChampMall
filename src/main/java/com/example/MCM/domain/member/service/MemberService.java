@@ -1,5 +1,6 @@
 package com.example.MCM.domain.member.service;
 
+import com.example.MCM.base.exception.DataNotFoundException.DataNotFoundException;
 import com.example.MCM.domain.member.dto.MemberPasswordUpdateDTO;
 import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.member.repository.MemberRepository;
@@ -50,8 +51,15 @@ public class MemberService {
         return create(username,"","", nickname,""); // 최초 로그인 시 딱 한번 실행
     }
 
-    private Optional<Member> findByUsername(String username) {
+    public Optional<Member> findByUsername(String username) {
         return memberRepository.findByUsername(username);
     }
 
+
+    public Member getMember(String name) {
+        Optional<Member> member = this.memberRepository.findByUsername(name);
+        if (member.isPresent()) {
+            return member.get();
+        } throw new DataNotFoundException("member not found");
+    }
 }
