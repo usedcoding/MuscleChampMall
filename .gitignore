@@ -40,8 +40,6 @@ out/
 #/src/main/resources/application.yml
 #
 ### application-secret.yml
-#application-secret.yml
-#
 application-secret.yml
 #### application-dev.yml
 #/src/main/resources/application-dev.yml
