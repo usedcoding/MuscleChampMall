@@ -84,6 +84,10 @@ public class MemberService {
                 .build();
         this.memberRepository.save(member);
         return member;
+    }
+
+    public Member findUsername(String email, String phoneNumber) {
+        return this.memberRepository.findByEmailAndPhoneNumber(email,phoneNumber);
 
     }
 }

@@ -1,5 +1,6 @@
 package com.example.MCM;
 
+import com.example.MCM.domain.email.MailService;
 import com.example.MCM.domain.member.controller.MemberController;
 import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.member.repository.MemberRepository;
@@ -20,6 +21,9 @@ class McmApplicationTests {
 
 	@Autowired
 	MemberRepository memberRepository;
+
+	@Autowired
+	MailService mailService;
 
 	@Autowired
 	MemberService memberService;
@@ -46,6 +50,18 @@ class McmApplicationTests {
 		Member getMember = member.get();
 		this.memberService.delete(getMember);
 		assertEquals(true, getMember.isDeleted());
+	}
+
+	//비밀번호 찾기 회원 확인 테스트
+	@Test
+	@DisplayName("이메일 전화번호 확인")
+	void test3(){
+		Member member = this.memberRepository.findByEmail("ja14759@gmail.com");
+		String phoneNumber = member.getPhoneNumber();
+
+		boolean answer = this.mailService.emailCheck(member.getEmail(), phoneNumber);
+
+		assertEquals(true, answer);
 
 	}
 

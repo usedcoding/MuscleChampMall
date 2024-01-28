@@ -185,4 +185,25 @@ public class MemberController {
             return "redirect:/";
         }
     }
+
+    @GetMapping("/findPassword")
+    public String findPassword() {
+        return "password_find";
+    }
+
+    @GetMapping("/findUsername")
+    public String findUsername(Model model) {
+        model.addAttribute("memberFindUsernameDTO", new MemberFindUsernameDTO());
+        return"username_find";
+    }
+    @PostMapping("/findUsername")
+    public String findUsername(@Valid MemberFindUsernameDTO memberFindUsernameDTO, Model model){
+
+
+        Member member = this.memberService.findUsername(memberFindUsernameDTO.getEmail(), memberFindUsernameDTO.getPhoneNumber());
+
+        model.addAttribute("member", member);
+
+        return "username_get";
+    }
 }
