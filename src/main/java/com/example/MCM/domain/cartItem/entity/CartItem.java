@@ -4,6 +4,7 @@ import com.example.MCM.base.entity.BaseEntity;
 import com.example.MCM.domain.cart.entity.Cart;
 import com.example.MCM.domain.product.entity.Product;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -15,8 +16,10 @@ import lombok.experimental.SuperBuilder;
 @Entity
 public class CartItem extends BaseEntity {
 
+  @ManyToOne
   private Product product;
 
+  @ManyToOne
   private Cart cart;
 
   private int count;
