@@ -39,6 +39,10 @@ public class ProductService {
     } throw new DataNotFoundException("product not found");
   }
 
+  public Optional<Product> findProductById(Long id) {
+    return this.productRepository.findById(id);
+  }
+
   @Transactional
   public Product create(ProductDto productDto, List<MultipartFile> files) throws IOException {
 
