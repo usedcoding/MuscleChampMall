@@ -46,7 +46,6 @@ public class Member extends BaseEntity {
 
   private boolean mailAuth;
 
-<<<<<<< HEAD
   private boolean isDeleted = false;
 
   private LocalDateTime deleted;
@@ -55,10 +54,7 @@ public class Member extends BaseEntity {
     this.deleted = LocalDateTime.now();
   }
 
-  @OneToMany(mappedBy = "author")
-=======
   @OneToMany(mappedBy = "author", orphanRemoval = true)
->>>>>>> 674a6230a89039c706beb86d53ab168f0838cda1
   private List<Product> productList;
 
   @OneToMany(mappedBy = "author", orphanRemoval = true)
