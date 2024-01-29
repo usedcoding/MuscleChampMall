@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 public class MemberEmailUpdateDTO {
 
+    //새로운 이메일
     @Email
     @NotBlank(message = "새로운 이메일을 입력해 주세요.")
     private String newEmail;

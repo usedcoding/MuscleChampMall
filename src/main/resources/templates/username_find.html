@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/member/findUsername}" th:object="${memberFindUsernameDTO}" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+        <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+    </div>
+    이메일<input type="text" th:field="*{email}" name="email">
+    전화번호<input type="text" th:field="*{phoneNumber}" name="phoneNumber">
+    <button type="submit">아이디 찾기 </button>
+</form>
+</body>
+</html>

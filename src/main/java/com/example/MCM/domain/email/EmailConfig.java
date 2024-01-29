@@ -12,6 +12,7 @@ import java.util.Properties;
 @Configuration
 @RequiredArgsConstructor
 public class EmailConfig {
+
     @Value("${spring.mail.host}")
     private String mailHost;
 
@@ -25,6 +26,7 @@ public class EmailConfig {
     private String mailUsername;
 
 
+    //인증 메일 전송
     @Bean
     public JavaMailSender javaMailSender() {
 

@@ -10,6 +10,8 @@ import jakarta.validation.constraints.Email;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDateTime;
+
 import java.util.List;
 
 @Getter
@@ -43,7 +45,19 @@ public class Member extends BaseEntity {
 
   private boolean mailAuth;
 
+<<<<<<< HEAD
+  private boolean isDeleted = false;
+
+  private LocalDateTime deleted;
+
+  public void updateDeleted() {
+    this.deleted = LocalDateTime.now();
+  }
+
+  @OneToMany(mappedBy = "author")
+=======
   @OneToMany(mappedBy = "author", orphanRemoval = true)
+>>>>>>> 674a6230a89039c706beb86d53ab168f0838cda1
   private List<Product> productList;
 
   @OneToOne

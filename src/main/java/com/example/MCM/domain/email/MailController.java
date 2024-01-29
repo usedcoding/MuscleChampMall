@@ -1,28 +1,33 @@
 package com.example.MCM.domain.email;
 
+import com.example.MCM.base.exception.DataNotFoundException.DataNotFoundException;
+import com.example.MCM.domain.member.entity.Member;
+import com.example.MCM.domain.member.service.MemberService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RequiredArgsConstructor
-@RestController
+@Controller
 public class MailController {
 
     private final JavaMailSender mailSender;
 
-//    private final UserService userService;
-//
-//    private final UserRepository userRepository;
+    private final MailService mailService;
 
-    private final PasswordEncoder passwordEncoder;
-
+    //로그인 인증번호 발송
     @GetMapping("/mailCheck")
     @ResponseBody
-    public int processMailCheck(@RequestParam(value = "email" , required = false) String email) throws Exception {
+    public int processMailCheck(@RequestParam(value = "email", required = false) String email) throws Exception {
         int mailKey = (int) ((Math.random() * (99999 - 10000 + 1)) + 10000);
 
         String from = "usedcoding@gmail.com";//보내는 이 메일주소
@@ -41,62 +46,41 @@ public class MailController {
             mailSender.send(mail);
 
         } catch (MessagingException e) {
-            throw new RuntimeException("이메일 전송 중 오류가 발생했습니다.", e);
+            throw new DataNotFoundException("이메일 전송 중 오류가 발생했습니다.");
         }
         return mailKey;
     }
 
 
-//    @PostMapping("/user/findPw/sendEmail")
-//    @ResponseBody
-//    public void sendEmailForPw(@RequestParam("email") String userEmail, String userName) {
-//
-//        String tempPw = userService.generateTempPassword();
-//        String from = "admin@ToolTool.com";//보내는 이 메일주소
-//        String to = userEmail;
-//        String title = "임시 비밀번호입니다.";
-//        String content = userName + "님의" + "[임시 비밀번호] " + tempPw + " 입니다. <br/> 접속한 후 비밀번호를 변경해주세요";
-//        try {
-//            MimeMessage mail = mailSender.createMimeMessage();
-//            MimeMessageHelper mailHelper = new MimeMessageHelper(mail, true, "UTF-8");
-//
-//            mailHelper.setFrom(from);
-//            mailHelper.setTo(to);
-//            mailHelper.setSubject(title);
-//            mailHelper.setText(content, true);
-//
-//            mailSender.send(mail);
-//
-//            SiteUser user = userService.getUserByEmailAndUsername(userEmail, userName);
-//            user.setPassword(passwordEncoder.encode(tempPw));
-//            userRepository.save(user);
-//
-//        } catch (Exception e) {
-//            throw new DataNotFoundException("error");
-//        }
-//    }
+    //비밀번호 전송
+    @PostMapping("/user/findPw/sendEmail")
+    public String sendEmailForPw(@Valid MailDto mailDto) {
+
+        String tempPw = mailService.getTempPassword();
+        String from = "usedcoding@gmail.com";//보내는 이 메일주소
+        String to = mailDto.getEmail();
+        String title = "임시 비밀번호입니다.";
+        String content = mailDto.getEmail() + "님의" + "[임시 비밀번호] " + tempPw + " 입니다. <br/> 접속한 후 비밀번호를 변경해주세요";
+        try {
+            MimeMessage mail = mailSender.createMimeMessage();
+            MimeMessageHelper mailHelper = new MimeMessageHelper(mail, true, "UTF-8");
+
+            mailHelper.setFrom(from);
+            mailHelper.setTo(to);
+            mailHelper.setSubject(title);
+            mailHelper.setText(content, true);
+
+            mailSender.send(mail);
 
 
-//    @PostMapping("/user/findId/sendEmail")
-//    @ResponseBody
-//    public void sendEmailForId(@RequestParam("userEmail") String userEmail, String userName) {
-//        String from = "admin@ToolTool.com";//보내는 이 메일주소
-//        String to = userEmail;
-//        String title = "아이디 찾기 결과입니다.";
-//        String content = "[아이디] " + userName + " 입니다. <br/>";
-//        try {
-//            MimeMessage mail = mailSender.createMimeMessage();
-//            MimeMessageHelper mailHelper = new MimeMessageHelper(mail, true, "UTF-8");
-//
-//            mailHelper.setFrom(from);
-//            mailHelper.setTo(to);
-//            mailHelper.setSubject(title);
-//            mailHelper.setText(content, true);
-//
-//            mailSender.send(mail);
-//
-//        } catch (Exception e) {
-//            throw new DataNotFoundException("error");
-//        }
+            this.mailService.updatePassword(tempPw, mailDto.getEmail(), mailDto.getPhoneNumber(), mailDto.getUsername());
+
+        } catch (Exception e) {
+            throw new DataNotFoundException("error");
+        }
+
+        return "redirect:/";
     }
+
+}
 
