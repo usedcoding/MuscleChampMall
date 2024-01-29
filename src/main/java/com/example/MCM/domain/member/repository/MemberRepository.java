@@ -18,4 +18,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     //이메일과 전화번호로 찾기
 
     Member findByEmailAndPhoneNumber(String email, String phoneNumber);
+
+    Member findByEmailAndPhoneNumberAndUsername(String email, String phoneNumber, String username);
 }

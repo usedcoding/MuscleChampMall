@@ -86,6 +86,11 @@ public class MemberService {
         return member;
     }
 
+    public Member findPassword(String email, String phoneNumber, String username){
+        return this.memberRepository.findByEmailAndPhoneNumberAndUsername(email, phoneNumber, username);
+    }
+
+
     //아이디 찾기
     public Member findUsername(String email, String phoneNumber) {
         return this.memberRepository.findByEmailAndPhoneNumber(email,phoneNumber);

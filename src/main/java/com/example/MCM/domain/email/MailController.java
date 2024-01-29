@@ -1,9 +1,11 @@
 package com.example.MCM.domain.email;
 
 import com.example.MCM.base.exception.DataNotFoundException.DataNotFoundException;
+import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.member.service.MemberService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -23,11 +25,14 @@ public class MailController {
 
     private final EmailConfig emailConfig;
 
+    private final MemberService memberService;
+
 
 //    private final UserRepository userRepository;
 
     private final PasswordEncoder passwordEncoder;
 
+    //로그인 인증번호 발송
     @GetMapping("/mailCheck")
     @ResponseBody
     public int processMailCheck(@RequestParam(value = "email" , required = false) String email) throws Exception {
@@ -55,54 +60,58 @@ public class MailController {
     }
 
 
-    //Email과 name의 일치여부를 check하는 컨트롤러
-    @GetMapping("/check/findPw")
-    public Map<String, Boolean> pwFind(@RequestParam(value = "email",  required = false) String email, @RequestParam(value = "username",  required = false) String username){
-        Map<String,Boolean> json = new HashMap<>();
-        boolean pwFindCheck = mailService.emailCheck(email,username);
-
-        System.out.println(pwFindCheck);
-        json.put("check", pwFindCheck);
-        return json;
-    }
-
-    //등록된 이메일로 임시비밀번호를 발송하고 발송된 임시비밀번호로 사용자의 pw를 변경하는 컨트롤러
-    @PostMapping("/check/findPw/sendEmail")
-    public void sendEmail(@RequestParam(value = "email",  required = false) String email, @RequestParam(value = "username",  required = false)String username){
-        MailDto dto = mailService.createMailAndChangePassword(email, username);
-        emailConfig.mailSend(dto);
-
-    }
-
-
-//    @PostMapping("/user/findPw/sendEmail")
-//    @ResponseBody
-//    public void sendEmailForPw(@RequestParam("email") String userEmail, String userName) {
+//    //Email과 name의 일치여부를 check하는 컨트롤러
+//    @GetMapping("/check/findPw")
+//    public Map<String, Boolean> pwFind(@RequestParam(value = "email",  required = false) String email, @RequestParam(value = "username",  required = false) String username){
+//        Map<String,Boolean> json = new HashMap<>();
+//        boolean pwFindCheck = mailService.emailCheck(email,username);
 //
-//        String tempPw = userService.generateTempPassword();
-//        String from = "admin@ToolTool.com";//보내는 이 메일주소
-//        String to = userEmail;
-//        String title = "임시 비밀번호입니다.";
-//        String content = userName + "님의" + "[임시 비밀번호] " + tempPw + " 입니다. <br/> 접속한 후 비밀번호를 변경해주세요";
-//        try {
-//            MimeMessage mail = mailSender.createMimeMessage();
-//            MimeMessageHelper mailHelper = new MimeMessageHelper(mail, true, "UTF-8");
-//
-//            mailHelper.setFrom(from);
-//            mailHelper.setTo(to);
-//            mailHelper.setSubject(title);
-//            mailHelper.setText(content, true);
-//
-//            mailSender.send(mail);
-//
-//            SiteUser user = userService.getUserByEmailAndUsername(userEmail, userName);
-//            user.setPassword(passwordEncoder.encode(tempPw));
-//            userRepository.save(user);
-//
-//        } catch (Exception e) {
-//            throw new DataNotFoundException("error");
-//        }
+//        System.out.println(pwFindCheck);
+//        json.put("check", pwFindCheck);
+//        return json;
 //    }
+//
+//    //등록된 이메일로 임시비밀번호를 발송하고 발송된 임시비밀번호로 사용자의 pw를 변경하는 컨트롤러
+//    @PostMapping("/check/findPw/sendEmail")
+//    public void sendEmail(@RequestParam(value = "email",  required = false) String email, @RequestParam(value = "username",  required = false)String username){
+//        MailDto dto = mailService.createMailAndChangePassword(email, username);
+//        emailConfig.mailSend(dto);
+//    }
+
+
+    @PostMapping("/user/findPw/sendEmail")
+    public String sendEmailForPw(@Valid MailDto mailDto) {
+
+        String tempPw = mailService.getTempPassword();
+        String from = "usedcoding@gmail.com";//보내는 이 메일주소
+        String to = mailDto.getEmail();
+        String title = "임시 비밀번호입니다.";
+        String content =  mailDto.getEmail() + "님의" + "[임시 비밀번호] " + tempPw + " 입니다. <br/> 접속한 후 비밀번호를 변경해주세요";
+        try {
+            MimeMessage mail = mailSender.createMimeMessage();
+            MimeMessageHelper mailHelper = new MimeMessageHelper(mail, true, "UTF-8");
+
+            mailHelper.setFrom(from);
+            mailHelper.setTo(to);
+            mailHelper.setSubject(title);
+            mailHelper.setText(content, true);
+
+            mailSender.send(mail);
+
+//            Member member = memberService.findPassword(email, phoneNumber, username);
+//            member = member.toBuilder()
+//                    .password(passwordEncoder.encode(tempPw))
+//                    .build();
+//            memberRepository.save(member);
+
+            this.mailService.updatePassword(tempPw, mailDto.getEmail(),mailDto.getPhoneNumber(),mailDto.getUsername());
+
+        } catch (Exception e) {
+            throw new DataNotFoundException("error");
+        }
+
+        return "redirect:/";
+    }
 
 
 //    @PostMapping("/user/findId/sendEmail")

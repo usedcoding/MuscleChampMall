@@ -1,5 +1,6 @@
 package com.example.MCM.domain.member.controller;
 
+import com.example.MCM.domain.email.MailDto;
 import com.example.MCM.domain.member.dto.*;
 import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.member.service.MemberService;
@@ -188,7 +189,7 @@ public class MemberController {
 
     //비밀번호 찾기 페이지 이동
     @GetMapping("/findPassword")
-    public String findPassword() {
+    public String findPassword(MailDto mailDto) {
         return "password_find";
     }
 
