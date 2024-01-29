@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 public class MemberNicknameUpdateDTO {
 
+    //새로운 닉네임
     @NotBlank(message = "닉네임을 입력해 주세요")
     private String newNickname;
 }

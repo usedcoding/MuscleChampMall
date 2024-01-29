@@ -6,6 +6,7 @@ import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,14 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
+    //회원 조회
+    public Member getMember(String username) {
+        Optional<Member> member = this.memberRepository.findByUsername(username);
+        if (member.isPresent()) {
+            return member.get();
+        } throw new DataNotFoundException("member not found");
+    }
+
     //회원가입
     public Member create(String username, String password, String email, String nickname, String phoneNumber) {
         Member member = Member.builder()
@@ -28,15 +37,24 @@ public class MemberService {
                 .phoneNumber(phoneNumber)
                 .createDate(LocalDateTime.now())
                 .build();
-        return  this.memberRepository.save(member);
+        return this.memberRepository.save(member);
     }
 
     //비밀번호 변경
-//    public void updateMemberPassword(MemberPasswordUpdateDTO memberPasswordUpdateDTO, String password) {
-//
-//        this.memberRepository.save()
-//
-//    }
+    public Member updateMemberPassword(MemberPasswordUpdateDTO memberPasswordUpdateDTO, String username) {
+        Member member = memberRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("이메일이 존재하지 않습니다."));
+
+        if (!passwordEncoder.matches(memberPasswordUpdateDTO.getCurrentPassword(), member.getPassword())) {
+            return null;
+        } else {
+            memberPasswordUpdateDTO.setNewPassword(passwordEncoder.encode(memberPasswordUpdateDTO.getNewPassword()));
+            Member updatePassword = member.toBuilder()
+                    .password(memberPasswordUpdateDTO.getNewPassword())
+                    .build();
+            memberRepository.save(updatePassword);
+            return member;
+        }
+    }
 
     //소셜 로그인
     @Transactional
@@ -48,18 +66,37 @@ public class MemberService {
         }
 
         // 소셜 로그인를 통한 가입시 비번은 없다.
-        return create(username,"","", nickname,""); // 최초 로그인 시 딱 한번 실행
+        return create(username, "", "", nickname, ""); // 최초 로그인 시 딱 한번 실행
     }
 
     public Optional<Member> findByUsername(String username) {
         return memberRepository.findByUsername(username);
     }
 
-
-    public Member getMember(String name) {
-        Optional<Member> member = this.memberRepository.findByUsername(name);
-        if (member.isPresent()) {
-            return member.get();
-        } throw new DataNotFoundException("member not found");
+    //개인 정보 변경시 저장 메서드
+    public void saveMember(Member member) {
+        this.memberRepository.save(member);
     }
+
+    //회원 삭제
+    public Member delete(Member member) {
+       Member memberDelete = member.toBuilder()
+                .deleted(LocalDateTime.now())
+                .isDeleted(true)
+                .build();
+        this.memberRepository.save(memberDelete);
+        return member;
+    }
+
+    //비밀번호 찾기
+    public Member findPassword(String email, String phoneNumber, String username) {
+        return this.memberRepository.findByEmailAndPhoneNumberAndUsername(email, phoneNumber, username);
+    }
+
+
+    //아이디 찾기
+    public Member findUsername(String email, String phoneNumber) {
+        return this.memberRepository.findByEmailAndPhoneNumber(email, phoneNumber);
+    }
+
 }

@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 public class MemberAddressUpdateDTO {
 
+    //새로운 주소
     @NotBlank(message = "주소를 입력해 주세요")
     private String newAddress;
 }
