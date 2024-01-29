@@ -1,10 +1,10 @@
 package com.example.MCM.domain.order.service;
 
 import com.example.MCM.domain.member.entity.Member;
-import com.example.MCM.domain.order.entity.Order;
+import com.example.MCM.domain.order.entity.Ord;
 import com.example.MCM.domain.order.entity.OrderItem;
 import com.example.MCM.domain.order.repository.OrderItemRepository;
-import com.example.MCM.domain.order.repository.OrderRepository;
+import com.example.MCM.domain.order.repository.OrdRepository;
 import com.example.MCM.domain.product.entity.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,19 +17,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderService {
 
-  private final OrderRepository orderRepository;
+  private final OrdRepository orderRepository;
 
   private final OrderItemRepository orderItemRepository;
 
-  public Order getByBuyerAndProductId(String username, Long productId) {
+  public Ord getByBuyerAndProductId(String username, Long productId) {
     return orderRepository.findByBuyerUsernameAndProductId(username, productId);
   }
 
 
   @Transactional
-  public Order createOrder(Member buyer, Product product) {
+  public Ord createOrder(Member buyer, Product product) {
 
-    Order order = Order.builder()
+    Ord order = Ord.builder()
         .buyer(buyer)
         .product(product)
         .name(product.getName())
@@ -53,7 +53,7 @@ public class OrderService {
     return orderRepository.save(order);
   }
 
-  public List<Order> getByBuyerId(Long id) {
+  public List<Ord> getByBuyerId(Long id) {
     return orderRepository.findByBuyerId(id);
   }
 }
