@@ -1,10 +1,9 @@
 package com.example.MCM.domain.product.entity;
 
 import com.example.MCM.base.entity.BaseEntity;
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
+import com.example.MCM.domain.cartItem.entity.CartItem;
+import com.example.MCM.domain.member.entity.Member;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -37,4 +36,10 @@ public class Product extends BaseEntity {
   private String category;
 
   private String subCategory;
+
+  @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, orphanRemoval = true)
+  private List<CartItem> cartItemList;
+
+  @ManyToOne
+  private Member author;
 }
