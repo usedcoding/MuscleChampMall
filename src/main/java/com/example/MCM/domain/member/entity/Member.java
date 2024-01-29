@@ -43,7 +43,7 @@ public class Member extends BaseEntity {
 
   private boolean mailAuth;
 
-  @OneToMany(mappedBy = "author")
+  @OneToMany(mappedBy = "author", orphanRemoval = true)
   private List<Product> productList;
 
   @OneToOne

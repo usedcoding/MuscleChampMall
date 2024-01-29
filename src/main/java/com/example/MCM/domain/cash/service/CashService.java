@@ -1,7 +1,7 @@
-package com.example.MCM.domain.cashLog.service;
+package com.example.MCM.domain.cash.service;
 
-import com.example.MCM.domain.cashLog.entity.CashLog;
-import com.example.MCM.domain.cashLog.repository.CashRepository;
+import com.example.MCM.domain.cash.entity.CashLog;
+import com.example.MCM.domain.cash.repository.CashRepository;
 import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.product.entity.Product;
 import lombok.RequiredArgsConstructor;

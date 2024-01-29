@@ -1,8 +1,8 @@
 package com.example.MCM.domain.order.controller;
-import com.example.MCM.domain.cashLog.service.CashService;
+import com.example.MCM.domain.cash.service.CashService;
 import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.member.service.MemberService;
-import com.example.MCM.domain.order.entity.Order;
+import com.example.MCM.domain.order.entity.Ord;
 import com.example.MCM.domain.order.service.OrderService;
 import com.example.MCM.domain.product.entity.Product;
 import com.example.MCM.domain.product.service.ProductService;
@@ -25,7 +25,7 @@ import java.util.Base64;
 @Controller
 @RequestMapping("/order")
 @RequiredArgsConstructor
-public class OrderController {
+public class OrdController {
 
   private final OrderService orderService;
 
@@ -98,7 +98,7 @@ public class OrderController {
 
     Member member = this.memberService.getMember(principal.getName());
     Product product = this.productService.findById(id);
-    Order order = this.orderService.createOrder(member, product);
+    Ord order = this.orderService.createOrder(member, product);
 
     model.addAttribute("member", member);
     model.addAttribute("product", product);
