@@ -1,4 +1,5 @@
 package com.example.MCM.domain.order.controller;
+import com.example.MCM.domain.cashLog.service.CashService;
 import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.member.service.MemberService;
 import com.example.MCM.domain.order.entity.Order;
@@ -29,6 +30,8 @@ public class OrderController {
   private final OrderService orderService;
 
   private final MemberService memberService;
+
+  private final CashService cashService;
 
   @Value("${custom.paymentSecretKey}")
   private String paymentSecretKey;
@@ -100,7 +103,7 @@ public class OrderController {
     model.addAttribute("member", member);
     model.addAttribute("product", product);
     model.addAttribute("order", order);
-//    this.cashService.addCashLog(member, member.getLastName(), member.getFirstName(), product, product.getTitle(), amount);
+    this.cashService.addCashLog(member, member.getUsername(), product, product.getName(), amount);
     return "order/success";
   }
 
