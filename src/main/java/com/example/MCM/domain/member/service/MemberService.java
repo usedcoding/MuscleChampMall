@@ -34,7 +34,7 @@ public class MemberService {
                 .phoneNumber(phoneNumber)
                 .createDate(LocalDateTime.now())
                 .build();
-        return  this.memberRepository.save(member);
+        return this.memberRepository.save(member);
     }
 
     //비밀번호 변경
@@ -45,10 +45,10 @@ public class MemberService {
             return null;
         } else {
             memberPasswordUpdateDTO.setNewPassword(passwordEncoder.encode(memberPasswordUpdateDTO.getNewPassword()));
-            member = member.toBuilder()
-                            .password(memberPasswordUpdateDTO.getNewPassword())
-                                    .build();
-            memberRepository.save(member);
+            Member updatePassword = member.toBuilder()
+                    .password(memberPasswordUpdateDTO.getNewPassword())
+                    .build();
+            memberRepository.save(updatePassword);
             return member;
         }
     }
@@ -63,7 +63,7 @@ public class MemberService {
         }
 
         // 소셜 로그인를 통한 가입시 비번은 없다.
-        return create(username,"","", nickname,""); // 최초 로그인 시 딱 한번 실행
+        return create(username, "", "", nickname, ""); // 최초 로그인 시 딱 한번 실행
     }
 
     private Optional<Member> findByUsername(String username) {
@@ -77,23 +77,23 @@ public class MemberService {
     }
 
     //회원 삭제
-    public Member delete (Member member) {
-        member = member.toBuilder()
+    public Member delete(Member member) {
+       Member memberDelete = member.toBuilder()
                 .deleted(LocalDateTime.now())
                 .isDeleted(true)
                 .build();
-        this.memberRepository.save(member);
+        this.memberRepository.save(memberDelete);
         return member;
     }
 
-    public Member findPassword(String email, String phoneNumber, String username){
+    //비밀번호 찾기
+    public Member findPassword(String email, String phoneNumber, String username) {
         return this.memberRepository.findByEmailAndPhoneNumberAndUsername(email, phoneNumber, username);
     }
 
 
     //아이디 찾기
     public Member findUsername(String email, String phoneNumber) {
-        return this.memberRepository.findByEmailAndPhoneNumber(email,phoneNumber);
-
+        return this.memberRepository.findByEmailAndPhoneNumber(email, phoneNumber);
     }
 }

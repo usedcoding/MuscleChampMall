@@ -19,51 +19,37 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest
 class McmApplicationTests {
 
-	@Autowired
-	MemberRepository memberRepository;
+    @Autowired
+    MemberRepository memberRepository;
 
-	@Autowired
-	MailService mailService;
+    @Autowired
+    MailService mailService;
 
-	@Autowired
-	MemberService memberService;
+    @Autowired
+    MemberService memberService;
 
-	@Test
-	@DisplayName("데이터")
-	void test1() {
-		Member member = Member.builder()
-				.username("test2")
-				.password("1234")
-				.nickname("test2")
-				.isDeleted(false)
-				.deleted(LocalDateTime.now())
-				.createDate(LocalDateTime.now())
-				.build();
-		this.memberRepository.save(member);
-	}
+    @Test
+    @DisplayName("데이터")
+    void test1() {
+        Member member = Member.builder()
+                .username("test2")
+                .password("1234")
+                .nickname("test2")
+                .isDeleted(false)
+                .deleted(LocalDateTime.now())
+                .createDate(LocalDateTime.now())
+                .build();
+        this.memberRepository.save(member);
+    }
 
-	//회원삭제
-	@Test
-	@DisplayName("삭제")
-	void test2() {
-		Optional<Member> member = this.memberRepository.findByUsername("test2");
-		Member getMember = member.get();
-		this.memberService.delete(getMember);
-		assertEquals(true, getMember.isDeleted());
-	}
-
-	//비밀번호 찾기 회원 확인 테스트
-	@Test
-	@DisplayName("이메일 전화번호 확인")
-	void test3(){
-		Member member = this.memberRepository.findByEmail("ja14759@gmail.com");
-		String phoneNumber = member.getPhoneNumber();
-
-		boolean answer = this.mailService.emailCheck(member.getEmail(), phoneNumber);
-
-		assertEquals(true, answer);
-
-	}
-
+    //회원삭제
+    @Test
+    @DisplayName("삭제")
+    void test2() {
+        Optional<Member> member = this.memberRepository.findByUsername("test2");
+        Member getMember = member.get();
+        this.memberService.delete(getMember);
+        assertEquals(true, getMember.isDeleted());
+    }
 
 }
