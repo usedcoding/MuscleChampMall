@@ -2,16 +2,17 @@ package com.example.MCM.domain.member.entity;
 
 import com.example.MCM.base.entity.BaseEntity;
 
+import com.example.MCM.domain.cart.entity.Cart;
 import com.example.MCM.domain.member.MemberRole;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import com.example.MCM.domain.product.entity.Product;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+
+import java.util.List;
 
 @Getter
 @SuperBuilder(toBuilder = true)
@@ -51,5 +52,11 @@ public class Member extends BaseEntity {
   public void updateDeleted() {
     this.deleted = LocalDateTime.now();
   }
+
+  @OneToMany(mappedBy = "author")
+  private List<Product> productList;
+
+  @OneToOne
+  private Cart cart;
 
 }
