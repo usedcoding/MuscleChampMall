@@ -39,4 +39,9 @@ public class NoticeController {
 
     return "notice/detail";
   }
+
+  @GetMapping("/create")
+  public String create(){
+    return "notice/create";
+  }
 }
