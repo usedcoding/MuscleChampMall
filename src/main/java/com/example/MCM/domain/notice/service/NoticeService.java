@@ -5,6 +5,7 @@ import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.notice.dto.NoticeDto;
 import com.example.MCM.domain.notice.entity.Notice;
 import com.example.MCM.domain.notice.repository.NoticeRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -49,5 +50,25 @@ public class NoticeService {
 
     return this.noticeRepository.save(notice);
 
+  }
+
+  public void modifyValidate(Member author, Notice notice) {
+
+    if (!author.getUsername().equals(notice.getAuthor().getUsername())) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
+    }
+
+    if (notice == null) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "존재하지 않는 게시물입니다.");
+    }
+  }
+
+  public void modify(Notice notice, NoticeDto noticeDto) {
+    notice = notice.toBuilder()
+        .subject(noticeDto.getSubject())
+        .content(noticeDto.getContent())
+        .modifyDate(LocalDateTime.now())
+        .build();
+    this.noticeRepository.save(notice);
   }
 }

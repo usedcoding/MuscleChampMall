@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,7 +56,10 @@ public class NoticeController {
 
   @PostMapping("/create")
   public String create(@Valid NoticeDto noticeDto,
-                       Principal principal) {
+                       Principal principal,
+                       BindingResult bindingResult) {
+
+    if (bindingResult.hasErrors()) return "notice/create";
 
     Member author = this.memberService.getMember(principal.getName());
 
@@ -64,6 +68,37 @@ public class NoticeController {
     Notice notice = this.noticeService.create(author, noticeDto);
 
     return "redirect:/notice/list";
+
+  }
+
+  @GetMapping("/modify/{id}")
+  public String modify(@PathVariable("id") Long id,
+                       NoticeDto noticeDto) {
+
+    Notice notice = this.noticeService.findById(id);
+
+    this.noticeService.modify(notice, noticeDto);
+
+    return "notice/create";
+  }
+
+  @PostMapping("/modify/{id}")
+  public String modify(@PathVariable("id") Long id,
+                       Principal principal,
+                       @Valid NoticeDto noticeDto,
+                       BindingResult bindingResult) {
+
+    if (bindingResult.hasErrors()) return "notice/create";
+
+    Member author = this.memberService.getMember(principal.getName());
+
+    Notice notice = this.noticeService.findById(id);
+
+    this.noticeService.modifyValidate(author, notice);
+
+    this.noticeService.modify(notice, noticeDto);
+
+    return String.format("redirect:/notice/{id}", id);
 
   }
 }
