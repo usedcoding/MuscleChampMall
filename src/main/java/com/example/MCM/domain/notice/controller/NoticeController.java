@@ -101,4 +101,14 @@ public class NoticeController {
     return String.format("redirect:/notice/{id}", id);
 
   }
+
+  @GetMapping("/delete/{id}")
+  public String delete(@PathVariable("id") Long id) {
+
+    Notice notice = this.noticeService.findById(id);
+
+    this.noticeService.delete(notice);
+
+    return "redirect:/notice/list";
+  }
 }

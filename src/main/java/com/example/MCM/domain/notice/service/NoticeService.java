@@ -71,4 +71,8 @@ public class NoticeService {
         .build();
     this.noticeRepository.save(notice);
   }
+
+  public void delete(Notice notice) {
+    this.noticeRepository.delete(notice);
+  }
 }
