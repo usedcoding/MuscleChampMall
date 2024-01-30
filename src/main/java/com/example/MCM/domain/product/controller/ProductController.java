@@ -28,7 +28,6 @@ public class ProductController {
 
   private final MemberService memberService;
 
-
   @GetMapping("/list")
   public String list(Model model){
 
@@ -47,8 +46,6 @@ public class ProductController {
     Product product = this.productService.findById(id);
 
     model.addAttribute("product", product);
-
-
 
     return "product/detail";
   }
@@ -69,11 +66,11 @@ public class ProductController {
     if (bindingResult.hasErrors())
       return "product/create";
 
-        Member author = this.memberService.getMember(principal.getName());
+    Member author = this.memberService.getMember(principal.getName());
 
-        Product product = this.productService.create(productDto, files, author);
+    Product product = this.productService.create(productDto, files, author);
 
-        return "redirect:/product/list";
+    return "redirect:/product/list";
   }
 
   @GetMapping("/modify/{id}")
