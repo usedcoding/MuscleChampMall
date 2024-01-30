@@ -43,7 +43,6 @@ public class PostController {
             return "post_create";
         }
 
-        //작성자 데이터 전부를 넘기는 게 아닌 사용자의 아이디만 넘기면 안되는가?
         Member member = this.memberService.getMember(principal.getName());
 
         this.postService.createPost(postCreateDTO.getTitle(), postCreateDTO.getContent(), member);

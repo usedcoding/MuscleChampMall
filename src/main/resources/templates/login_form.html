@@ -3,20 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/login.css}">
 </head>
 <body>
-<form th:action="@{/member/login}" method="post">
-    <input type="text" name="username">
-    <input type="text" name="password">
-    <button type="submit"> 로그인 </button>
-    <div>
-        <a href="http://localhost:8080/oauth2/authorization/kakao">카카오 로그인</a>
-    </div>
+<div class="container">
+    <form th:action="@{/member/login}" method="post">
+        <div class="wrap">
+            <div class="hello">
+                <div class="hello-box">
+                    <div class="title">나다 씹새끼야</div>
+                </div>
+            </div>
+            <div class="login-box">
+                <div class="user">
+                    <div class="id">
+                        <input name="username" id="username" placeholder="아이디를 입력해주세요." class="id-input"
+                               type="text">
+                    </div>
+                    <div class="ps">
+                        <input name="password" id="password" placeholder=" 비밀번호를 입력해주세요." class="ps-input"
+                               type="password">
+                    </div>
+                </div>
+                <div class="login-btn">
+                    <button type="submit" class="btn">로그인</button>
+                </div>
+                <div class="kakao">
+                    <a href="http://localhost:8080/oauth2/authorization/kakao">카카오로 시작하기</a>
+                </div>
+                <div class="signup-btn">
+                    <a th:href="@{|/member/signup|}">회원가입</a>
+                </div>
+            </div>
+        </div>
+    </form>
 
-    <div>
+    <div class="find-section">
+        <a href="http://localhost:8080/member/findUsername">아이디 찾기</a>
         <a href="http://localhost:8080/member/findPassword">비밀번호 찾기</a>
     </div>
-</form>
+</div>
+
+
+
+
+<div class="egg">누가 희진이 얼굴 그렇게 만들었냐?</div>
 
 </body>
 </html>

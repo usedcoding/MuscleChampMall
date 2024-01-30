@@ -1,6 +1,7 @@
 package com.example.MCM.domain.member.service;
 
 import com.example.MCM.base.exception.DataNotFoundException.DataNotFoundException;
+import com.example.MCM.domain.member.MemberRole;
 import com.example.MCM.domain.member.dto.MemberPasswordUpdateDTO;
 import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.member.repository.MemberRepository;
@@ -35,9 +36,18 @@ public class MemberService {
                 .email(email)
                 .nickname(nickname)
                 .phoneNumber(phoneNumber)
+                .role(MemberRole.USER)
                 .createDate(LocalDateTime.now())
                 .build();
-        return this.memberRepository.save(member);
+        this.memberRepository.save(member);
+
+        if (username.startsWith("admin")) {
+            member = member.toBuilder()
+                    .role(MemberRole.ADMIN)
+                    .build();
+            this.memberRepository.save(member);
+        }
+        return member;
     }
 
     //비밀번호 변경
