@@ -4,6 +4,7 @@ import com.example.MCM.domain.email.MailDto;
 import com.example.MCM.domain.member.dto.*;
 import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.member.service.MemberService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -61,6 +62,13 @@ public class MemberController {
     @GetMapping("/login")
     public String login() {
         return "login_form";
+    }
+
+    //로그아웃
+    @GetMapping("/logout")
+    public String Logout(HttpSession session) {
+        session.removeAttribute("loggedIn");
+        return "redirect:/login";
     }
 
     //마이페이지
