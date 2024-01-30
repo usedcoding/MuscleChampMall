@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>공지사항 작성</title>
+</head>
+<body>
+<form th:action="@{/notice/create}" th:object="${noticeDto}" method="post">
+  <div>
+    <input type="text" th:field="*{subject}">
+    <input type="text" th:field="*{content}">
+    <div>
+      <button type="submit">등록</button>
+    </div>
+  </div>
+</form>
+</body>
+</html>

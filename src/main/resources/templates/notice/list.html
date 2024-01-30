@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>공지사항 게시판</title>
+</head>
+<body>
+  <div th:each="notice : ${noticeList}">
+    <span th:text="${notice.id}"></span>
+    <span th:text="${notice.subject}"></span>
+    <span th:text="${notice.createDate}"></span>
+  </div>
+</body>
+</html>
