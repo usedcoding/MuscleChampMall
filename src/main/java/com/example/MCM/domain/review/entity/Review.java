@@ -19,6 +19,8 @@ import lombok.experimental.SuperBuilder;
 @ToString(callSuper = true)
 public class Review extends BaseEntity {
 
+  private String title;
+
   private String content;
 
   private Double starScore;

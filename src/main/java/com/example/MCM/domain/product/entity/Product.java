@@ -45,5 +45,5 @@ public class Product extends BaseEntity {
   private Member author;
 
   @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, orphanRemoval = true)
-  private Review review;
+  private List<Review> reviewList;
 }

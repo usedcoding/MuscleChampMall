@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,22 +22,33 @@ public class ReviewService {
         return this.reviewRepository.findByProduct(product);
     }
 
-    public Review create(Member author, String content, Double starScore) {
+    public Review getReview(Long id) {
+        Optional<Review> review =  this.reviewRepository.findById(id);
+
+        return review.get();
+    }
+
+    //리뷰 생성
+    public Review createReview(Member author, String title, String content, Double starScore) {
         Review review = Review.builder()
                 .author(author)
                 .content(content)
+                .title(title)
                 .starScore(starScore)
                 .createDate(LocalDateTime.now())
                 .build();
         return this.reviewRepository.save(review);
     }
 
+    //리뷰 삭제
     public void deleteReview(Review review) {
       this.reviewRepository.delete(review);
     }
 
-    public void modifyReview(Review review, String content, Double starScore) {
+    //리뷰 수정
+    public void modifyReview(Review review, String title, String content, Double starScore) {
         Review modifyReview = review.toBuilder()
+                .title(title)
                 .content(content)
                 .starScore(starScore)
                 .modifyDate(LocalDateTime.now())
