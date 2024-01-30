@@ -30,7 +30,6 @@ public class ProductController {
   private final MemberService memberService;
 
 
-
   @GetMapping("/list")
   public String list(Model model){
 
@@ -49,8 +48,6 @@ public class ProductController {
     Product product = this.productService.findById(id);
 
     model.addAttribute("product", product);
-
-    //리뷰 목록 출력
 
 
     return "product/detail";
