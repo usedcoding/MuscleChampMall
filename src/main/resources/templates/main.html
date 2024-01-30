@@ -3,8 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/main.css"/>
+    <link rel="stylesheet" href="/nav.css"/>
+    <link rel="stylesheet" href="/layout.css"/>
 </head>
 <body>
-<div>hello kakao</div>
+<div th:replace="/navbar.html"></div>
+
+<div layout:fragment="content" class="container">
+
+    <div class="video-section">
+        <video id="video" autoplay loop muted>
+            <source src="/video/banner.mp4" type="video/mp4"/>
+        </video>
+    </div>
+
+    <div class="top-product-section">
+        <div class="title">
+            스토어 인기랭킹
+        </div>
+        <div class="product">
+            <ul>
+                <li>
+                    <a href="">
+                        <img src="https://cf.monsterzym.com/images/thumbnails/320/320/detailed/92/GASP_Pro_GASP_Hood_00.jpg?t=1698871985" alt="">
+                        <div class=info>
+                            <div class="subject">nigger</div>
+                            <div class="cost">18000 원</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <img src="https://cf.monsterzym.com/images/thumbnails/320/320/detailed/92/GASP_Pro_GASP_Hood_00.jpg?t=1698871985" alt="">
+                        <div class=info>
+                            <div class="subject">nigger</div>
+                            <div class="cost">18000 원</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <img src="https://cf.monsterzym.com/images/thumbnails/320/320/detailed/92/GASP_Pro_GASP_Hood_00.jpg?t=1698871985" alt="">
+                        <div class=info>
+                            <div class="subject">nigger</div>
+                            <div class="cost">18000 원</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <img src="https://cf.monsterzym.com/images/thumbnails/320/320/detailed/92/GASP_Pro_GASP_Hood_00.jpg?t=1698871985" alt="">
+                        <div class=info>
+                            <div class="subject">nigger</div>
+                            <div class="cost">18000 원</div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <img src="https://cf.monsterzym.com/images/thumbnails/320/320/detailed/92/GASP_Pro_GASP_Hood_00.jpg?t=1698871985" alt="">
+                        <div class=info>
+                            <div class="subject">nigger</div>
+                            <div class="cost">18000 원</div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="board-section">
+        <div class="notice">
+            <div class="notice-box">
+                <div class="title">
+                    공지사항
+                </div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>제목</th>
+                        <th>작성일자</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><a href="">공지사항 입니다.</a></td>
+                        <td>2024-01-04</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="board">
+            <div class="board-box">
+                <div class="title">
+                    커뮤니티
+                </div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>제목</th>
+                        <th>작성일자</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td><a href="">흑인은 노예가 아닌가?</a></td>
+                        <td>2024-01-04</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
+
+<div th:replace="/footer.html"></div>
 </body>
 </html>
