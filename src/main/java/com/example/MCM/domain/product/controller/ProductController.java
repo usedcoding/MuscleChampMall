@@ -66,11 +66,11 @@ public class ProductController {
     if (bindingResult.hasErrors())
       return "product/create";
 
-        Member author = this.memberService.getMember(principal.getName());
+    Member author = this.memberService.getMember(principal.getName());
 
-        Product product = this.productService.create(productDto, files, author);
+    Product product = this.productService.create(productDto, files, author);
 
-        return "redirect:/product/list";
+    return "redirect:/product/list";
   }
 
   @GetMapping("/modify/{id}")
