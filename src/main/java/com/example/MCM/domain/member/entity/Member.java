@@ -4,6 +4,7 @@ import com.example.MCM.base.entity.BaseEntity;
 
 import com.example.MCM.domain.cart.entity.Cart;
 import com.example.MCM.domain.member.MemberRole;
+import com.example.MCM.domain.notice.entity.Notice;
 import com.example.MCM.domain.product.entity.Product;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -55,6 +56,9 @@ public class Member extends BaseEntity {
 
   @OneToMany(mappedBy = "author", orphanRemoval = true)
   private List<Product> productList;
+
+  @OneToMany(mappedBy = "author", orphanRemoval = true)
+  private List<Notice> noticeList;
 
   @OneToOne
   private Cart cart;
