@@ -28,10 +28,6 @@ public class ProductController {
 
   private final MemberService memberService;
 
-
-
-
-
   @GetMapping("/list")
   public String list(Model model){
 
