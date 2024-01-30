@@ -2,17 +2,29 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>공지사항 작성</title>
+  <link rel="stylesheet" href="/notice_create.css">
+  <title>공지사항 등록</title>
 </head>
 <body>
-<form th:action="@{/notice/create}" th:object="${noticeDto}" method="post">
-  <div>
-    <input type="text" th:field="*{subject}">
-    <input type="text" th:field="*{content}">
-    <div>
-      <button type="submit">등록</button>
-    </div>
+<div class="container">
+  <div class="create-section">
+    <div class="title">공지사항 등록</div>
+    <form th:action="@{/notice/create}" th:object="${noticeDto}" method="post">
+      <div class="form-container">
+        <div class="menu">제목</div>
+        <input type="text" class="notice-subject" th:field="*{subject}" placeholder=" 제목을 입력해주세요.">
+      </div>
+      <div class="form-container">
+        <div class="menu">내용</div>
+        <textarea name="content" id="content" cols="30" rows="10" th:field="*{content}" placeholder=" 내용을 입력해주세요." class="content"></textarea>
+      </div>
+
+      <div class="button">
+        <button>저장하기</button>
+        <button>취소하기</button>
+      </div>
+    </form>
   </div>
-</form>
+</div>
 </body>
 </html>
