@@ -37,14 +37,10 @@ out/
 .vscode/
 
 #### application.yml
-#/src/main/resources/application.yml
+/src/main/resources/application.yml
 
-<<<<<<< HEAD
-/src/main/resources/application-secret.yml
-=======
 ### application-secret.yml
 /src/main/resources/application-secret.yml
 
->>>>>>> 8e351550942d50777ce500aef90c574ffc93a4c9
 #### application-dev.yml
-#/src/main/resources/application-dev.yml
+/src/main/resources/application-dev.yml

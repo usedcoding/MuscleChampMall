@@ -75,9 +75,9 @@ public class ProductController {
     if (bindingResult.hasErrors())
       return "product/create";
 
-//        Member author = this.memberService.findByUsername(principal.getName());
+        Member author = this.memberService.getMember(principal.getName());
 
-        Product product = this.productService.create(productDto, files);
+        Product product = this.productService.create(productDto, files, author);
 
         return "redirect:/product/list";
   }

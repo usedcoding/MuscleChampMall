@@ -1,0 +1,148 @@
+*{
+  margin: 0;
+  padding: 0;
+   background-color: black;
+  color:white;
+}
+form {
+    text-align : center;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+ul,li{
+  text-decoration:none;
+  list-style:none;
+}
+
+
+/* 스타일시작 */
+
+.container{
+  width: 1200px;
+  margin:auto;
+
+}
+
+.container>.wrap{
+  width: 900px;
+  margin:auto;
+  margin-top: 50px;
+}
+
+.wrap>.title{
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.wrap>form{
+  width: 600px;
+  margin:auto;
+  margin-top: 40px;
+  padding: 50px;
+  border:1px solid white;
+  text-align:left;
+
+}
+
+.wrap>form>.product-name>.title{
+  margin-top: 20px;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.wrap>form>.product-name>.name{
+  width: 100%;
+  padding: 5px;
+  height: 30px;
+}
+
+.wrap>form>.category-section{
+  margin-top: 20px;
+}
+
+.wrap>form>.category-section>.title{
+   font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.wrap>form>.category-section>.category{
+  width: 100%;
+  padding: 5px;
+  height: 30px;
+}
+
+.wrap>form>.subcategory-section>.title{
+  margin-top: 20px;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.wrap>form>.subcategory-section>.subcategory{
+  width: 100%;
+  padding: 5px;
+  height: 30px;
+}
+
+.wrap>form>.product-price>.title{
+  margin-top: 20px;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.wrap>form>.product-price>.price{
+  width: 100%;
+  padding: 5px;
+  height: 30px;
+}
+
+.wrap>form>.info>.title{
+  margin-top: 20px;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.wrap>form>.info>.little{
+  width: 100%;
+  padding: 5px;
+}
+
+.wrap>form>.big-info>.title{
+  margin-top: 20px;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.wrap>form>.big-info>.little{
+  width: 100%;
+  padding: 5px;
+}
+
+.wrap>form>.file-upload>.title{
+  margin-top: 20px;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+
+
+
+.container>.wrap>form>.button{
+  width: 350px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  margin-top: 40px;
+}
+
+
+.container>.wrap>form>.button>button{
+  width: 150px;
+  height: 40px;
+  color:white;
+  font-size: 20px;
+  border:1px solid white;
+}

@@ -1,6 +1,7 @@
 package com.example.MCM.domain.product.service;
 
 import com.example.MCM.base.exception.DataNotFoundException.DataNotFoundException;
+import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.product.dto.ProductDto;
 import com.example.MCM.domain.product.entity.Product;
 import com.example.MCM.domain.product.repository.ProductRepository;
@@ -44,7 +45,7 @@ public class ProductService {
   }
 
   @Transactional
-  public Product create(ProductDto productDto, List<MultipartFile> files) throws IOException {
+  public Product create(ProductDto productDto, List<MultipartFile> files, Member author) throws IOException {
 
     String projectPath = System.getProperty("user.dir") + "/src/main/resources/static/upload";
 
@@ -70,6 +71,7 @@ public class ProductService {
           .content(productDto.getContent())
           .price(productDto.getPrice())
           .description(productDto.getDescription())
+          .author(author)
           .imgPath(filePaths)
           .imgName(fileNames)
           .category(productDto.getCategory())
