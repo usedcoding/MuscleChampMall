@@ -72,7 +72,7 @@ public class MailController {
 
             mailSender.send(mail);
 
-
+            //일치 하지 않는 경우 오류 처리 필요
             this.mailService.updatePassword(tempPw, mailDto.getEmail(), mailDto.getPhoneNumber(), mailDto.getUsername());
 
         } catch (Exception e) {

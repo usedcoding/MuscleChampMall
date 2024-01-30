@@ -6,6 +6,8 @@ import com.example.MCM.domain.member.service.MemberService;
 import com.example.MCM.domain.product.dto.ProductDto;
 import com.example.MCM.domain.product.entity.Product;
 import com.example.MCM.domain.product.service.ProductService;
+import com.example.MCM.domain.review.entity.Review;
+import com.example.MCM.domain.review.service.ReviewService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +30,8 @@ public class ProductController {
 
   private final MemberService memberService;
 
+  private final ReviewService reviewService;
+
   @GetMapping("/list")
   public String list(Model model){
 
@@ -42,9 +46,15 @@ public class ProductController {
   public String detail(Model model,
                        @PathVariable("id") Long id){
 
+
     Product product = this.productService.findById(id);
 
     model.addAttribute("product", product);
+
+    //리뷰 목록 출력
+    List<Review> reviewList = this.reviewService.getReviewList(product);
+
+    model.addAttribute("reviewList", reviewList);
 
     return "product/detail";
   }

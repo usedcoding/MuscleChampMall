@@ -43,8 +43,8 @@ public class MemberService {
 
         if (username.startsWith("admin")) {
             member = member.toBuilder()
-                .role(MemberRole.ADMIN)
-                .build();
+                    .role(MemberRole.ADMIN)
+                    .build();
             this.memberRepository.save(member);
         }
         return member;
