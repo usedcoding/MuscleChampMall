@@ -29,8 +29,6 @@ public class PostController {
 
     private final MemberService memberService;
 
-
-
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String createPost(PostCreateDTO postCreateDTO) {
