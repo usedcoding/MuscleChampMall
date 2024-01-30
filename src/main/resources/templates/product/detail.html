@@ -2,17 +2,136 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="/product_detail.css">
   <title>Title</title>
 </head>
 <body>
-  <div>
-    <div th:each="img : ${product.imgPath}" class="flex justify-center my-[40px]">
-      <img th:src="@{${img}}"/>
+<div class="container">
+  <div class="product-box">
+    <div class="product">
+      <div class="product-img" th:each="img : ${product.imgPath}">
+        <img th:src="@{$img}" alt="">
+      </div>
+      <div class="product-info">
+        <div class="name" th:text="${product.name}"></div>
+<!--        <div class="averageScore">4.6 <span>점</span></div>-->
+        <div class="cost" th:text="${product.price}"><span>원</span></div>
+        <button class="cart">장바구니 담기</button>
+        <a href=""><button class="buy">구매하기</button></a>
+      </div>
     </div>
-    <div th:text="${product.imgName}"></div>
-    <div th:text="${product.id}"></div>
-    <div th:text="${product.name}"></div>
-    <div th:text="${product.description}"></div>
+    <div class="product-infosection">
+      <ul>
+        <li class="info">
+          <div class="title">면역지원</div>
+          <div class="text" th:text="${product.description}"></div>
+        </li>
+      </ul>
+      <div class="big-info" th:text="${product.content}"></div>
+    </div>
+<!--    <div class="product-review">-->
+<!--      <div class="review-create">-->
+<!--        <button class="review-btn">리뷰등록하기</button>-->
+<!--      </div>-->
+
+<!--      <div id="modal">-->
+<!--        <form action="" method="post">-->
+<!--          <div class="modal-content">-->
+
+<!--            <div class="main-title">Review</div>-->
+
+<!--            <div class="subject">제목</div>-->
+<!--            <hr>-->
+<!--            <input type="text">-->
+
+<!--            <div class="score-title">평점</div>-->
+<!--            <hr>-->
+
+<!--            <div class="score">-->
+<!--              <input type="checkbox">5점-->
+<!--              <input type="checkbox">4점-->
+<!--              <input type="checkbox">3점-->
+<!--              <input type="checkbox">2점-->
+<!--              <input type="checkbox">1점-->
+<!--            </div>-->
+
+<!--            <div class="content">내용</div>-->
+<!--            <hr>-->
+<!--            <textarea name="" id="" cols="30" rows="10"></textarea>-->
+
+<!--            <div class="btn-section">-->
+<!--              <button>저장하기</button>-->
+<!--              <button>취소하기</button>-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--        </form>-->
+
+<!--      </div>-->
+
+<!--      <ul>-->
+<!--        <li class="review">-->
+<!--          <div class="content">테스트 리뷰입니다.</div>-->
+
+<!--          <div class="content-info">-->
+<!--            <div class="author">혁명전사</div>-->
+<!--            <div class="create-date">2024-01-28</div>-->
+<!--          </div>-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--      <div th:if="${!paging.isEmpty()}" style="text-align: center;">-->
+<!--        <ul class=" page-btn pagination1 justify-content-center">-->
+<!--          <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">-->
+<!--            <a class="page-link1" th:href="${paging.hasPrevious} ? @{|?page=${paging.number-1}|} : @{|?page=0|}">-->
+<!--              <span><</span>-->
+<!--            </a>-->
+<!--          </li>-->
+<!--          <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"-->
+<!--              th:if="${page >= paging.number-5 and page <= paging.number+5}"-->
+<!--              th:classappend="${page == paging.number} ? 'active'"-->
+<!--              class="page-item">-->
+<!--            <a th:text="${page+1}" class="page-link1" th:href="@{|?page=${page}|}"></a>-->
+<!--          </li>-->
+<!--          <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">-->
+<!--            <a class="page-link1" th:href="@{|?page=${paging.number+1}|}">-->
+<!--              <span>></span>-->
+<!--            </a>-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--      </div>-->
+<!--    </div>-->
   </div>
+</div>
+</div>
+
+<!--<script>-->
+<!--  document.addEventListener("DOMContentLoaded", function() {-->
+<!--    var modal = document.getElementById("modal");-->
+<!--    var reviewBtn = document.querySelector(".review-btn");-->
+<!--    var saveBtn = document.querySelector("#modal form button:first-of-type");-->
+<!--    var cancelBtn = document.querySelector("#modal form button:last-of-type");-->
+
+<!--    // 리뷰 등록하기 버튼 클릭 시 모달 표시-->
+<!--    reviewBtn.addEventListener("click", function() {-->
+<!--        modal.style.display = "block";-->
+<!--    });-->
+
+<!--    // 저장하기 버튼 클릭 시-->
+<!--    saveBtn.addEventListener("click", function() {-->
+<!--        // 여기에 Ajax를 사용하여 데이터를 서버에 전송하는 코드 작성-->
+<!--        // 저장 완료 후 모달 닫기-->
+<!--        modal.style.display = "none";-->
+<!--    });-->
+
+<!--    // 취소하기 버튼 클릭 시-->
+<!--    cancelBtn.addEventListener("click", function() {-->
+<!--        // 모달 닫기-->
+<!--        modal.style.display = "none";-->
+<!--    });-->
+<!--});-->
+
+<!--</script>-->
+
+
 </body>
 </html>
