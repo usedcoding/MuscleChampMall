@@ -51,7 +51,7 @@ public class ReviewController {
     }
 
     //리뷰 삭제
-    @PostMapping("/delete/{id}")
+    @GetMapping("/delete/{id}")
     public String deleteReview(@PathVariable(value = "id") Long id, Principal principal) {
         Review review = this.reviewService.getReview(id);
 
