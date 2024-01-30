@@ -3,6 +3,7 @@ package com.example.MCM.domain.product.entity;
 import com.example.MCM.base.entity.BaseEntity;
 import com.example.MCM.domain.cartItem.entity.CartItem;
 import com.example.MCM.domain.member.entity.Member;
+
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -42,4 +43,5 @@ public class Product extends BaseEntity {
 
   @ManyToOne
   private Member author;
+
 }

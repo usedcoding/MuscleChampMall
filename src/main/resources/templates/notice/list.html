@@ -2,13 +2,50 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="/notice_list.css">
   <title>공지사항 게시판</title>
 </head>
 <body>
-  <div th:each="notice : ${noticeList}">
-    <span th:text="${notice.id}"></span>
-    <span th:text="${notice.subject}"></span>
-    <span th:text="${notice.createDate}"></span>
+<div class="container">
+  <div class="notice-section">
+    <div class="title">공지사항</div>
+    <table>
+      <thead>
+      <tr>
+        <th>No.</th>
+        <th>제목</th>
+        <th>작성일자</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="notice : ${noticeList}">
+        <td th:text="${notice.id}"></td>
+        <td><a th:href="@{|/notice/${notice.id}|}" th:text="${notice.subject}"></a></td>
+        <td th:text="${notice.createDate}"></td>
+      </tr>
+      </tbody>
+    </table>
   </div>
+<!--  <div th:if="${!paging.isEmpty()}" style="text-align: center;">-->
+<!--    <ul class=" page-btn pagination1 justify-content-center">-->
+<!--      <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">-->
+<!--        <a class="page-link1" th:href="${paging.hasPrevious} ? @{|?page=${paging.number-1}|} : @{|?page=0|}">-->
+<!--          <span><</span>-->
+<!--        </a>-->
+<!--      </li>-->
+<!--      <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"-->
+<!--          th:if="${page >= paging.number-5 and page <= paging.number+5}"-->
+<!--          th:classappend="${page == paging.number} ? 'active'"-->
+<!--          class="page-item">-->
+<!--        <a th:text="${page+1}" class="page-link1" th:href="@{|?page=${page}|}"></a>-->
+<!--      </li>-->
+<!--      <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">-->
+<!--        <a class="page-link1" th:href="@{|?page=${paging.number+1}|}">-->
+<!--          <span>></span>-->
+<!--        </a>-->
+<!--      </li>-->
+<!--    </ul>-->
+<!--  </div>-->
+</div>
 </body>
 </html>

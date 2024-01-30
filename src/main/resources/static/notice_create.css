@@ -1,0 +1,86 @@
+*{
+  margin: 0;
+  padding: 0;
+   background-color: black;
+}
+form {
+    text-align : center;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+ul,li{
+  text-decoration:none;
+  list-style:none;
+}
+
+
+/* 스타일시작 */
+
+.container{
+  width: 1200px;
+  margin:auto;
+
+}
+
+.container>.create-section{
+  width: 900px;
+  color:white;
+  margin:auto;
+}
+
+.container>.create-section>.title{
+  font-size: 30px;
+  font-weight: bold;
+  margin-top: 30px;
+  margin-bottom: 60px;
+}
+
+.container>.create-section>form{
+  width: 800px;
+  margin:auto;
+}
+
+.container>.create-section>form>.form-container>.menu{
+  text-align:left;
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-top: 40px;
+}
+
+.container>.create-section>form>.form-container>.notice-subject{
+  width: 800px;
+  height: 30px;
+  padding: 10px;
+  border:1px solid white;
+  color:white;
+}
+
+.container>.create-section>form>.form-container>.content{
+  width: 800px;
+  height: 200px;
+  padding: 10px;
+  border:1px solid white;
+  color:white;
+}
+
+.container>.create-section>form>.button{
+  width: 350px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  margin-top: 40px;
+}
+
+
+.container>.create-section>form>.button>button{
+  width: 150px;
+  height: 40px;
+  color:white;
+  font-size: 20px;
+  border:1px solid white;
+}

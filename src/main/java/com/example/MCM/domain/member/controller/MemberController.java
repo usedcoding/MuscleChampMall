@@ -12,10 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
@@ -151,19 +148,19 @@ public class MemberController {
         }
     }
 
-    @GetMapping("/delete/{username}")
-    public String delete(@PathVariable(value = "username") String username, Model model) {
-        Member member = this.memberService.getMember(username);
-        if (member.isDeleted() == true) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "회원이 없습니다.");
-        } else {
-            model.addAttribute("member", member);
-            return "member_delete";
-        }
-    }
+//    @GetMapping("/delete/{username}")
+//    public String delete(@PathVariable(value = "username") String username, Model model) {
+//        Member member = this.memberService.getMember(username);
+//        if (member.isDeleted() == true) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "회원이 없습니다.");
+//        } else {
+//            model.addAttribute("member", member);
+//            return "member_delete";
+//        }
+//    }
 
-    //회원 삭제
-    @PostMapping("/delete/{username}")
+    //회원 탈퇴
+    @GetMapping("/delete/{username}")
     public String delete(@PathVariable(value = "username") String username, Principal principal, @Valid MemberDeleteDTO memberDeleteDTO, BindingResult bindingResult) {
         Member member = this.memberService.getMember(username);
 
