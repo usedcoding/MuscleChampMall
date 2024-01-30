@@ -63,6 +63,12 @@ public class ReviewController {
         return "redirect:/";
     }
 
+    @GetMapping("/modify/{id}")
+    public String modifyReview(@PathVariable(value = "id") Long id) {
+        Review review = this.reviewService.getReview(id);
+        return"review_modify";
+    }
+
     //회원수정
     @PostMapping("/modify/{id}")
     public String modifyReview(@PathVariable(value = "id") Long id, Principal principal, @Valid ReviewCreateDTO reviewCreateDTO, BindingResult bindingResult) {
@@ -72,7 +78,7 @@ public class ReviewController {
             return "redirect:/";
         }
 
-        if(review.getAuthor().equals(principal.getName())) {
+        if (review.getAuthor().equals(principal.getName())) {
             this.reviewService.modifyReview(review, reviewCreateDTO.getTitle(), reviewCreateDTO.getContent(), reviewCreateDTO.getStarScore());
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
@@ -80,6 +86,6 @@ public class ReviewController {
 
         return "redirect:/";
 
-        //수정 내용 작성 페이지 새로 생성? 아니면 리뷰 작성 페이지 재활용
+        //수정 내용 작성 페이지 새로 생성? 아니면 리뷰 작성 페이지 재활용?
     }
 }
