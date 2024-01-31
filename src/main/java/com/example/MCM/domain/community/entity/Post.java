@@ -28,9 +28,5 @@ public class Post extends BaseEntity {
     @ManyToOne
     private Member author;
 
-    @ManyToMany
-    private Set<Member> like;
 
-    @ManyToMany
-    private Set<Member> disLike;
 }
