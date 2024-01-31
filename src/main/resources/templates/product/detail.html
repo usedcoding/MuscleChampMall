@@ -9,8 +9,8 @@
 <div class="container">
   <div class="product-box">
     <div class="product">
-      <div class="product-img" th:each="img : ${product.imgPath}">
-        <img th:src="@{$img}" alt="">
+      <div class="product-img">
+        <img th:src="${product.imgPath}" alt="">
       </div>
       <div class="product-info">
         <div class="name" th:text="${product.name}"></div>
@@ -23,7 +23,7 @@
     <div class="product-infosection">
       <ul>
         <li class="info">
-          <div class="title">면역지원</div>
+          <div class="title">간단 설명</div>
           <div class="text" th:text="${product.description}"></div>
         </li>
       </ul>

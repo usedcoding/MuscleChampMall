@@ -56,7 +56,7 @@ public class ProductService {
       getFoodProducts(page, kw);
       return this.productRepository.findAllFoodByKeyword(kw, pageable);
     }
-    return null;
+    return Page.empty();
   }
 
   private Page<Product> getAllProducts(int page, String kw) {
