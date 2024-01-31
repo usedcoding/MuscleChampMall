@@ -19,9 +19,9 @@
         <div class="title">대분류 카테고리</div>
         <select class="category" id="mainCategory" th:field="*{category}" onchange="updateSubCategories()">
           <option value="none">선택해주세요</option>
-          <option value="용품">용품</option>
-          <option value="기구">기구</option>
-          <option value="식품">식품</option>
+          <option value="GOODS">용품</option>
+          <option value="EQUIPMENT">기구</option>
+          <option value="FOOD">식품</option>
         </select>
       </div>
       <div class="subcategory-section">
@@ -68,7 +68,7 @@
 
     // Add new options based on selected main category
     var mainCategory = mainCategorySelect.value;
-    if (mainCategory === "용품") {
+    if (mainCategory === "GOODS") {
       addOption(subCategorySelect, "스트랩");
       addOption(subCategorySelect, "벨트");
       addOption(subCategorySelect, "니스트랩");
@@ -78,7 +78,7 @@
       addOption(subCategorySelect, "옷");
       addOption(subCategorySelect, "장갑");
       addOption(subCategorySelect, "가방");
-    } else if (mainCategory === "기구") {
+    } else if (mainCategory === "EQUIPMENT") {
       addOption(subCategorySelect, "원판");
       addOption(subCategorySelect, "덤벨");
       addOption(subCategorySelect, "바벨");
@@ -87,7 +87,7 @@
       addOption(subCategorySelect, "케틀벨");
       addOption(subCategorySelect, "파워렉");
       addOption(subCategorySelect, "보조용품");
-    } else if (mainCategory === "식품") {
+    } else if (mainCategory === "FOOD") {
       addOption(subCategorySelect, "영양제");
       addOption(subCategorySelect, "보충제");
       addOption(subCategorySelect, "부스터");

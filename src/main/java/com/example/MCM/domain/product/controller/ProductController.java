@@ -9,6 +9,7 @@ import com.example.MCM.domain.product.service.ProductService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,11 +30,20 @@ public class ProductController {
   private final MemberService memberService;
 
   @GetMapping("/list")
-  public String list(Model model){
+  public String list(Model model,
+                     @RequestParam(value = "page", defaultValue = "1") int page,
+                     @RequestParam(value = "kw", defaultValue = "") String kw,
+                     @RequestParam(value = "category", defaultValue = "", required = false) String category){
 
-    List<Product> productList = this.productService.getAll();
+    if (page <= 0) {
+      return "redirect:/product/list?category=" + category  + "&page=1";
+    }
 
-    model.addAttribute("productList", productList);
+    Page<Product> products = this.productService.getList(category, page, kw);
+
+    model.addAttribute("products", products);
+    model.addAttribute("category", category);
+    model.addAttribute("kw", kw);
 
     return "product/list";
   }
