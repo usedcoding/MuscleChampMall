@@ -99,6 +99,51 @@ public class PostController {
         return "redirect:/";
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/like/{id}")
+    public String like(@PathVariable(value = "id") Long id, Principal principal) {
+        Post post = this.postService.getPost(id);
+        Member member = this.memberService.getMember(principal.getName());
+//        Set<Member> memberSet = post.getLike();
+//
+//        boolean isLikedPost = false;
+//        for (Member likedMember : memberSet) {
+//            if (member.getId() == likedMember.getId()) {
+//                isLikedPost = true;
+//            }
+//        }
+//
+//        if (isLikedPost == false) {
+//           this.postService.like(post,member);
+//        } else {
+//        }
+
+        if (!post.getLike().contains(member)) {
+            postService.like(post, member);
+        } else if (post.getLike().contains(member)) {
+            postService.removeLike(post, member);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "권한이 없습니다.");
+        }
+        return String.format("redirect:/post/detail/%d", id);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/disLike/{id}")
+    public String disLike(@PathVariable(value = "id") Long id, Principal principal) {
+        Post post = this.postService.getPost(id);
+        Member member = this.memberService.getMember(principal.getName());
+
+        if (!post.getDisLike().contains(member)) {
+            postService.disLike(post, member);
+        } else if (post.getDisLike().contains(member)) {
+            postService.removeDisLike(post, member);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "권한이 없습니다.");
+        }
+        return String.format("redirect:/post/detail/%d", id);
+    }
+
 }
 
 
