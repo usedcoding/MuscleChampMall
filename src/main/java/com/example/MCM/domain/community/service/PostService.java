@@ -58,5 +58,32 @@ public class PostService {
 
 
 
+    //좋아요
+    public void like(Post post, Member member) {
+        post.getLike().add(member);
+        this.postRepository.save(post);
+    }
+
+    //좋아요 삭제
+    public void removeLike(Post post, Member member) {
+        post.getLike().remove(member);
+        this.postRepository.save(post);
+    }
+
+    //싫어요
+    public void disLike(Post post, Member member) {
+        post.getDisLike().add(member);
+        this.postRepository.save(post);
+    }
+
+    //싫어요 삭제
+    public void removeDisLike(Post post, Member member) {
+        post.getDisLike().remove(member);
+        this.postRepository.save(post);
+    }
+
+
+
+
 
 }
