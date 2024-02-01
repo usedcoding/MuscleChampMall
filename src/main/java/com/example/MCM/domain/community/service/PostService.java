@@ -5,8 +5,12 @@ import com.example.MCM.domain.community.entity.Post;
 import com.example.MCM.domain.community.repository.PostRepository;
 import com.example.MCM.domain.member.entity.Member;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,8 +20,9 @@ public class PostService {
     private final PostRepository postRepository;
 
     //게시글 리스트
-    public List<Post> postList() {
-        return this.postRepository.findAll();
+    public Page<Post> getList(int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+        return this.postRepository.findAll(pageable);
     }
 
     //게시글 호출
@@ -36,6 +41,7 @@ public class PostService {
                 .title(title)
                 .content(content)
                 .author(author)
+                .createDate(LocalDateTime.now())
                 .build();
 
         this.postRepository.save(post);
@@ -53,12 +59,43 @@ public class PostService {
         Post modifyPost = post.toBuilder()
                 .title(title)
                 .content(content)
+                .modifyDate(LocalDateTime.now())
                 .build();
 
         this.postRepository.save(modifyPost);
 
         return post;
     }
+
+
+
+
+    //좋아요
+    public void like(Post post, Member member) {
+        post.getLike().add(member);
+        this.postRepository.save(post);
+    }
+
+    //좋아요 삭제
+    public void removeLike(Post post, Member member) {
+        post.getLike().remove(member);
+        this.postRepository.save(post);
+    }
+
+    //싫어요
+    public void disLike(Post post, Member member) {
+        post.getDisLike().add(member);
+        this.postRepository.save(post);
+    }
+
+    //싫어요 삭제
+    public void removeDisLike(Post post, Member member) {
+        post.getDisLike().remove(member);
+        this.postRepository.save(post);
+    }
+
+
+
 
 
 }
