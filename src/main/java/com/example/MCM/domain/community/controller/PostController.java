@@ -7,15 +7,13 @@ import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
@@ -29,11 +27,19 @@ public class PostController {
 
     private final MemberService memberService;
 
+
+    @GetMapping("/list")
+    public String list(Model model, @RequestParam(value="page", defaultValue="0") int page) {
+        Page<Post> paging = this.postService.getList(page);
+        model.addAttribute("paging", paging);
+        return "community/post_list";
+    }
+
     //게시글 생성으로 이동
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String createPost(PostCreateDTO postCreateDTO) {
-        return"post_create";
+        return"community/post_create";
     }
 
     //게시글 생성
@@ -42,14 +48,14 @@ public class PostController {
     public String createPost(@Valid PostCreateDTO postCreateDTO, BindingResult bindingResult, Principal principal){
 
         if(bindingResult.hasErrors()) {
-            return "post_create";
+            return "community/post_create";
         }
 
         Member member = this.memberService.getMember(principal.getName());
 
         this.postService.createPost(postCreateDTO.getTitle(), postCreateDTO.getContent(), member);
 
-        return "redirect:/";
+        return "redirect:/post/list";
     }
 
     //게시글 삭제
@@ -60,13 +66,13 @@ public class PostController {
 
         model.addAttribute("post", post);
 
-        if (!post.getAuthor().equals(principal.getName())) {
+        if (!post.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
         }
 
         this.postService.deletePost(post);
 
-        return "redirect:/";
+        return "redirect:/post/list";
     }
 
     //게시글 수정으로 이동
@@ -76,11 +82,11 @@ public class PostController {
         Post post = this.postService.getPost(id);
         model.addAttribute("post", post);
 
-        if(!post.getAuthor().equals(principal.getName())) {
+        if(!post.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
         }
 
-        return"post_modify";
+        return"/community/post_modify";
     }
 
     //게시글 수정
@@ -92,16 +98,16 @@ public class PostController {
         model.addAttribute("post", post);
 
         if(bindingResult.hasErrors()) {
-            return "post_modify";
+            return "/community/post_modify";
         }
 
-        if(!post.getAuthor().equals(principal.getName())) {
+        if(!post.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
         }
 
         this.postService.modifyPost(post, postCreateDTO.getTitle(), postCreateDTO.getContent());
 
-        return "redirect:/";
+        return "redirect:/post/list";
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -155,7 +161,7 @@ public class PostController {
         Post post = this.postService.getPost(id);
         model.addAttribute("post", post);
 
-        return"post_detail";
+        return"community/post_detail";
     }
 
 }
