@@ -104,14 +104,9 @@ public class ProductService {
   }
 
   @Transactional
-  public Product create(ProductDto productDto, List<MultipartFile> files, Member author) throws IOException {
+  public Product create(ProductDto productDto, MultipartFile file, Member author) throws IOException {
 
     String projectPath = System.getProperty("user.dir") + "/src/main/resources/static/upload";
-
-    List<String> fileNames = new ArrayList<>();
-    List<String> filePaths = new ArrayList<>();
-
-    for(MultipartFile file : files) {
 
       UUID uuid = UUID.randomUUID();
 
@@ -121,18 +116,14 @@ public class ProductService {
       File saveFile = new File(projectPath, fileName);
       file.transferTo(saveFile);
 
-      fileNames.add(fileName);
-      filePaths.add(filePath);
-    }
-
     Product product = Product.builder()
           .name(productDto.getName())
           .content(productDto.getContent())
           .price(productDto.getPrice())
           .description(productDto.getDescription())
           .author(author)
-          .imgPath(filePaths)
-          .imgName(fileNames)
+          .imgPath(filePath)
+          .imgName(fileName)
           .viewCount(0L)
           .category(productDto.getCategory())
           .subCategory(productDto.getSubCategory())
@@ -144,15 +135,28 @@ public class ProductService {
   }
 
   @Transactional
-  public void modify(Product product, ProductDto productCreateForm) {
-    product = product.toBuilder()
+  public void modify(Product product, ProductDto productCreateForm, MultipartFile file) throws IOException {
+
+    String projectPath = System.getProperty("user.dir") + "/src/main/resources/static/upload";
+
+      UUID uuid = UUID.randomUUID();
+
+      String fileName = uuid + "_" + file.getOriginalFilename();
+      String filePath = originPath + fileName;
+
+      File saveFile = new File(projectPath, fileName);
+      file.transferTo(saveFile);
+
+    Product modifyProduct = product.toBuilder()
         .name(productCreateForm.getName())
         .price(productCreateForm.getPrice())
         .category(productCreateForm.getCategory())
         .subCategory(productCreateForm.getSubCategory())
+        .imgPath(filePath)
+        .imgName(fileName)
         .modifyDate(LocalDateTime.now())
         .build();
-    this.productRepository.save(product);
+    this.productRepository.save(modifyProduct);
   }
 
   public Page<Product> getGoodsProducts(int page, String kw) {

@@ -86,7 +86,7 @@ public class ProductController {
   @Transactional
   public String create(@ModelAttribute("productCreateForm") ProductDto productDto,
                        BindingResult bindingResult,
-                       @RequestParam("files") List<MultipartFile> files,
+                       @RequestParam("file") MultipartFile file,
                        Principal principal) throws IOException{
 
     if (bindingResult.hasErrors())
@@ -94,7 +94,7 @@ public class ProductController {
 
     Member author = this.memberService.getMember(principal.getName());
 
-    Product product = this.productService.create(productDto, files, author);
+    Product product = this.productService.create(productDto, file, author);
 
     return "redirect:/product/list";
   }
@@ -103,16 +103,14 @@ public class ProductController {
   @PreAuthorize("hasRole('ADMIN')")
   public String modify(@PathVariable("id") Long id,
                        ProductDto productCreateForm,
-                       Principal principal) {
+                       Principal principal) throws IOException {
     Member author = this.memberService.getMember(principal.getName());
 
     Product product = this.productService.findById(id);
 
     this.productService.modifyValidate(product, author);
 
-    this.productService.modify(product, productCreateForm);
-
-    return "product/create";
+    return "product/modify";
   }
 
   @PostMapping("/modify/{id}")
@@ -120,14 +118,19 @@ public class ProductController {
   public String modify(@PathVariable("id") Long id,
                        @Valid ProductDto productCreateForm,
                        Principal principal,
-                       BindingResult bindingResult) {
-    if (bindingResult.hasErrors()) return "product/create";
+                       @RequestParam("file") MultipartFile file,
+                       BindingResult bindingResult) throws IOException {
+    if (bindingResult.hasErrors()) return "product/modify";
+
+    Member author = this.memberService.getMember(principal.getName());
 
     Product product = this.productService.findById(id);
 
-    this.productService.modify(product, productCreateForm);
+    this.productService.modifyValidate(product, author);
 
-    return String.format("redirect:/product/detail/{id}", id);
+    this.productService.modify(product, productCreateForm, file);
+
+    return String.format("redirect:/product/{id}", id);
   }
 
   @GetMapping("/delete/{id}")
