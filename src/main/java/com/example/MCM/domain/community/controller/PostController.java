@@ -104,7 +104,6 @@ public class PostController {
         return "redirect:/";
     }
 
-<<<<<<< HEAD
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/like/{id}")
     public String like(@PathVariable(value = "id") Long id, Principal principal) {
@@ -150,9 +149,6 @@ public class PostController {
         return String.format("redirect:/post/detail/%d", id);
     }
 
-
-
-=======
     //상세 페이지로 이동
     @GetMapping("/detail/{id}")
     public String detailPost(@PathVariable(value = "id")Long id, Model model) {
@@ -162,7 +158,6 @@ public class PostController {
         return"post_detail";
     }
 
->>>>>>> 45dd5f28359e137b762085170e20984205ecf779
 }
 
 
