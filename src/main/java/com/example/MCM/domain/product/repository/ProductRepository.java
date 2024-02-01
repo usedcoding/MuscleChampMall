@@ -19,8 +19,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
       "select distinct p " +
           "from Product p " +
           "where " +
-          " (p.name like %:kw% " +
-          " or p.author.username like %:kw%) " +
+          " p.name like %:kw% " +
           " and p.category = 'GOODS'"
   )
   Page<Product> findAllGoodsByKeyword(@Param("kw") String kw, Pageable pageable);
@@ -29,8 +28,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
       "select distinct p " +
           "from Product p " +
           "where " +
-          " (p.name like %:kw% " +
-          " or p.author.username like %:kw%) " +
+          " p.name like %:kw% " +
           " and p.category = 'EQUIPMENT'"
   )
   Page<Product> findAllEquipmentByKeyword(@Param("kw") String kw, Pageable pageable);
@@ -39,8 +37,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
       "select distinct p " +
           "from Product p " +
           "where " +
-          " (p.name like %:kw% " +
-          " or p.author.username like %:kw%) " +
+          " p.name like %:kw% " +
           " and p.category = 'FOOD'"
   )
   Page<Product> findAllFoodByKeyword(@Param("kw") String kw, Pageable pageable);
@@ -50,8 +47,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
       + "from Product p "
       + "where "
       + "   (p.name like %:kw% "
-            + "   or p.description like %:kw% "
-      + "   or p.author.username like %:kw% "
+      + "   or p.description like %:kw% "
       + "   or p.subCategory like %:kw%)"
       + "   and (p.category = :category) ")
   Page<Product> findAllByKeyword(@Param("kw") String kw, @Param("category") String category, Pageable pageable);
@@ -61,10 +57,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
       + "from Product p "
       + "where "
       + "   (p.name like %:kw% "
-      + "   or p.description like %:kw% "
-      + "   or p.author.username like %:kw%) "
-      + "   and (p.category = 'GOODS') "
-      + "   and (p.subCategory = :subCategory)"
+      + "   or p.description like %:kw%) "
+      + "   and p.category = 'GOODS' "
+      + "   and p.subCategory = :subCategory"
   )
   Page<Product> findAllGoodsByKeywordAndSubCategory(@Param("kw") String kw, Pageable pageable, @Param("subCategory") String subCategory);
 
@@ -74,10 +69,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
       + "where "
       + "   (p.name like %:kw% "
       + "   or p.description like %:kw% "
-      + "   or p.author.username like %:kw% "
       + "   or p.subCategory like %:kw%)"
-      + "   and (p.category = 'EQUIPMENT') "
-      + "   and (p.subCategory = :subCategory)"
+      + "   and p.category = 'EQUIPMENT' "
+      + "   and p.subCategory = :subCategory"
   )
   Page<Product> findAllEquipmentByKeywordAndSubCategory(@Param("kw") String kw, Pageable pageable, @Param("subCategory") String subCategory);
 
@@ -87,10 +81,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
       + "where "
       + "   (p.name like %:kw% "
       + "   or p.description like %:kw% "
-      + "   or p.author.username like %:kw% "
       + "   or p.subCategory like %:kw%)"
-      + "   and (p.category = 'FOOD') "
-      + "   and (p.subCategory = :subCategory)"
+      + "   and p.category = 'FOOD' "
+      + "   and p.subCategory = :subCategory"
   )
   Page<Product> findAllFoodByKeywordAndSubCategory(@Param("kw") String kw, Pageable pageable, @Param("subCategory") String subCategory);
 

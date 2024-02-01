@@ -30,8 +30,8 @@
         <div class="search-box">
           <form id="search-form" method="get" th:action="@{/product/list}">
             <input id="search_kw" name="kw" placeholder="검색어를 입력해주세요." th:value="${kw}" type="text">
-            <input type="hidden" th:field="*{category}" th:value="${category}" />
-            <input type="hidden" th:field="*{subCategory}" th:value="${subCategory}" />
+            <input type="hidden" name="category" th:value="${category}" />
+            <input type="hidden" name="subCategory" th:value="${subCategory}" />
             <button type="submit">
               <img
                 src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></button>
@@ -42,15 +42,14 @@
   </div>
   <div class="container-wrap">
 
-    <div class="subcategory">
+    <div th:each="subCategory : ${subCategories}" class="subcategory">
       <ul>
-        <li th:each="subCategory : ${subCategories}">
+        <li >
           <a th:href="@{|/product/list?category=${category}&subCategory=${subCategory}|}" th:text="${subCategory}"></a>
         </li>
       </ul>
+      <div th:text="${subCategory}" class="product-title"></div>
     </div>
-
-    <div class="product-title">스트랩</div>
 
     <div class="sort-section">
       <ul>
