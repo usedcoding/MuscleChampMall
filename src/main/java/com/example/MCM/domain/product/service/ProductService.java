@@ -8,15 +8,23 @@ import com.example.MCM.domain.product.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 import org.thymeleaf.util.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -177,5 +185,27 @@ public class ProductService {
         .viewCount(product.getViewCount() + 1)
         .build();
     this.productRepository.save(product);
+  }
+
+  public void delete(Product product) {
+    this.productRepository.delete(product);
+  }
+
+  public void deleteValidate(Member author, Product product) {
+    if (!author.getRole().equals("ADMIN")) {
+     throw new  ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
+    }
+    if (product == null) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "존재하지 않는 상품입니다.");
+    }
+  }
+
+  public void modifyValidate(Product product, Member author) {
+    if (author.getRole().equals("ADMIN")) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
+    }
+    if (product == null) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "존재하지 않는 상품입니다.");
+    }
   }
 }

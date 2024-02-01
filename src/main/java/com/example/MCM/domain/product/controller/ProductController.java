@@ -12,6 +12,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -74,12 +75,14 @@ public class ProductController {
   }
 
   @GetMapping("/create")
+  @PreAuthorize("hasRole('ADMIN')")
   public String create(ProductDto productCreateForm,
                        Principal principal) {
     return "product/create";
   }
 
   @PostMapping("/create")
+  @PreAuthorize("hasRole('ADMIN')")
   @Transactional
   public String create(@ModelAttribute("productCreateForm") ProductDto productDto,
                        BindingResult bindingResult,
@@ -97,11 +100,15 @@ public class ProductController {
   }
 
   @GetMapping("/modify/{id}")
+  @PreAuthorize("hasRole('ADMIN')")
   public String modify(@PathVariable("id") Long id,
                        ProductDto productCreateForm,
                        Principal principal) {
+    Member author = this.memberService.getMember(principal.getName());
 
     Product product = this.productService.findById(id);
+
+    this.productService.modifyValidate(product, author);
 
     this.productService.modify(product, productCreateForm);
 
@@ -109,6 +116,7 @@ public class ProductController {
   }
 
   @PostMapping("/modify/{id}")
+  @PreAuthorize("hasRole('ADMIN')")
   public String modify(@PathVariable("id") Long id,
                        @Valid ProductDto productCreateForm,
                        Principal principal,
@@ -120,6 +128,21 @@ public class ProductController {
     this.productService.modify(product, productCreateForm);
 
     return String.format("redirect:/product/detail/{id}", id);
+  }
+
+  @GetMapping("/delete/{id}")
+  @PreAuthorize("hasRole('ADMIN')")
+  public String delete(@PathVariable("id") Long id,
+                       Principal principal) {
+    Member author = this.memberService.getMember(principal.getName());
+
+    Product product = this.productService.findById(id);
+
+    this.productService.deleteValidate(author, product);
+
+    this.productService.delete(product);
+
+    return "redirect:/product/list";
   }
 
 }
