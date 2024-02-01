@@ -1,5 +1,6 @@
 package com.example.MCM.domain.community.service;
 
+import com.example.MCM.base.exception.DataNotFoundException.DataNotFoundException;
 import com.example.MCM.domain.community.entity.Post;
 import com.example.MCM.domain.community.repository.PostRepository;
 import com.example.MCM.domain.member.entity.Member;
@@ -22,7 +23,11 @@ public class PostService {
     //게시글 호출
     public Post getPost(Long id) {
         Optional<Post> post = this.postRepository.findById(id);
-        return post.get();
+        if (post.isPresent()) {
+            return post.get();
+        } else {
+            throw new DataNotFoundException("post not found");
+        }
     }
 
     //게시글 생성

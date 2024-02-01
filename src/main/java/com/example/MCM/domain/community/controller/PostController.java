@@ -22,19 +22,21 @@ import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/community")
+@RequestMapping("/post")
 public class PostController {
 
     private final PostService postService;
 
     private final MemberService memberService;
 
+    //게시글 생성으로 이동
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String createPost(PostCreateDTO postCreateDTO) {
         return"post_create";
     }
 
+    //게시글 생성
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
     public String createPost(@Valid PostCreateDTO postCreateDTO, BindingResult bindingResult, Principal principal){
@@ -50,6 +52,7 @@ public class PostController {
         return "redirect:/";
     }
 
+    //게시글 삭제
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/delete/{id}")
     public String deletePost(@PathVariable(value = "id") Long id, Model model, Principal principal) {
@@ -66,6 +69,7 @@ public class PostController {
         return "redirect:/";
     }
 
+    //게시글 수정으로 이동
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/modify/{id}")
     public String modifyPost(@PathVariable(value = "id") Long id, PostCreateDTO postCreateDTO, Model model, Principal principal) {
@@ -79,6 +83,7 @@ public class PostController {
         return"post_modify";
     }
 
+    //게시글 수정
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
     public String modifyPost(@PathVariable(value = "id") Long id, @Valid PostCreateDTO postCreateDTO, BindingResult bindingResult, Model model, Principal principal) {
@@ -99,6 +104,7 @@ public class PostController {
         return "redirect:/";
     }
 
+<<<<<<< HEAD
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/like/{id}")
     public String like(@PathVariable(value = "id") Long id, Principal principal) {
@@ -146,6 +152,17 @@ public class PostController {
 
 
 
+=======
+    //상세 페이지로 이동
+    @GetMapping("/detail/{id}")
+    public String detailPost(@PathVariable(value = "id")Long id, Model model) {
+        Post post = this.postService.getPost(id);
+        model.addAttribute("post", post);
+
+        return"post_detail";
+    }
+
+>>>>>>> 45dd5f28359e137b762085170e20984205ecf779
 }
 
 
