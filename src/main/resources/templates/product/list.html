@@ -14,23 +14,26 @@
     <nav>
       <ul>
         <li class="logo-box">
-          <a href=""><img src="https://lh3.googleusercontent.com/proxy/mA1xk3N8MfwiFcA-0q704H6RKn8_dr52xtZGu3ZVoH7qPl6EnWpDLb6RRQeL6-AeaqWAqB_3crqOFyP9f0nMFeOv4D7AlDxqw4NDpt1uSfz4EZ0D2DYlTqYdKQ" alt=""></a>
-          <div class="supplise"><a href="">용품</a></div>
-          <div class="supplise"><a href="">기구</a></div>
-          <div class="supplise"><a href="">식품</a></div>
+          <a href="/"><img src="https://lh3.googleusercontent.com/proxy/mA1xk3N8MfwiFcA-0q704H6RKn8_dr52xtZGu3ZVoH7qPl6EnWpDLb6RRQeL6-AeaqWAqB_3crqOFyP9f0nMFeOv4D7AlDxqw4NDpt1uSfz4EZ0D2DYlTqYdKQ" alt=""></a>
+          <div class="supplise"><a href="/product/list?category=GOODS">용품</a></div>
+          <div class="supplise"><a href="/product/list?category=EQUIPMENT">기구</a></div>
+          <div class="supplise"><a href="/product/list?category=FOOD">식품</a></div>
         </li>
         <li class="member-box">
-          <div class="login"><a href="">로그인</a></div>
-          <div class="logout"><a href="">로그아웃</a></div>
-          <div class="mypage"><a href="">마이페이지</a></div>
-          <div class="signup"><a href="">회원가입</a></div>
+          <div class="login"><a href="/member/login">로그인</a></div>
+          <div class="logout"><a href="/member/logout">로그아웃</a></div>
+          <div class="mypage"><a href="#">마이페이지</a></div>
+          <div class="signup"><a href="/member/signup">회원가입</a></div>
         </li>
       </ul>
       <div class="search">
         <div class="search-box">
-          <form id="search-form" method="get" th:action="@{|/product/list?category=${category}|}">
+          <form id="search-form" method="get" th:action="@{/product/list}">
             <input id="search_kw" name="kw" placeholder="검색어를 입력해주세요." th:value="${kw}" type="text">
-            <button type="submit"><img
+            <input type="hidden" th:field="*{category}" th:value="${category}" />
+            <input type="hidden" th:field="*{subCategory}" th:value="${subCategory}" />
+            <button type="submit">
+              <img
                 src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></button>
           </form>
         </div>
@@ -41,15 +44,9 @@
 
     <div class="subcategory">
       <ul>
-        <li><a href="">스트랩</a></li>
-        <li><a href="">벨트</a></li>
-        <li><a href="">니스트랩</a></li>
-        <li><a href="">니슬리브</a></li>
-        <li><a href="">손목보호대</a></li>
-        <li><a href="">신발</a></li>
-        <li><a href="">옷</a></li>
-        <li><a href="">장갑</a></li>
-        <li><a href="">가방</a></li>
+        <li th:each="subCategory : ${subCategories}">
+          <a th:href="@{|/product/list?category=${category}&subCategory=${subCategory}|}" th:text="${subCategory}"></a>
+        </li>
       </ul>
     </div>
 

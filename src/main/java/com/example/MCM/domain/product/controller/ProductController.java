@@ -33,16 +33,20 @@ public class ProductController {
   public String list(Model model,
                      @RequestParam(value = "page", defaultValue = "1") int page,
                      @RequestParam(value = "kw", defaultValue = "") String kw,
-                     @RequestParam(value = "category", defaultValue = "", required = false) String category){
+                     @RequestParam(value = "category", defaultValue = "", required = false) String category,
+                     @RequestParam(value = "subCategory", defaultValue = "", required = false) String subCategory){
 
     if (page <= 0) {
-      return "redirect:/product/list?category=" + category  + "&page=1";
+      return "redirect:/product/list?category=" + category + "&subCategory=" + subCategory + "&page=1";
     }
 
-    Page<Product> products = this.productService.getList(category, page, kw);
+    Page<Product> products = this.productService.getList(category, subCategory, page, kw);
+    List<String> subCategories = this.productService.getSubCategoriesByCategory(category);
 
     model.addAttribute("products", products);
     model.addAttribute("category", category);
+    model.addAttribute("subCategory", subCategory);
+    model.addAttribute("subCategories", subCategories);
     model.addAttribute("kw", kw);
 
     return "product/list";

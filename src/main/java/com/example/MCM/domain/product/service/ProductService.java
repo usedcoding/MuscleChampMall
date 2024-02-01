@@ -32,16 +32,34 @@ public class ProductService {
     return this.productRepository.findAll();
   }
 
-  public Page<Product> getList(String category, int page, String kw) {
+  public Page<Product> getList(String category, String subCategory, int page, String kw) {
     if (StringUtils.isEmpty(category)) {
       return getAllProducts(page, kw);
-    } else {
+    } else if (StringUtils.isEmpty(subCategory)) {
       return getCategoryProducts(category, page, kw);
+    } else {
+      return getSubCategoryProducts(category, subCategory, page, kw);
     }
   }
 
+  private Page<Product> getSubCategoryProducts(String category, String subCategory, int page, String kw) {
+    List<Sort.Order> sorts = new ArrayList<>();
+    sorts.add(Sort.Order.desc("createDate"));
+    Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
+    if (category.equals("GOODS")){
+      getGoodsProducts(page, kw);
+      return this.productRepository.findAllGoodsByKeywordAndSubCategory(kw, pageable, subCategory);
+    } else if (category.equals("EQUIPMENT")) {
+      getEquipmentProducts(page, kw);
+      return this.productRepository.findAllEquipmentByKeywordAndSubCategory(kw, pageable, subCategory);
+    } else if (category.equals("FOOD")) {
+      getFoodProducts(page, kw);
+      return this.productRepository.findAllFoodByKeywordAndSubCategory(kw, pageable, subCategory);
+    }
+    return Page.empty();
+  }
+
   private Page<Product> getCategoryProducts(String category, int page, String kw) {
-      // 카테고리가 지정되어 있을 때 해당 카테고리에 맞는 상품을 가져오는 메서드의 구현
       List<Sort.Order> sorts = new ArrayList<>();
       sorts.add(Sort.Order.desc("createDate"));
       Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
@@ -149,4 +167,7 @@ public class ProductService {
     return this.productRepository.findAllFoodByKeyword(kw, pageable);
   }
 
+  public List<String> getSubCategoriesByCategory(String category) {
+    return this.productRepository.findSubCategoriesByCategory(category);
+  }
 }
