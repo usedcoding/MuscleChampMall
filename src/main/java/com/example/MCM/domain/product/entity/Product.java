@@ -26,17 +26,15 @@ public class Product extends BaseEntity {
 
   private String content;
 
-  @ElementCollection
-  @CollectionTable(name = "product_imgPath", joinColumns = @JoinColumn(name = "product_id"))
-  private List<String> imgPath;
+  private String imgPath;
 
-  @ElementCollection
-  @CollectionTable(name = "product_imgName", joinColumns = @JoinColumn(name = "product_id"))
-  private List<String> imgName;
+  private String imgName;
 
   private String category;
 
   private String subCategory;
+
+  private Long viewCount;
 
   @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, orphanRemoval = true)
   private List<CartItem> cartItemList;

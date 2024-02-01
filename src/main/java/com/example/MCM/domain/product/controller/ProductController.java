@@ -11,6 +11,8 @@ import com.example.MCM.domain.review.service.ReviewService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -33,11 +35,24 @@ public class ProductController {
   private final ReviewService reviewService;
 
   @GetMapping("/list")
-  public String list(Model model){
+  public String list(Model model,
+                     @RequestParam(value = "page", defaultValue = "1") int page,
+                     @RequestParam(value = "kw", defaultValue = "") String kw,
+                     @RequestParam(value = "category", defaultValue = "", required = false) String category,
+                     @RequestParam(value = "subCategory", defaultValue = "", required = false) String subCategory){
 
-    List<Product> productList = this.productService.getAll();
+    if (page <= 0) {
+      return "redirect:/product/list?category=" + category + "&subCategory=" + subCategory + "&page=1";
+    }
 
-    model.addAttribute("productList", productList);
+    Page<Product> products = this.productService.getList(category, subCategory, page, kw);
+    List<String> subCategories = this.productService.getSubCategoriesByCategory(category);
+
+    model.addAttribute("products", products);
+    model.addAttribute("category", category);
+    model.addAttribute("subCategory", subCategory);
+    model.addAttribute("subCategories", subCategories);
+    model.addAttribute("kw", kw);
 
     return "product/list";
   }
@@ -49,6 +64,8 @@ public class ProductController {
 
     Product product = this.productService.findById(id);
 
+    this.productService.addViewCount(product);
+
     model.addAttribute("product", product);
 
     List<Review> reviewList = this.reviewService.getReviewList(product);
@@ -58,16 +75,18 @@ public class ProductController {
   }
 
   @GetMapping("/create")
+  @PreAuthorize("hasRole('ADMIN')")
   public String create(ProductDto productCreateForm,
                        Principal principal) {
     return "product/create";
   }
 
   @PostMapping("/create")
+  @PreAuthorize("hasRole('ADMIN')")
   @Transactional
   public String create(@ModelAttribute("productCreateForm") ProductDto productDto,
                        BindingResult bindingResult,
-                       @RequestParam("files") List<MultipartFile> files,
+                       @RequestParam("file") MultipartFile file,
                        Principal principal) throws IOException{
 
     if (bindingResult.hasErrors())
@@ -75,35 +94,60 @@ public class ProductController {
 
     Member author = this.memberService.getMember(principal.getName());
 
-    Product product = this.productService.create(productDto, files, author);
+    this.productService.createValidate(author);
+
+    Product product = this.productService.create(productDto, file, author);
 
     return "redirect:/product/list";
   }
 
   @GetMapping("/modify/{id}")
+  @PreAuthorize("hasRole('ADMIN')")
   public String modify(@PathVariable("id") Long id,
                        ProductDto productCreateForm,
-                       Principal principal) {
+                       Principal principal) throws IOException {
+    Member author = this.memberService.getMember(principal.getName());
 
     Product product = this.productService.findById(id);
 
-    this.productService.modify(product, productCreateForm);
+    this.productService.modifyValidate(product, author);
 
-    return "product/create";
+    return "product/modify";
   }
 
   @PostMapping("/modify/{id}")
+  @PreAuthorize("hasRole('ADMIN')")
   public String modify(@PathVariable("id") Long id,
                        @Valid ProductDto productCreateForm,
                        Principal principal,
-                       BindingResult bindingResult) {
-    if (bindingResult.hasErrors()) return "product/create";
+                       @RequestParam("file") MultipartFile file,
+                       BindingResult bindingResult) throws IOException {
+    if (bindingResult.hasErrors()) return "product/modify";
+
+    Member author = this.memberService.getMember(principal.getName());
 
     Product product = this.productService.findById(id);
 
-    this.productService.modify(product, productCreateForm);
+    this.productService.modifyValidate(product, author);
 
-    return String.format("redirect:/product/detail/{id}", id);
+    this.productService.modify(product, productCreateForm, file);
+
+    return String.format("redirect:/product/{id}", id);
+  }
+
+  @GetMapping("/delete/{id}")
+  @PreAuthorize("hasRole('ADMIN')")
+  public String delete(@PathVariable("id") Long id,
+                       Principal principal) {
+    Member author = this.memberService.getMember(principal.getName());
+
+    Product product = this.productService.findById(id);
+
+    this.productService.deleteValidate(author, product);
+
+    this.productService.delete(product);
+
+    return "redirect:/product/list";
   }
 
 }

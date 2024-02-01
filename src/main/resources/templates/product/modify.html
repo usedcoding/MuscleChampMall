@@ -14,7 +14,7 @@
     <div class="title">
       상품등록
     </div>
-    <form th:action="@{/product/create}" th:object="${productDto}" method="post" enctype="multipart/form-data">
+    <form th:action="@{'/product/modify/' + ${id}}" th:object="${productDto}" method="post" enctype="multipart/form-data">
       <div class="category-section">
         <div class="title">대분류 카테고리</div>
         <select class="category" id="mainCategory" th:field="*{category}" onchange="updateSubCategories()">
