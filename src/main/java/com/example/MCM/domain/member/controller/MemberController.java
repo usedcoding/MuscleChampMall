@@ -1,9 +1,12 @@
 package com.example.MCM.domain.member.controller;
 
+import com.example.MCM.domain.cart.service.CartService;
 import com.example.MCM.domain.email.MailDto;
 import com.example.MCM.domain.member.dto.*;
 import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.member.service.MemberService;
+import com.example.MCM.domain.product.entity.Product;
+import com.example.MCM.domain.product.service.ProductService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +27,10 @@ import java.util.Objects;
 @RequestMapping("/member")
 public class MemberController {
     private final MemberService memberService;
+
+    private final ProductService productService;
+
+    private final CartService cartService;
 
     //회원가입
     @GetMapping("/signup")
@@ -216,5 +223,27 @@ public class MemberController {
         model.addAttribute("member", member);
 
         return "username_get";
+    }
+
+    @PostMapping("/member/cart/{id}/{productId}")
+    @ResponseBody
+    public String addCartItem(@PathVariable("id") Long id,
+                              @PathVariable("productId") Long productId,
+                              Integer amount){
+
+        Member member = this.memberService.findById(id);
+
+        Product product = this.productService.findById(productId);
+
+        if (member != null) {
+
+            cartService.addCart(product, member, amount);
+
+            return "order/success";
+        } else {
+
+            return "redirect:/login?message=장바구니%20서비스는%20로그인%20상태에서만%20이용%20가능합니다.";
+
+        }
     }
 }
