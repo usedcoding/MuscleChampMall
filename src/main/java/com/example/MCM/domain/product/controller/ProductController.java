@@ -63,6 +63,8 @@ public class ProductController {
 
     Product product = this.productService.findById(id);
 
+    this.productService.addViewCount(product);
+
     model.addAttribute("product", product);
 
     List<Review> reviewList = this.reviewService.getReviewList(product);

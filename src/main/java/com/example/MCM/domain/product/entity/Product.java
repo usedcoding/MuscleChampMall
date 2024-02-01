@@ -38,6 +38,8 @@ public class Product extends BaseEntity {
 
   private String subCategory;
 
+  private Long viewCount;
+
   @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, orphanRemoval = true)
   private List<CartItem> cartItemList;
 

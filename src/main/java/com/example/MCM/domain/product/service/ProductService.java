@@ -125,6 +125,7 @@ public class ProductService {
           .author(author)
           .imgPath(filePaths)
           .imgName(fileNames)
+          .viewCount(0L)
           .category(productDto.getCategory())
           .subCategory(productDto.getSubCategory())
           .createDate(LocalDateTime.now())
@@ -169,5 +170,12 @@ public class ProductService {
 
   public List<String> getSubCategoriesByCategory(String category) {
     return this.productRepository.findSubCategoriesByCategory(category);
+  }
+
+  public void addViewCount(Product product) {
+    product = product.toBuilder()
+        .viewCount(product.getViewCount() + 1)
+        .build();
+    this.productRepository.save(product);
   }
 }

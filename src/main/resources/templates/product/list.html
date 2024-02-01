@@ -64,11 +64,16 @@
         <li>
           <a href="">
             <div class="img-box">
-              <img th:src="${product.imgPath[0]}" alt="">
+              <a th:href="@{|/product/${product.id}|}">
+               <img th:src="${product.imgPath[0]}" alt="">
+              </a>
             </div>
             <div class="info">
-              <div th:text="${product.name}" class="name"></div>
+              <div >
+                <a th:text="${product.name}" class="name" th:href="@{|/product/${product.id}|}"></a>
+              </div>
               <div th:text="${product.price}" class="cost"><span>원</span></div>
+              <div th:text="${product.viewCount}"></div>
             </div>
           </a>
         </li>
