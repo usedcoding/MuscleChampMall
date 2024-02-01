@@ -8,6 +8,7 @@ import com.example.MCM.domain.review.service.ReviewService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,18 +29,20 @@ public class ReviewController {
     private final MemberService memberService;
 
     //리뷰 생성
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
-    public String createReview() {
-        return "review_create";
+    public String createReview(ReviewCreateDTO reviewCreateDTO) {
+        return "review/review_create";
     }
 
     //리뷰 생성
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
     public String createReview(@Valid ReviewCreateDTO reviewCreateDTO, BindingResult bindingResult, Principal principal) {
         Member member = this.memberService.getMember(principal.getName());
 
         if (bindingResult.hasErrors()) {
-            return "redirect:/";
+            return "review/review_create";
         }
 
         if (principal == null) {
@@ -47,45 +50,47 @@ public class ReviewController {
         }
 
         this.reviewService.createReview(member, reviewCreateDTO.getTitle(), reviewCreateDTO.getContent(), reviewCreateDTO.getStarScore());
-        return "redirect:/";
+        return "redirect:/product/list";
     }
 
     //리뷰 삭제
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/delete/{id}")
     public String deleteReview(@PathVariable(value = "id") Long id, Principal principal) {
         Review review = this.reviewService.getReview(id);
 
-        if (review.getAuthor().equals(principal.getName())) {
+        if (review.getAuthor().getUsername().equals(principal.getName())) {
             this.reviewService.deleteReview(review);
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
         }
-        return "redirect:/";
+        return "redirect:/product/list";
     }
 
+    //리뷰 수정
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/modify/{id}")
-    public String modifyReview(@PathVariable(value = "id") Long id) {
+    public String modifyReview(@PathVariable(value = "id") Long id, ReviewCreateDTO reviewCreateDTO) {
         Review review = this.reviewService.getReview(id);
-        return"review_modify";
+        return"review/review_modify";
     }
 
-    //회원수정
+    //리뷰수정
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
     public String modifyReview(@PathVariable(value = "id") Long id, Principal principal, @Valid ReviewCreateDTO reviewCreateDTO, BindingResult bindingResult) {
         Review review = this.reviewService.getReview(id);
 
         if (bindingResult.hasErrors()) {
-            return "redirect:/";
+            return "review/review_modify";
         }
 
-        if (review.getAuthor().equals(principal.getName())) {
+        if (review.getAuthor().getUsername().equals(principal.getName())) {
             this.reviewService.modifyReview(review, reviewCreateDTO.getTitle(), reviewCreateDTO.getContent(), reviewCreateDTO.getStarScore());
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
         }
 
-        return "redirect:/";
-
-        //수정 내용 작성 페이지 새로 생성? 아니면 리뷰 작성 페이지 재활용?
+        return "redirect:/product/list";
     }
 }
