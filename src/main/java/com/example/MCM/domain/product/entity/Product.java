@@ -3,6 +3,7 @@ package com.example.MCM.domain.product.entity;
 import com.example.MCM.base.entity.BaseEntity;
 import com.example.MCM.domain.cartItem.entity.CartItem;
 import com.example.MCM.domain.member.entity.Member;
+import com.example.MCM.domain.review.entity.Review;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -39,6 +40,9 @@ public class Product extends BaseEntity {
 
   @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, orphanRemoval = true)
   private List<CartItem> cartItemList;
+
+  @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, orphanRemoval = true)
+  private List<Review> reviewList;
 
   @ManyToOne
   private Member author;
