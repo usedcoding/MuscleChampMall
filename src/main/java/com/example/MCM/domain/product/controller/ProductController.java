@@ -94,6 +94,8 @@ public class ProductController {
 
     Member author = this.memberService.getMember(principal.getName());
 
+    this.productService.createValidate(author);
+
     Product product = this.productService.create(productDto, file, author);
 
     return "redirect:/product/list";

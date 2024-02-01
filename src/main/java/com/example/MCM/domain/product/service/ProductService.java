@@ -1,6 +1,7 @@
 package com.example.MCM.domain.product.service;
 
 import com.example.MCM.base.exception.DataNotFoundException.DataNotFoundException;
+import com.example.MCM.domain.member.MemberRole;
 import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.product.dto.ProductDto;
 import com.example.MCM.domain.product.entity.Product;
@@ -103,6 +104,12 @@ public class ProductService {
     return this.productRepository.findById(id);
   }
 
+  public void createValidate(Member author) {
+    if (author.getRole().equals(MemberRole.ADMIN)) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "작성 권한이 없습니다.");
+    }
+  }
+
   @Transactional
   public Product create(ProductDto productDto, MultipartFile file, Member author) throws IOException {
 
@@ -134,6 +141,14 @@ public class ProductService {
     return product;
   }
 
+  public void modifyValidate(Product product, Member author) {
+    if (author.getRole().equals(MemberRole.ADMIN)) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
+    }
+    if (product == null) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "존재하지 않는 상품입니다.");
+    }
+  }
   @Transactional
   public void modify(Product product, ProductDto productCreateForm, MultipartFile file) throws IOException {
 
@@ -157,6 +172,19 @@ public class ProductService {
         .modifyDate(LocalDateTime.now())
         .build();
     this.productRepository.save(modifyProduct);
+  }
+
+  public void deleteValidate(Member author, Product product) {
+    if (!author.getRole().equals(MemberRole.ADMIN)) {
+      throw new  ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
+    }
+    if (product == null) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "존재하지 않는 상품입니다.");
+    }
+  }
+
+  public void delete(Product product) {
+    this.productRepository.delete(product);
   }
 
   public Page<Product> getGoodsProducts(int page, String kw) {
@@ -191,25 +219,4 @@ public class ProductService {
     this.productRepository.save(product);
   }
 
-  public void delete(Product product) {
-    this.productRepository.delete(product);
-  }
-
-  public void deleteValidate(Member author, Product product) {
-    if (!author.getRole().equals("ADMIN")) {
-     throw new  ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
-    }
-    if (product == null) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "존재하지 않는 상품입니다.");
-    }
-  }
-
-  public void modifyValidate(Product product, Member author) {
-    if (author.getRole().equals("ADMIN")) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
-    }
-    if (product == null) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "존재하지 않는 상품입니다.");
-    }
-  }
 }
