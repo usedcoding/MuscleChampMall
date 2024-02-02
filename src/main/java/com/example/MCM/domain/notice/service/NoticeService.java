@@ -1,11 +1,11 @@
 package com.example.MCM.domain.notice.service;
 
 import com.example.MCM.base.exception.DataNotFoundException.DataNotFoundException;
+import com.example.MCM.domain.member.MemberRole;
 import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.notice.dto.NoticeDto;
 import com.example.MCM.domain.notice.entity.Notice;
 import com.example.MCM.domain.notice.repository.NoticeRepository;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -34,7 +34,7 @@ public class NoticeService {
 
   public void createValidate(Member author) {
 
-    if (!author.getRole().equals("ADMIN")) {
+    if (!author.getRole().equals(MemberRole.ADMIN)) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "공지사항 작성 권한이 없습니다.");
     }
   }
