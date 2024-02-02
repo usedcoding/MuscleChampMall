@@ -22,6 +22,9 @@ public class ReviewService {
         return this.reviewRepository.findByProduct(product);
     }
 
+    public List<Review> getReviewAll(){
+        return this.reviewRepository.findAll();
+    }
     public Review getReview(Long id) {
         Optional<Review> review =  this.reviewRepository.findById(id);
 
