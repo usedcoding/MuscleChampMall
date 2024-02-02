@@ -21,7 +21,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @AllArgsConstructor
 @ToString(callSuper = true)
 @Entity
-public class Ord extends BaseEntity {
+public class Orders extends BaseEntity {
 
   @ManyToOne(fetch = LAZY, cascade = CascadeType.REMOVE) // CascadeType.REMOVE 추가
   private Member buyer;

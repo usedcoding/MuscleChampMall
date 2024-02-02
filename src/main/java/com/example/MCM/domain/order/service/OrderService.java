@@ -1,7 +1,7 @@
 package com.example.MCM.domain.order.service;
 
 import com.example.MCM.domain.member.entity.Member;
-import com.example.MCM.domain.order.entity.Ord;
+import com.example.MCM.domain.order.entity.Orders;
 import com.example.MCM.domain.order.entity.OrderItem;
 import com.example.MCM.domain.order.repository.OrderItemRepository;
 import com.example.MCM.domain.order.repository.OrdRepository;
@@ -21,15 +21,15 @@ public class OrderService {
 
   private final OrderItemRepository orderItemRepository;
 
-  public Ord getByBuyerAndProductId(String username, Long productId) {
+  public Orders getByBuyerAndProductId(String username, Long productId) {
     return orderRepository.findByBuyerUsernameAndProductId(username, productId);
   }
 
 
   @Transactional
-  public Ord createOrder(Member buyer, Product product) {
+  public Orders createOrder(Member buyer, Product product) {
 
-    Ord order = Ord.builder()
+    Orders order = Orders.builder()
         .buyer(buyer)
         .product(product)
         .name(product.getName())
@@ -53,7 +53,7 @@ public class OrderService {
     return orderRepository.save(order);
   }
 
-  public List<Ord> getByBuyerId(Long id) {
+  public List<Orders> getByBuyerId(Long id) {
     return orderRepository.findByBuyerId(id);
   }
 }
