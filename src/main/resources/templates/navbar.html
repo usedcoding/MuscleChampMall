@@ -14,10 +14,10 @@
         </div>
         <div class="member-section">
             <ul>
-                <li><a href="" sec:authorize="isAnonymous()">회원가입</a></li>
-                <li><a href="" sec:authorize="isAnonymous()">로그인</a></li>
+                <li><a th:href="@{/member/signup}" sec:authorize="isAnonymous()">회원가입</a></li>
+                <li><a th:href="@{/member/login}" sec:authorize="isAnonymous()">로그인</a></li>
                 <li><a href="" sec:authorize="isAuthenticated()">마이페이지</a></li>
-                <li><a href="" sec:authorize="isAuthenticated()">로그아웃</a></li>
+                <li><a th:href="@{/member/logout}" sec:authorize="isAuthenticated()">로그아웃</a></li>
             </ul>
         </div>
     </nav>
