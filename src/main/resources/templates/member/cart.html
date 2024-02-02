@@ -1,0 +1,92 @@
+<div class="container">
+  <div class="nav-bar">
+    <ul class="left">
+      <li>로고</li>
+      <li>용품</li>
+      <li>기구</li>
+      <li>식품</li>
+    </ul>
+    <ul class="right">
+      <li>회원가입</li>
+      <li>로그인</li>
+      <li>로그아웃</li>
+      <li>마이페이지</li>
+    </ul>
+  </div>
+  <div class="img-section">
+    <img src="https://i.ytimg.com/vi/-gBA_HA9sV0/maxresdefault.jpg" alt="">
+  </div>
+  <div class="info-section">
+    <ul class="menu">
+      <a href=""><li> 회원정보 <hr></li></a>
+      <a href=""><li> 내가 주문한 상품<hr></li></a>
+      <a href=""><li> 장바구니<hr></li></a>
+      <a href=""><li> 내가 쓴 리뷰<hr></li></a>
+      <a href=""><li> 개인정보 변경<hr></li></a>
+    </ul>
+    <ul class=info>
+      <div class="title">나의 장바구니</div>
+      <li>
+        <div class="product-img">
+          <img src="https://cf.monsterzym.com/images/thumbnails/640/640/detailed/31/%EC%95%84%EC%97%B0_%EA%B8%80%EB%A3%A8%EC%BD%94%EB%84%A4%EC%9D%B4%ED%8A%B8_30mg_250%EC%BA%A1%EC%8A%90.jpg?t=1698872036" alt="">
+        </div>
+        <div class="product-info">
+          <div class="name">아연 글루코네이트 30mg 250캡슐</div>
+          <div class="price">6658 <span>원</span></div>
+          <button>구매하기</button>
+        </div>
+      </li>
+      <li>
+        <div class="product-img">
+          <img src="https://cf.monsterzym.com/images/thumbnails/640/640/detailed/31/%EC%95%84%EC%97%B0_%EA%B8%80%EB%A3%A8%EC%BD%94%EB%84%A4%EC%9D%B4%ED%8A%B8_30mg_250%EC%BA%A1%EC%8A%90.jpg?t=1698872036" alt="">
+        </div>
+        <div class="product-info">
+          <div class="name">아연 글루코네이트 30mg 250캡슐</div>
+          <div class="price">6658 <span>원</span></div>
+          <button>구매하기</button>
+        </div>
+      </li>
+      <li>
+        <div class="product-img">
+          <img src="https://cf.monsterzym.com/images/thumbnails/640/640/detailed/31/%EC%95%84%EC%97%B0_%EA%B8%80%EB%A3%A8%EC%BD%94%EB%84%A4%EC%9D%B4%ED%8A%B8_30mg_250%EC%BA%A1%EC%8A%90.jpg?t=1698872036" alt="">
+        </div>
+        <div class="product-info">
+          <div class="name">아연 글루코네이트 30mg 250캡슐</div>
+          <div class="price">6658 <span>원</span></div>
+          <button>구매하기</button>
+        </div>
+      </li>
+      <li>
+        <div class="product-img">
+          <img src="https://cf.monsterzym.com/images/thumbnails/640/640/detailed/31/%EC%95%84%EC%97%B0_%EA%B8%80%EB%A3%A8%EC%BD%94%EB%84%A4%EC%9D%B4%ED%8A%B8_30mg_250%EC%BA%A1%EC%8A%90.jpg?t=1698872036" alt="">
+        </div>
+        <div class="product-info">
+          <div class="name">아연 글루코네이트 30mg 250캡슐</div>
+          <div class="price">6658 <span>원</span></div>
+          <button>구매하기</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div th:if="${!paging.isEmpty()}" style="text-align: center;">
+    <ul class=" page-btn pagination1 justify-content-center">
+      <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+        <a class="page-link1" th:href="${paging.hasPrevious} ? @{|?page=${paging.number-1}|} : @{|?page=0|}">
+          <span><</span>
+        </a>
+      </li>
+      <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+          th:if="${page >= paging.number-5 and page <= paging.number+5}"
+          th:classappend="${page == paging.number} ? 'active'"
+          class="page-item">
+        <a th:text="${page+1}" class="page-link1" th:href="@{|?page=${page}|}"></a>
+      </li>
+      <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+        <a class="page-link1" th:href="@{|?page=${paging.number+1}|}">
+          <span>></span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

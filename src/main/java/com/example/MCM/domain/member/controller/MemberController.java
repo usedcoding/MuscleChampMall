@@ -274,11 +274,11 @@ public class MemberController {
             }
 
             model.addAttribute("totalPrice", totalPrice);
-//            model.addAttribute("totalCount", cart.getCount());
+            model.addAttribute("totalCount", cart.getCount());
             model.addAttribute("cartItems", cartItemList);
             model.addAttribute("member", memberService.findById(id));
 
-            return "cart";
+            return "member/cart";
         }
         // 로그인 id와 장바구니 접속 id가 같지 않는 경우
         else {
