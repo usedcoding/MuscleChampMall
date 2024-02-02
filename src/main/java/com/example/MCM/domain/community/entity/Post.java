@@ -1,14 +1,13 @@
 package com.example.MCM.domain.community.entity;
 
 import com.example.MCM.base.entity.BaseEntity;
+import com.example.MCM.domain.comment.entity.Comment;
 import com.example.MCM.domain.member.entity.Member;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -33,6 +32,9 @@ public class Post extends BaseEntity {
 
     @ManyToMany
     private Set<Member> disLike;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Comment> commentList;
 
 
 
