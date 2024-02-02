@@ -22,6 +22,25 @@
             <a th:href="@{|/post/modify/${post.id}|}">수정</a>
             <a th:href="@{|/post/delete/${post.id}|}">삭제</a>
         </div>
+
+        <form th:action="@{|/comment/create/${post.id}|}" th:object="${commentCreateDTO}" method="post">
+            <input type="text" th:field="*{content}" name="conetent"  placeholder=" 내용을 입력해주세요.">
+            <button type="submit" style="">저장하기</button>
+            <button type="submit"><a th:href="@{|/post/detail/${post.id}|}">취소하기</a></button>
+        </form>
+
+        <div th:each="comment : ${post.commentList}">
+            <ul>
+                <li th:text="${comment.content}"></li>
+                <div class="comment-option">
+                    <a th:href="@{|/comment/delete/${comment.id}|}">
+                        삭제
+                    </a>
+                </div>
+            </ul>
+        </div>
+
+
     </div>
 </div>
 
