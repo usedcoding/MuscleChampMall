@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/simplemde.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/layout.css}">
+    <link rel="stylesheet" href="/layout/layout.css"/>
+    <script type="text/javascript" th:src="@{/jquery-3.7.0.min.js}"></script>
+    <title>MCM</title>
+</head>
+<body>
+<!-- nav-bar-section start -->
+<section th:replace="~{navbar :: navbarFragment}"></section>
+<!-- nav-bar-section end -->
+
+<!-- 기본 템플릿 안에 삽입될 내용 start -->
+<th:block layout:fragment="content"></th:block>
+<!-- 기본 템플릿 안에 삽입될 내용 end -->
+
+<!-- footer-section start -->
+<footer th:replace="~{footer :: footerFragment}"></footer>
+<!-- footer-section end -->
+
+<!-- 자바스크립트 start -->
+
+<!-- 자바스크립트 end -->
+</body>
+</html>

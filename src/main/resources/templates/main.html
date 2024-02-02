@@ -3,9 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/main.css"/>
+    <link rel="stylesheet" href="/nav.css"/>
+    <link rel="stylesheet" href="/layout.css"/>
 </head>
 <body>
-<div>hello kakao</div>
-<a th:href="@{/member/logout}"> 로그아웃 </a>
+
+<div th:replace="/navbar.html"></div>
+
+<div layout:fragment="content" class="container">
+
+    <div class="video-section">
+        <video id="video" autoplay loop muted>
+            <source src="/video/banner.mp4" type="video/mp4"/>
+        </video>
+    </div>
+
+    <div class="top-product-section">
+        <div class="title">
+            스토어 인기랭킹
+        </div>
+        <div class="product">
+            <ul th:each="product : ${productList}">
+                <li>
+                    <a href="">
+                        <img th:src="${product.imgPath}" alt="">
+                        <div class=info>
+                            <div th:text="${product.name}" class="subject">nigger</div>
+                            <div th:text="${product.price}" class="cost">18000 원</div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="board-section">
+        <div class="notice">
+            <div class="notice-box">
+                <div class="title">
+                    공지사항
+                </div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>제목</th>
+                        <th>작성일자</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="notice : ${noticeList}">
+                        <td th:text="${notice.id}"></td>
+                        <td th:text="${notice.subject}">
+                            <a href=""></a>
+                        </td>
+                        <td th:text="${notice.createDate}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="board">
+            <div class="board-box">
+                <div class="title">
+                    커뮤니티
+                </div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>작성일자</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="post : ${postList}">
+                        <td th:text="${post.id}"></td>
+                        <td th:text="${post.title}">
+                            <a href=""></a>
+                        </td>
+                        <td th:text="${post.author}"></td>
+                        <td th:text="${post.createDate}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="/footer.html"></div>
 </body>
 </html>

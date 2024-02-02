@@ -95,7 +95,7 @@ public class PostService {
     }
 
 
-
-
-
+  public List<Post> getAll() {
+        return this.postRepository.findAll();
+  }
 }

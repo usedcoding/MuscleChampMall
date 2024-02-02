@@ -3,6 +3,7 @@ package com.example.MCM.domain.product.entity;
 import com.example.MCM.base.entity.BaseEntity;
 import com.example.MCM.domain.cartItem.entity.CartItem;
 import com.example.MCM.domain.member.entity.Member;
+
 import com.example.MCM.domain.review.entity.Review;
 import jakarta.persistence.*;
 import lombok.*;

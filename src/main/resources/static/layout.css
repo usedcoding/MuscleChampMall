@@ -1,0 +1,66 @@
+*{
+  margin: 0;
+  padding: 0;
+  background-color: black;
+}
+form {
+    text-align : center;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+ul,li{
+  text-decoration:none;
+  list-style:none;
+}
+
+/* 스타일 시작 */
+
+.container{
+  width: 1200px;
+  margin:0 auto;
+  color:white;
+}
+
+.container>nav{
+  width: 900px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.container>nav>.logo-section{
+  width: 400px;
+}
+
+.container>nav>.logo-section>ul{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:20px;
+  font-weight:bold;
+}
+
+.container>nav>.logo-section>ul>li>.logo>a>img{
+  width: 150px;
+  height: 150px;
+}
+
+nav>.member-section>ul{
+  display:flex;
+  justify-content:space-between;
+  width: 150px;
+  font-weight:bold;
+}
+
+.footer-wrap{
+  width: 900px;
+  margin:auto;
+  margin-top: 100px;
+  color:white;
+}
+
