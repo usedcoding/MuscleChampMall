@@ -1,6 +1,9 @@
 package com.example.MCM.domain.member.controller;
 
+import com.example.MCM.domain.cart.entity.Cart;
 import com.example.MCM.domain.cart.service.CartService;
+import com.example.MCM.domain.cartItem.entity.CartItem;
+import com.example.MCM.domain.cartItem.service.CartItemService;
 import com.example.MCM.domain.email.MailDto;
 import com.example.MCM.domain.member.dto.*;
 import com.example.MCM.domain.member.entity.Member;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Objects;
 
 @Controller
@@ -31,6 +35,8 @@ public class MemberController {
     private final ProductService productService;
 
     private final CartService cartService;
+
+    private final CartItemService cartItemService;
 
     //회원가입
     @GetMapping("/signup")
@@ -240,10 +246,43 @@ public class MemberController {
             cartService.addCart(product, member, amount);
 
             return "order/success";
+
         } else {
 
             return "redirect:/login?message=장바구니%20서비스는%20로그인%20상태에서만%20이용%20가능합니다.";
 
+        }
+    }
+
+    @GetMapping("/member/cart/{id}")
+    public String memberCartPage(@PathVariable("id") Long id, Model model, Principal principal) {
+
+        Member member = this.memberService.getMember(principal.getName());
+        if (member.getId() == id) {
+
+            member = memberService.findById(id);
+            // 로그인 되어 있는 유저에 해당하는 장바구니 가져오기
+            Cart cart = member.getCart();
+
+            // 장바구니에 들어있는 아이템 모두 가져오기
+            List<CartItem> cartItemList = cartItemService.getAll(cart);
+
+            // 장바구니에 들어있는 상품들의 총 가격
+            int totalPrice = 0;
+            for (CartItem cartitem : cartItemList) {
+                totalPrice += cartitem.getCount() * cartitem.getProduct().getPrice();
+            }
+
+            model.addAttribute("totalPrice", totalPrice);
+//            model.addAttribute("totalCount", cart.getCount());
+            model.addAttribute("cartItems", cartItemList);
+            model.addAttribute("member", memberService.findById(id));
+
+            return "cart";
+        }
+        // 로그인 id와 장바구니 접속 id가 같지 않는 경우
+        else {
+            return "redirect:/main";
         }
     }
 }

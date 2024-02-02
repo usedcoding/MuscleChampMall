@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ko" layout:decorate="~{layout/layout.html}" xmlns="http://www.w3.org/1999/html"
+      xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+        name="viewport">
+  <meta content="ie=edge" http-equiv="X-UA-Compatible">
+  <title>도서 상세페이지</title>
+  <style>
+    .star {
+        font-size: 24px;
+        transition: color 0.3s ease-in-out;
+    }
+
+    .star.active {
+        color: gold; /* 변경할 색상을 여기에 지정 */
+    }
+  </style>
+</head>
+
+<body layout:fragment="content">
+<div class="mx-auto max-w-screen-xl h-auto">
+  <div class="bg-white rounded-lg shadow">
+    <div class="flex justify-center my-[40px]">
+      <img alt="" class="w-96 h-auto" th:src="${product.coverImg}">
+    </div>
+  </div>
+
+  <div class="mb-4" th:if="${#authorization.expression('hasRole(''ROLE_SUPERADMIN'') or hasRole(''ROLE_ADMIN'')')}">
+    <div class="flex justify-end mt-4">
+      <a th:href="@{|/product/modify/${product.id}|}"
+         class="px-4 py-2 mr-4 bg-green-500 text-white rounded">수정</a>
+      <a th:href="@{|/product/delete/${product.id}|}"
+         class="px-4 py-2 bg-red-500 text-white rounded">삭제</a>
+    </div>
+  </div>
+
+  <div class="flex justify-between items-center mb-5">
+    <div class="flex items-center">
+      <span class="text-2xl w-[450px] font-bold" th:text="${product.title}"></span>
+    </div>
+    <div class="flex flex-col items-center">
+      <span>현재평점/총평점</span>
+      <span th:text="${#numbers.formatDecimal(product.averageRating, 1, 2) + ' / 5.0'}"></span>
+    </div>
+  </div>
+
+
+  <div class="mb-2 mx-auto">
+    <div class="mb-2 mx-auto">
+      <span>정가 : </span>
+    </div>
+  </div>
+
+  <div class="mt-4 w-[700px]">
+    <div th:text="${product.description}"></div>
+  </div>
+
+  <div class="border-solid mt-4 pt-4">
+
+    <div class="border-t mt-4 pt-4">
+
+      <div class="flex items-center justify-end mt-4 border-t pt-4">
+        <form sec:authorize="isAuthenticated()" class="d-flex" th:if="${#authentication.principal}"
+              th:action="@{/member/cart/{id}/{productId}(id=${member.id}, productId=${product.id})}"
+              method="post">
+          <div class="flex justify-end w-full mr-[10px]">
+            <input class="form-control text-center me-3" id="amount" name="amount" type="hidden"
+                   value="1" style="max-width: 3rem"/>
+            <button class="ml-2 mr-4 px-4 py-2 w-24 btn btn-primary text-white add-to-cart-btn"
+                    type="submit">
+              장바구니
+            </button>
+            <a class="go-to-cart-btn hidden" sec:authorize="isAuthenticated()"
+               th:href="@{/member/cart/{id}(id=${#authentication.principal.id})}">
+              장바구니로 이동
+            </a>
+          </div>
+        </form>
+        <div id="memberId" th:data-member-id="${memberId}"></div>
+        <form th:action="@{/order/detail}">
+          <input type="hidden" name="productsId" th:value="${product.id}">
+          <input type="submit" value="구매" class="btn btn-primary text-white">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+ // 페이지 로딩 시 실행할 함수
+$(document).ready(function () {
+  // 장바구니 버튼 클릭 이벤트 핸들러 등록
+  $('.add-to-cart-btn').on('click', function (event) {
+      event.preventDefault();
+      var memberId = document.getElementById('memberId').getAttribute('data-member-id');
+      console.log('Member ID:', memberId);
+      const form = $(this).closest('form');
+
+      if (confirm('이 상품을 장바구니에 추가하시겠습니까?')) {
+          $.ajax({
+              type: 'POST',
+              url: form.attr('action'),
+              data: form.serialize(),
+              success: function () {
+                  alert("상품이 장바구니에 추가되었습니다.");
+                  if (confirm('장바구니에 상품이 담겼습니다. 장바구니로 이동하시겠습니까?')) {
+                      var cartUrl = '/member/cart/' + memberId;
+                      window.location.href = cartUrl;
+                  }
+              },
+              error: function () {
+                  alert("상품 추가에 실패하였습니다.");
+              }
+          });
+      }
+  });
+
+</script>
+</body>
+
+</html>
