@@ -34,6 +34,7 @@ public class ProductController {
 
   private final ReviewService reviewService;
 
+
   @GetMapping("/list")
   public String list(Model model,
                      @RequestParam(value = "page", defaultValue = "1") int page,
@@ -68,8 +69,10 @@ public class ProductController {
 
     model.addAttribute("product", product);
 
+
     List<Review> reviewList = this.reviewService.getReviewList(product);
     model.addAttribute("review", reviewList);
+
 
     return "product/detail";
   }

@@ -39,8 +39,12 @@ out/
 #### application.yml
 /src/main/resources/application.yml
 
+
+/src/main/resources/application-secret.yml
+
 ### application-secret.yml
 /src/main/resources/application-secret.yml
+
 
 #### application-dev.yml
 /src/main/resources/application-dev.yml
