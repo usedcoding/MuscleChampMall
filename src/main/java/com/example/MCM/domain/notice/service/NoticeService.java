@@ -45,6 +45,7 @@ public class NoticeService {
         .subject(noticeDto.getSubject())
         .content(noticeDto.getContent())
         .author(author)
+        .viewCount(0L)
         .createDate(LocalDateTime.now())
         .build();
 
@@ -74,5 +75,12 @@ public class NoticeService {
 
   public void delete(Notice notice) {
     this.noticeRepository.delete(notice);
+  }
+
+  public void addViewCount(Notice notice) {
+    notice = notice.toBuilder()
+        .viewCount(notice.getViewCount() + 1)
+        .build();
+    this.noticeRepository.save(notice);
   }
 }
