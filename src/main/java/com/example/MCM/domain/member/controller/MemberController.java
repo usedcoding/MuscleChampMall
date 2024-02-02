@@ -4,6 +4,7 @@ import com.example.MCM.domain.email.MailDto;
 import com.example.MCM.domain.member.dto.*;
 import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.member.service.MemberService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -27,7 +28,7 @@ public class MemberController {
     //회원가입
     @GetMapping("/signup")
     public String signup(MemberCreateDTO memberCreateDTO) {
-        return "member_form";
+        return "signup_form";
     }
 
     //회원가입
@@ -36,7 +37,7 @@ public class MemberController {
 
 
         if (bindingResult.hasErrors()) {
-            return "member_form";
+            return "signup_form";
         }
 
         if (!memberCreateDTO.getPassword1().equals(memberCreateDTO.getPassword2())) {
@@ -48,11 +49,11 @@ public class MemberController {
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", "이미 등록된 사용자 입니다.");
-            return "member_form";
+            return "signup_form";
         } catch (Exception e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", e.getMessage());
-            return "member_form";
+            return "signup_form";
         }
         return "redirect:/";
     }
@@ -61,6 +62,13 @@ public class MemberController {
     @GetMapping("/login")
     public String login() {
         return "login_form";
+    }
+
+    //로그아웃
+    @GetMapping("/logout")
+    public String Logout(HttpSession session) {
+        session.removeAttribute("loggedIn");
+        return "redirect:/login";
     }
 
     //마이페이지

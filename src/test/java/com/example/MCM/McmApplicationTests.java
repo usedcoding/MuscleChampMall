@@ -1,7 +1,6 @@
 package com.example.MCM;
 
 import com.example.MCM.domain.email.MailService;
-import com.example.MCM.domain.member.controller.MemberController;
 import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.member.repository.MemberRepository;
 import com.example.MCM.domain.member.service.MemberService;
@@ -13,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest

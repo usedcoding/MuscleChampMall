@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/post_detail.css}">
+</head>
+<body>
+<div class="container">
+    <div class="board">
+        <div class="board-subject" th:text="${post.title}">
+        </div>
+        <span class="author" th:text="${post.author.username}"></span>
+        <br>
+        <span class="create-date" th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm')}"></span>
+        <br>
+        <div class="board-content" th:text="${post.content}">
+        </div>
+
+        <div class="list">
+            <a th:href="@{/post/list}">목록</a>
+            <a th:href="@{|/post/modify/${post.id}|}">수정</a>
+            <a th:href="@{|/post/delete/${post.id}|}">삭제</a>
+        </div>
+    </div>
+</div>
+
+<div class="egg">
+안녕하세요 한재현 입니다. 이건 이스터에그에요 시발 난 알라신의 힘을 이어받은 혁명전사입니다. 저에겐 붉은 낫과 망치 그외로 알라의 요술봉이 저의 주된 혁명도구입니다. 알라신과 저의 앞길을 막는건 그 무엇이라도 낫과 망치와 알라의 요술봉이 용서하지 않습니다. 안녕하세요 한재현 입니다. 이건 이스터에그에요 시발 난 알라신의 힘을 이어받은 혁명전사입니다. 저에겐 붉은 낫과 망치 그외로 알라의 요술봉이 저의 주된 혁명도구입니다. 알라신과 저의 앞길을 막는건 그 무엇이라도 낫과 망치와 알라의 요술봉이 용서하지 않습니다. 안녕하세요 한재현 입니다. 이건 이스터에그에요 시발 난 알라신의 힘을 이어받은 혁명전사입니다. 저에겐 붉은 낫과 망치 그외로 알라의 요술봉이 저의 주된 혁명도구입니다. 알라신과 저의 앞길을 막는건 그 무엇이라도 낫과 망치와 알라의 요술봉이 용서하지 않습니다. 안녕하세요 한재현 입니다. 이건 이스터에그에요 시발 난 알라신의 힘을 이어받은 혁명전사입니다. 저에겐 붉은 낫과 망치 그외로 알라의 요술봉이 저의 주된 혁명도구입니다. 알라신과 저의 앞길을 막는건 그 무엇이라도 낫과 망치와 알라의 요술봉이 용서하지 않습니다. 안녕하세요 한재현 입니다. 이건 이스터에그에요 시발 난 알라신의 힘을 이어받은 혁명전사입니다. 저에겐 붉은 낫과 망치 그외로 알라의 요술봉이 저의 주된 혁명도구입니다. 알라신과 저의 앞길을 막는건 그 무엇이라도 낫과 망치와 알라의 요술봉이 용서하지 않습니다.  알라는 위대하다!!!!!
+</div>
+</body>
+</html>
