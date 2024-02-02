@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,4 +38,9 @@ public class CartItemService {
       throw new DataNotFoundException("장바구니에 담긴 상품을 찾을 수 없습니다.");
     }
   }
+
+  public List<CartItem> getAll(Cart cart) {
+    return this.cartItemRepository.findAll();
+  }
+
 }

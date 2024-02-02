@@ -29,8 +29,10 @@
                     <a href="">
                         <img th:src="${product.imgPath}" alt="">
                         <div class=info>
-                            <div th:text="${product.name}" class="subject">nigger</div>
-                            <div th:text="${product.price}" class="cost">18000 원</div>
+                            <div th:text="${product.name}" class="subject"></div>
+                            <div th:text="${product.price}" class="cost">
+                                <span>원</span>
+                            </div>
                         </div>
                     </a>
                 </li>
@@ -59,7 +61,7 @@
                         <td th:text="${notice.subject}">
                             <a href=""></a>
                         </td>
-                        <td th:text="${notice.createDate}"></td>
+                        <td th:text="${#temporals.format(notice.createDate, 'yyyy-MM-dd HH:mm')}"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -86,7 +88,7 @@
                             <a href=""></a>
                         </td>
                         <td th:text="${post.author}"></td>
-                        <td th:text="${post.createDate}"></td>
+                        <td th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm')}"></td>
                     </tr>
                     </tbody>
                 </table>
