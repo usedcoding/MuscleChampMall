@@ -24,49 +24,13 @@
             스토어 인기랭킹
         </div>
         <div class="product">
-            <ul>
+            <ul th:each="product : ${productList}">
                 <li>
                     <a href="">
-                        <img src="https://cf.monsterzym.com/images/thumbnails/320/320/detailed/92/GASP_Pro_GASP_Hood_00.jpg?t=1698871985" alt="">
+                        <img th:src="${product.imgPath}" alt="">
                         <div class=info>
-                            <div class="subject">nigger</div>
-                            <div class="cost">18000 원</div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <img src="https://cf.monsterzym.com/images/thumbnails/320/320/detailed/92/GASP_Pro_GASP_Hood_00.jpg?t=1698871985" alt="">
-                        <div class=info>
-                            <div class="subject">nigger</div>
-                            <div class="cost">18000 원</div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <img src="https://cf.monsterzym.com/images/thumbnails/320/320/detailed/92/GASP_Pro_GASP_Hood_00.jpg?t=1698871985" alt="">
-                        <div class=info>
-                            <div class="subject">nigger</div>
-                            <div class="cost">18000 원</div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <img src="https://cf.monsterzym.com/images/thumbnails/320/320/detailed/92/GASP_Pro_GASP_Hood_00.jpg?t=1698871985" alt="">
-                        <div class=info>
-                            <div class="subject">nigger</div>
-                            <div class="cost">18000 원</div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="">
-                        <img src="https://cf.monsterzym.com/images/thumbnails/320/320/detailed/92/GASP_Pro_GASP_Hood_00.jpg?t=1698871985" alt="">
-                        <div class=info>
-                            <div class="subject">nigger</div>
-                            <div class="cost">18000 원</div>
+                            <div th:text="${product.name}" class="subject">nigger</div>
+                            <div th:text="${product.price}" class="cost">18000 원</div>
                         </div>
                     </a>
                 </li>
@@ -90,10 +54,12 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td><a href="">공지사항 입니다.</a></td>
-                        <td>2024-01-04</td>
+                    <tr th:each="notice : ${noticeList}">
+                        <td th:text="${notice.id}"></td>
+                        <td th:text="${notice.subject}">
+                            <a href=""></a>
+                        </td>
+                        <td th:text="${notice.createDate}"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -114,20 +80,19 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td><a href="">흑인은 노예가 아닌가?</a></td>
-                        <td>혁명전사</td>
-                        <td>2024-01-04</td>
+                    <tr th:each="post : ${postList}">
+                        <td th:text="${post.id}"></td>
+                        <td th:text="${post.title}">
+                            <a href=""></a>
+                        </td>
+                        <td th:text="${post.author}"></td>
+                        <td th:text="${post.createDate}"></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-
-
-
 </div>
 
 <div th:replace="/footer.html"></div>
