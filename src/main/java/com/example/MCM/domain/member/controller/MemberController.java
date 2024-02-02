@@ -58,7 +58,8 @@ public class MemberController {
         }
 
         try {
-            this.memberService.create(memberCreateDTO.getUsername(), memberCreateDTO.getPassword1(), memberCreateDTO.getEmail(), memberCreateDTO.getNickname(), memberCreateDTO.getPhoneNumber());
+            this.memberService.create(memberCreateDTO.getUsername(), memberCreateDTO.getPassword1(),
+                memberCreateDTO.getEmail(), memberCreateDTO.getNickname(), memberCreateDTO.getPhoneNumber());
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", "이미 등록된 사용자 입니다.");
@@ -86,7 +87,8 @@ public class MemberController {
 
     //마이페이지
     @GetMapping("/me/{username}")
-    public String myPage(Model model, @PathVariable(value = "username") String username) {
+    public String myPage(Model model,
+                         @PathVariable(value = "username") String username) {
         Member member = this.memberService.getMember(username);
         if (member.isDeleted() == true) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "회원이 없습니다.");
@@ -99,7 +101,9 @@ public class MemberController {
 
     //비밀번호 변경
     @PostMapping("/update/password")
-    public String updatePassword(@Valid MemberPasswordUpdateDTO memberPasswordUpdateDTO, Principal principal, Model model) {
+    public String updatePassword(@Valid MemberPasswordUpdateDTO memberPasswordUpdateDTO,
+                                 Principal principal,
+                                 Model model) {
         // new password 비교
         if (!Objects.equals(memberPasswordUpdateDTO.getNewPassword(), memberPasswordUpdateDTO.getConfirmPassword())) {
             model.addAttribute("dto", memberPasswordUpdateDTO);
@@ -121,8 +125,13 @@ public class MemberController {
 
     //개인 정보 변경
     @PostMapping("/update/me")
-    public String updateMe(@Valid MemberEmailUpdateDTO memberEmailUpdateDTO, @Valid MemberAddressUpdateDTO memberAddressUpdateDTO, @Valid MemberNicknameUpdateDTO memberNicknameUpdateDTO,
-                           @Valid MemberPhoneNumUpdateDTO memberPhoneNumUpdateDTO, BindingResult bindingResult, Principal principal, Authentication authentication) {
+    public String updateMe(@Valid MemberEmailUpdateDTO memberEmailUpdateDTO,
+                           @Valid MemberAddressUpdateDTO memberAddressUpdateDTO,
+                           @Valid MemberNicknameUpdateDTO memberNicknameUpdateDTO,
+                           @Valid MemberPhoneNumUpdateDTO memberPhoneNumUpdateDTO,
+                           BindingResult bindingResult,
+                           Principal principal,
+                           Authentication authentication) {
 
         Member member = this.memberService.getMember(principal.getName());
 
@@ -182,7 +191,10 @@ public class MemberController {
 
     //회원 탈퇴
     @GetMapping("/delete/{username}")
-    public String delete(@PathVariable(value = "username") String username, Principal principal, @Valid MemberDeleteDTO memberDeleteDTO, BindingResult bindingResult) {
+    public String delete(@PathVariable(value = "username") String username,
+                         Principal principal,
+                         @Valid MemberDeleteDTO memberDeleteDTO,
+                         BindingResult bindingResult) {
         Member member = this.memberService.getMember(username);
 
         if (bindingResult.hasErrors()) {
@@ -245,7 +257,7 @@ public class MemberController {
 
             cartService.addCart(product, member, amount);
 
-            return "order/success";
+            return "success";
 
         } else {
 
@@ -255,7 +267,9 @@ public class MemberController {
     }
 
     @GetMapping("/member/cart/{id}")
-    public String memberCartPage(@PathVariable("id") Long id, Model model, Principal principal) {
+    public String memberCartPage(@PathVariable("id") Long id,
+                                 Model model,
+                                 Principal principal) {
 
         Member member = this.memberService.getMember(principal.getName());
         if (member.getId() == id) {
@@ -278,7 +292,7 @@ public class MemberController {
             model.addAttribute("cartItems", cartItemList);
             model.addAttribute("member", memberService.findById(id));
 
-            return "member/cart";
+            return "cart";
         }
         // 로그인 id와 장바구니 접속 id가 같지 않는 경우
         else {
