@@ -1,5 +1,7 @@
 package com.example.MCM.domain.admin.controller;
 
+import com.example.MCM.domain.community.entity.Post;
+import com.example.MCM.domain.community.service.PostService;
 import com.example.MCM.domain.member.MemberRole;
 import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.member.service.MemberService;
@@ -39,10 +41,12 @@ public class AdminController {
   private final ReviewService reviewService;
 
   private final OrderService orderService;
+
+  private final PostService postService;
   @GetMapping("/product")
   public String adminProduct(Model model,
                              Principal principal,
-                             @RequestParam(value = "page",defaultValue = "0") int page,
+                             @RequestParam(value = "page",defaultValue = "1") int page,
                              @RequestParam(value = "size", defaultValue = "20") int size){
 
     Member member = this.memberService.getMember(principal.getName());
@@ -70,7 +74,7 @@ public class AdminController {
   @GetMapping("/notice")
   public String adminNotice(Model model,
                             Principal principal,
-                            @RequestParam(value = "page", defaultValue = "0") int page,
+                            @RequestParam(value = "page", defaultValue = "1") int page,
                             @RequestParam(value = "size", defaultValue = "20") int size) {
 
     Member member = this.memberService.getMember(principal.getName());
@@ -98,7 +102,7 @@ public class AdminController {
   @GetMapping("/review")
   public String adminReview(Model model,
                             Principal principal,
-                            @RequestParam(value = "page", defaultValue = "0") int page,
+                            @RequestParam(value = "page", defaultValue = "1") int page,
                             @RequestParam(value = "size", defaultValue = "20") int size) {
     Member member = this.memberService.getMember(principal.getName());
 
@@ -123,7 +127,7 @@ public class AdminController {
   @GetMapping("/orders")
   public String adminOrders(Model model,
                             Principal principal,
-                            @RequestParam(value = "page", defaultValue = "0") int page,
+                            @RequestParam(value = "page", defaultValue = "1") int page,
                             @RequestParam(value = "size", defaultValue = "20") int size) {
 
     Member member = this.memberService.getMember(principal.getName());
@@ -146,5 +150,33 @@ public class AdminController {
     model.addAttribute("totalPages", totalPages);
 
     return "admin/orders";
+  }
+
+  @GetMapping("/post")
+  public String adminPost(Model model,
+                          Principal principal,
+                          @RequestParam(value = "page", defaultValue = "1") int page,
+                          @RequestParam(value = "page", defaultValue = "1") int size) {
+
+    Member member = this.memberService.getMember(principal.getName());
+
+    if (!member.getRole().equals(MemberRole.ADMIN)) return "/";
+
+    Pageable pageable = PageRequest.of(page, size);
+
+    Page<Post> postPage = this.postService.getPosts(pageable);
+
+    List<Post> postList = postPage.getContent();
+
+    long totalPosts = postPage.getTotalElements();
+
+    int totalPages = postPage.getTotalPages();
+
+    model.addAttribute("postList",postList);
+    model.addAttribute("page", page);
+    model.addAttribute("totalOrder", totalPosts);
+    model.addAttribute("totalPages", totalPages);
+
+    return "admin/post";
   }
 }
