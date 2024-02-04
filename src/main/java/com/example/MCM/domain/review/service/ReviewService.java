@@ -55,4 +55,8 @@ public class ReviewService {
                 .build();
         this.reviewRepository.save(modifyReview);
     }
+
+  public List<Review> getReviewsByProduct(Product product) {
+        return this.reviewRepository.findReviewsByProduct(product);
+  }
 }

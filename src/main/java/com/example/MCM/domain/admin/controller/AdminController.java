@@ -7,6 +7,8 @@ import com.example.MCM.domain.notice.entity.Notice;
 import com.example.MCM.domain.notice.service.NoticeService;
 import com.example.MCM.domain.product.entity.Product;
 import com.example.MCM.domain.product.service.ProductService;
+import com.example.MCM.domain.review.entity.Review;
+import com.example.MCM.domain.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -26,6 +29,8 @@ public class AdminController {
   private final ProductService productService;
 
   private final NoticeService noticeService;
+
+  private final ReviewService reviewService;
   @GetMapping("/product")
   public String adminProduct(Model model,
                              Principal principal){
@@ -53,5 +58,26 @@ public class AdminController {
     model.addAttribute("noticeList", noticeList);
 
     return "admin/notice";
+  }
+
+  @GetMapping("/review")
+  public String adminReview(Model model,
+                            Principal principal) {
+    Member member = this.memberService.getMember(principal.getName());
+
+    if (!member.getRole().equals(MemberRole.ADMIN)) return "/";
+
+    List<Product> productList = this.productService.getAll();
+
+    List<Review> reviewList = new ArrayList<>();
+
+    for (Product product : productList) {
+      List<Review> productReviews = this.reviewService.getReviewsByProduct(product);
+      reviewList.addAll(productReviews);
+    }
+
+    model.addAttribute("reviewList", reviewList);
+
+    return "admin/review";
   }
 }
