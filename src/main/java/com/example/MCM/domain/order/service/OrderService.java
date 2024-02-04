@@ -1,12 +1,14 @@
 package com.example.MCM.domain.order.service;
 
 import com.example.MCM.domain.member.entity.Member;
-import com.example.MCM.domain.order.entity.Orders;
 import com.example.MCM.domain.order.entity.OrderItem;
-import com.example.MCM.domain.order.repository.OrderItemRepository;
+import com.example.MCM.domain.order.entity.Orders;
 import com.example.MCM.domain.order.repository.OrdRepository;
+import com.example.MCM.domain.order.repository.OrderItemRepository;
 import com.example.MCM.domain.product.entity.Product;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -58,5 +60,9 @@ public class OrderService {
 
   public List<Orders> getAll() {
     return this.orderRepository.findAll();
+  }
+
+  public Page<Orders> getOrders(Pageable pageable) {
+    return this.orderRepository.findAll(pageable);
   }
 }

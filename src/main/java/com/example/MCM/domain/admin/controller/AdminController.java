@@ -87,9 +87,9 @@ public class AdminController {
 
     int totalPages = noticePage.getTotalPages();
 
-    model.addAttribute("productList",noticeList);
+    model.addAttribute("noticeList",noticeList);
     model.addAttribute("page", page);
-    model.addAttribute("totalProducts", totalNotices);
+    model.addAttribute("totalNotice", totalNotices);
     model.addAttribute("totalPages", totalPages);
 
     return "admin/notice";
@@ -122,15 +122,28 @@ public class AdminController {
 
   @GetMapping("/orders")
   public String adminOrders(Model model,
-                            Principal principal) {
+                            Principal principal,
+                            @RequestParam(value = "page", defaultValue = "0") int page,
+                            @RequestParam(value = "size", defaultValue = "20") int size) {
 
     Member member = this.memberService.getMember(principal.getName());
 
     if (!member.getRole().equals(MemberRole.ADMIN)) return "/";
 
-    List<Orders> ordersList = this.orderService.getAll();
+    Pageable pageable = PageRequest.of(page, size);
 
-    model.addAttribute("ordersList", ordersList);
+    Page<Orders> ordersPage = this.orderService.getOrders(pageable);
+
+    List<Orders> ordersList = ordersPage.getContent();
+
+    long totalOrders = ordersPage.getTotalElements();
+
+    int totalPages = ordersPage.getTotalPages();
+
+    model.addAttribute("orderList",ordersList);
+    model.addAttribute("page", page);
+    model.addAttribute("totalOrder", totalOrders);
+    model.addAttribute("totalPages", totalPages);
 
     return "admin/orders";
   }
