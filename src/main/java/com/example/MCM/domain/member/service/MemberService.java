@@ -111,7 +111,7 @@ public class MemberService {
         return this.memberRepository.findByEmailAndPhoneNumber(email, phoneNumber);
     }
 
-  public Page<Member> getMembers(Pageable pageable) {
-        return this.memberRepository.findMembers(pageable);
-  }
+    public Page<Member> getAll(Pageable pageable) {
+       return this.memberRepository.findAll(pageable);
+    }
 }

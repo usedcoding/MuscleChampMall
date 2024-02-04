@@ -192,7 +192,7 @@ public class AdminController {
 
     Pageable pageable = PageRequest.of(page, size);
 
-    Page<Member> memberPage = this.memberService.getMembers(pageable);
+    Page<Member> memberPage = this.memberService.getAll(pageable);
 
     List<Member> memberList = memberPage.getContent();
 
@@ -205,6 +205,6 @@ public class AdminController {
     model.addAttribute("totalMembers", totalMembers);
     model.addAttribute("totalPages", totalPages);
 
-    return "admin/post";
+    return "admin/member";
   }
 }

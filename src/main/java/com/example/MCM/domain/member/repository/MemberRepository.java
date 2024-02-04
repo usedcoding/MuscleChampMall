@@ -1,8 +1,6 @@
 package com.example.MCM.domain.member.repository;
 
 import com.example.MCM.domain.member.entity.Member;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -23,5 +21,4 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Member findByEmailAndPhoneNumberAndUsername(String email, String phoneNumber, String username);
 
-  Page<Member> findMembers(Pageable pageable);
 }
