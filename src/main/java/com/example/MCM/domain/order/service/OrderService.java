@@ -55,4 +55,8 @@ public class OrderService {
   public List<Orders> getByBuyerId(Long id) {
     return orderRepository.findByBuyerId(id);
   }
+
+  public List<Orders> getAll() {
+    return this.orderRepository.findAll();
+  }
 }
