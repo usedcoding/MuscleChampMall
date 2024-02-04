@@ -174,7 +174,35 @@ public class AdminController {
 
     model.addAttribute("postList",postList);
     model.addAttribute("page", page);
-    model.addAttribute("totalOrder", totalPosts);
+    model.addAttribute("totalPosts", totalPosts);
+    model.addAttribute("totalPages", totalPages);
+
+    return "admin/post";
+  }
+
+  @GetMapping("/member")
+  public String adminMember(Model model,
+                            Principal principal,
+                            @RequestParam(value = "page", defaultValue = "1") int page,
+                            @RequestParam(value = "size", defaultValue = "20") int size) {
+
+    Member member = this.memberService.getMember(principal.getName());
+
+    if (!member.getRole().equals(MemberRole.ADMIN)) return "/";
+
+    Pageable pageable = PageRequest.of(page, size);
+
+    Page<Member> memberPage = this.memberService.getMembers(pageable);
+
+    List<Member> memberList = memberPage.getContent();
+
+    long totalMembers = memberPage.getTotalElements();
+
+    long totalPages = memberPage.getTotalPages();
+
+    model.addAttribute("memberList",memberList);
+    model.addAttribute("page", page);
+    model.addAttribute("totalMembers", totalMembers);
     model.addAttribute("totalPages", totalPages);
 
     return "admin/post";
