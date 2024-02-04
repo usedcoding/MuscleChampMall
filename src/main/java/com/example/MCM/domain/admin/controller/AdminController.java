@@ -72,6 +72,7 @@ public class AdminController {
                             Principal principal,
                             @RequestParam(value = "page", defaultValue = "0") int page,
                             @RequestParam(value = "size", defaultValue = "20") int size) {
+
     Member member = this.memberService.getMember(principal.getName());
 
     if (!member.getRole().equals(MemberRole.ADMIN)) return "/";
@@ -96,7 +97,9 @@ public class AdminController {
 
   @GetMapping("/review")
   public String adminReview(Model model,
-                            Principal principal) {
+                            Principal principal,
+                            @RequestParam(value = "page", defaultValue = "0") int page,
+                            @RequestParam(value = "size", defaultValue = "20") int size) {
     Member member = this.memberService.getMember(principal.getName());
 
     if (!member.getRole().equals(MemberRole.ADMIN)) return "/";
@@ -106,8 +109,10 @@ public class AdminController {
     List<Review> reviewList = new ArrayList<>();
 
     for (Product product : productList) {
-      List<Review> productReviews = this.reviewService.getReviewsByProduct(product);
-      reviewList.addAll(productReviews);
+      Pageable pageable = PageRequest.of(page, size);
+      Page<Review> productReviewPage = this.reviewService.getByproduct(product, pageable);
+      List<Review> reviews = productReviewPage.getContent();
+      reviewList.addAll(reviews);
     }
 
     model.addAttribute("reviewList", reviewList);
