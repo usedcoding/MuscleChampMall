@@ -69,14 +69,27 @@ public class AdminController {
 
   @GetMapping("/notice")
   public String adminNotice(Model model,
-                            Principal principal) {
+                            Principal principal,
+                            @RequestParam(value = "page", defaultValue = "0") int page,
+                            @RequestParam(value = "size", defaultValue = "20") int size) {
     Member member = this.memberService.getMember(principal.getName());
 
     if (!member.getRole().equals(MemberRole.ADMIN)) return "/";
 
-    List<Notice> noticeList = this.noticeService.getAll();
+    Pageable pageable = PageRequest.of(page, size);
 
-    model.addAttribute("noticeList", noticeList);
+    Page<Notice> noticePage = this.noticeService.getNotices(pageable);
+
+    List<Notice> noticeList = noticePage.getContent();
+
+    long totalNotices = noticePage.getTotalElements();
+
+    int totalPages = noticePage.getTotalPages();
+
+    model.addAttribute("productList",noticeList);
+    model.addAttribute("page", page);
+    model.addAttribute("totalProducts", totalNotices);
+    model.addAttribute("totalPages", totalPages);
 
     return "admin/notice";
   }
