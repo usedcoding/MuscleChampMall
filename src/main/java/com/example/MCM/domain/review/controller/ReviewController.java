@@ -33,8 +33,8 @@ public class ReviewController {
 
     //리뷰 생성
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/review/create")
-    public String createReview(ReviewCreateDTO reviewCreateDTO) {
+    @GetMapping("product/{id}/review/create")
+    public String createReview(@PathVariable(value = "id") Long id, ReviewCreateDTO reviewCreateDTO) {
         return "review/review_create";
     }
 
@@ -77,7 +77,7 @@ public class ReviewController {
     @GetMapping("/review/modify/{id}")
     public String modifyReview(@PathVariable(value = "id") Long id, ReviewCreateDTO reviewCreateDTO) {
         Review review = this.reviewService.getReview(id);
-        return"review/review_modify";
+        return "review/review_modify";
     }
 
     //리뷰수정
