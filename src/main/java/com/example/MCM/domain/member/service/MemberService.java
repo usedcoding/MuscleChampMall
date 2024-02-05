@@ -27,7 +27,8 @@ public class MemberService {
         Optional<Member> member = this.memberRepository.findByUsername(username);
         if (member.isPresent()) {
             return member.get();
-        } throw new DataNotFoundException("member not found");
+        }
+        throw new DataNotFoundException("member not found");
     }
 
     //회원가입
@@ -86,13 +87,24 @@ public class MemberService {
     }
 
     //개인 정보 변경시 저장 메서드
-    public void saveMember(Member member) {
-        this.memberRepository.save(member);
+    public Member updateMember(Member member, String password, String nickname, String email, String phoneNumber, String address) {
+        Member updateMember = member.toBuilder()
+                .password(passwordEncoder.encode(password))
+                .nickname(nickname)
+                .email(email)
+                .phoneNumber(phoneNumber)
+                .address(address)
+                .modifyDate(LocalDateTime.now())
+                .build();
+
+        this.memberRepository.save(updateMember);
+
+        return member;
     }
 
     //회원 삭제
     public Member delete(Member member) {
-       Member memberDelete = member.toBuilder()
+        Member memberDelete = member.toBuilder()
                 .deleted(LocalDateTime.now())
                 .isDeleted(true)
                 .build();
@@ -111,13 +123,15 @@ public class MemberService {
         return this.memberRepository.findByEmailAndPhoneNumber(email, phoneNumber);
     }
 
-  public Member findById(Long id) {
+    public Member findById(Long id) {
         Optional<Member> member = this.memberRepository.findById(id);
         if (member.isPresent()) {
             return member.get();
-        } throw new DataNotFoundException("member not found");
-  }
+        }
+        throw new DataNotFoundException("member not found");
+    }
+
     public Page<Member> getAll(Pageable pageable) {
-       return this.memberRepository.findAll(pageable);
+        return this.memberRepository.findAll(pageable);
     }
 }
