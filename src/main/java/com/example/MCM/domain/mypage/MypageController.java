@@ -127,6 +127,11 @@ public class MypageController {
         return "mypage/mypage-review";
     }
 
+    @GetMapping("/edit")
+    public String MypageEdit(){
+        return "mypage/mypage-edit";
+    }
+
 
 
 }
