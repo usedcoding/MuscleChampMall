@@ -44,6 +44,8 @@ public class NoticeController {
 
     Notice notice = this.noticeService.findById(id);
 
+    noticeService.addViewCount(notice);
+
     model.addAttribute("notice", notice);
 
     return "notice/detail";
@@ -111,4 +113,5 @@ public class NoticeController {
 
     return "redirect:/notice/list";
   }
+
 }

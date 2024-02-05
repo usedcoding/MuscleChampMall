@@ -219,4 +219,7 @@ public class ProductService {
     this.productRepository.save(product);
   }
 
+  public Page<Product> getProducts(Pageable pageable) {
+    return this.productRepository.findAll(pageable);
+  }
 }
