@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,7 +38,6 @@ public class MemberController {
     private final CartService cartService;
 
     private final CartItemService cartItemService;
-
 
 
     //회원가입
@@ -61,7 +61,7 @@ public class MemberController {
 
         try {
             this.memberService.create(memberCreateDTO.getUsername(), memberCreateDTO.getPassword1(),
-                memberCreateDTO.getEmail(), memberCreateDTO.getNickname(), memberCreateDTO.getPhoneNumber());
+                    memberCreateDTO.getEmail(), memberCreateDTO.getNickname(), memberCreateDTO.getPhoneNumber());
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", "이미 등록된 사용자 입니다.");
@@ -85,19 +85,6 @@ public class MemberController {
     public String Logout(HttpSession session) {
         session.removeAttribute("loggedIn");
         return "redirect:/login";
-    }
-
-    //마이페이지
-    @GetMapping("/me/{username}")
-    public String myPage(Model model,
-                         @PathVariable(value = "username") String username) {
-        Member member = this.memberService.getMember(username);
-        if (member.isDeleted() == true) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "회원이 없습니다.");
-        } else {
-            model.addAttribute("member", member);
-            return "member_myPage";
-        }
     }
 
 
@@ -130,57 +117,22 @@ public class MemberController {
         Member member = this.memberService.getMember(principal.getName());
 
         if (bindingResult.hasErrors()) {
-            return "redirect:/update/me";
+            return "mypage/mypage-edit";
         }
 
-        if (member.isDeleted() == true) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "회원이 없습니다.");
-        } else {
-
-            //이메일 변경
-            if (memberUpdateDTO.getNewEmail() != null) {
-                Member updateEmail = member.toBuilder()
-                        .email(memberUpdateDTO.getNewEmail())
-                        .build();
-                this.memberService.saveMember(updateEmail);
-            }
-
-            //주소 변경
-            if (memberUpdateDTO.getNewAddress() != null) {
-                Member updateAddress = member.toBuilder()
-                        .address(memberUpdateDTO.getNewAddress())
-                        .build();
-                this.memberService.saveMember(updateAddress);
-            }
-
-            //닉네임 변경
-            if (memberUpdateDTO.getNewNickname() != null) {
-               Member updateNickname = member.toBuilder()
-                        .address(memberUpdateDTO.getNewNickname())
-                        .build();
-                this.memberService.saveMember(updateNickname);
-            }
-
-            //전화번호 변경
-            if (memberUpdateDTO.getNewPhoneNumber() != null) {
-                Member updatePhoneNumber = member.toBuilder()
-                        .address(memberUpdateDTO.getNewPhoneNumber())
-                        .build();
-                this.memberService.saveMember(updatePhoneNumber);
-            }
-
-            if (memberUpdateDTO.getNewPassword() != null && memberUpdateDTO.getNewPassword().equals(memberUpdateDTO.getNewPassword2())) {
-                Member updatePassword = member.toBuilder()
-                        .address(memberUpdateDTO.getNewPassword())
-                        .build();
-                this.memberService.saveMember(updatePassword);
-            } else if (!memberUpdateDTO.getNewPassword().equals(memberUpdateDTO.getNewPassword2())) {
-                bindingResult.rejectValue("ewPassword2", "passwordInCorrect", "비밀번호가 일치하지 않습니다.");
-            }
-
-
-            return "redirect:/member/login";
+        if (!member.getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
         }
+
+        this.memberService.updateMember(member,
+                memberUpdateDTO.getNewPassword(),
+                memberUpdateDTO.getNewNickname(),
+                memberUpdateDTO.getNewEmail(),
+                memberUpdateDTO.getNewPhoneNumber(),
+                memberUpdateDTO.getNewAddress());
+
+        return "redirect:/member/login";
+
     }
 
 //    @GetMapping("/delete/{username}")
@@ -252,7 +204,7 @@ public class MemberController {
     @ResponseBody
     public String addCartItem(@PathVariable("id") Long id,
                               @PathVariable("productId") Long productId,
-                              Integer amount){
+                              Integer amount) {
 
         Member member = this.memberService.findById(id);
 
@@ -330,9 +282,9 @@ public class MemberController {
                 totalPrice += cartitem.getCount() * cartitem.getProduct().getPrice();
             }
 
-           cart = cart.toBuilder()
-               .count(cart.getCount() - cartItem.getCount())
-               .build();
+            cart = cart.toBuilder()
+                    .count(cart.getCount() - cartItem.getCount())
+                    .build();
             this.cartService.saveCart(cart);
 
             model.addAttribute("totalPrice", totalPrice);

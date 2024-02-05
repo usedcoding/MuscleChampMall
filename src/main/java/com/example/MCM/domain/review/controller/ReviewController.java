@@ -32,6 +32,7 @@ public class ReviewController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String createReview(ReviewCreateDTO reviewCreateDTO) {
+
         return "review/review_create";
     }
 
