@@ -34,7 +34,7 @@ public class PostController {
 
 
     @GetMapping("/list")
-    public String list(Model model, @RequestParam(value="page", defaultValue="0") int page) {
+    public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
         Page<Post> paging = this.postService.getList(page);
         model.addAttribute("paging", paging);
         return "community/post_list";
@@ -44,15 +44,15 @@ public class PostController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String createPost(PostCreateDTO postCreateDTO) {
-        return"community/post_create";
+        return "community/post_create";
     }
 
     //게시글 생성
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
-    public String createPost(@Valid PostCreateDTO postCreateDTO, BindingResult bindingResult, Principal principal){
+    public String createPost(@Valid PostCreateDTO postCreateDTO, BindingResult bindingResult, Principal principal) {
 
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "community/post_create";
         }
 
@@ -87,11 +87,11 @@ public class PostController {
         Post post = this.postService.getPost(id);
         model.addAttribute("post", post);
 
-        if(!post.getAuthor().getUsername().equals(principal.getName())) {
+        if (!post.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
         }
 
-        return"/community/post_modify";
+        return "/community/post_modify";
     }
 
     //게시글 수정
@@ -102,11 +102,11 @@ public class PostController {
 
         model.addAttribute("post", post);
 
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "/community/post_modify";
         }
 
-        if(!post.getAuthor().getUsername().equals(principal.getName())) {
+        if (!post.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
         }
 
@@ -162,12 +162,26 @@ public class PostController {
 
     //상세 페이지로 이동
     @GetMapping("/detail/{id}")
-    public String detailPost(@PathVariable(value = "id")Long id, Model model, CommentCreateDTO commentCreateDTO) {
+    public String detailPost(@PathVariable(value = "id") Long id, Model model, CommentCreateDTO commentCreateDTO) {
         Post post = this.postService.getPost(id);
         model.addAttribute("post", post);
 
-        return"community/post_detail";
+        return "community/post_detail";
     }
+
+//    @PostMapping("/detail/{id}")
+//    public String detailPost(@PathVariable(value = "id") Long id, Model model, @Valid CommentCreateDTO commentCreateDTO, BindingResult bindingResult) {
+//        Post post = this.postService.getPost(id);
+//        model.addAttribute("post", post);
+//
+//        Comment comment = this.commentService.getComment(post.)
+//
+//        if (bindingResult.hasErrors()) {
+//            return String.format("redirect:/post/detail/%d", post.getId());
+//        }
+//
+//        this.commentService.modifyComment(post.)
+//    }
 
 }
 

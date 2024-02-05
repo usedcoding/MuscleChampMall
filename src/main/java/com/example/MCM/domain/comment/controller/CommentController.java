@@ -15,10 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
@@ -68,24 +65,24 @@ public class CommentController {
 
     //수정을 해야 할까? 해야 한다면 생성과 같은 곳에서 수정하는 것으로
 
-    @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
-    public String modifyComment(@PathVariable(value = "id")Long id, Principal principal, Model model, @Valid CommentCreateDTO commentCreateDTO, BindingResult bindingResult) {
+    @ResponseBody
+    public String modifyComment(@PathVariable(value = "id")Long id,@RequestParam(value = "content") String content) {
         Comment comment = this.commentService.getComment(id);
 
-        if (comment.getAuthor().getUsername().equals(principal.getName())) {
-            this.commentService.modifyComment(comment, commentCreateDTO.getContent());
-        }else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
-        }
+//        if (comment.getAuthor().getUsername().equals(principal.getName())) {
+            this.commentService.modifyComment(comment, content);
+//        }else {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
+//        }
+////
+//        if(bindingResult.hasErrors()) {
+//            return String.format("redirect:/post/detail/%s", comment.getPost().getId());
+//        }
+//
+//        model.addAttribute("comment", comment);
 
-        if(bindingResult.hasErrors()) {
-            return String.format("redirect:/post/detail/%s", comment.getPost().getId());
-        }
-
-        model.addAttribute("comment", comment);
-
-        return String.format("redirect:/post/detail/%s", comment.getPost().getId());
+        return content;
     }
 
 }
