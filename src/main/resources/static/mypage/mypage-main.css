@@ -1,0 +1,82 @@
+*{
+  margin: 0;
+  padding: 0;
+   background-color: black;
+}
+form {
+    text-align : center;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+ul,li{
+  text-decoration:none;
+  list-style:none;
+}
+
+
+.container{
+  width: 1200px;
+  margin:auto;
+
+}
+
+.container>.nav-bar{
+  width: 900px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  color:white;
+}
+
+.nav-bar>.left{
+  width: 400px;
+  display:flex;
+  justify-content:space-around;
+}
+
+.nav-bar>.right{
+  width: 200px;
+  display:flex;
+  justify-content:space-between;
+}
+
+.img-section{
+  margin:auto;
+  text-align:center;
+}
+
+.img-section>img{
+  width: 900px;
+  height: 500px;
+}
+
+.menu-bar{
+  width: 900px;
+  margin:auto;
+}
+
+.menu-bar>.title{
+  font-size: 25px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color:white;
+  margin-top: 30px;
+}
+
+
+
+.menu-bar>ul>a>li{
+  width: 890px;
+  /* 위 | 오른쪽 | 아래 | 왼쪽 */
+padding: 20px 0px 20px 10px;
+  background-color: rgb(33, 39, 48);
+  color:white;
+  font-weight: 50;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
