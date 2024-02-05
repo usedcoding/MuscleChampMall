@@ -3,6 +3,7 @@ package com.example.MCM.domain.mypage;
 import com.example.MCM.domain.cart.entity.Cart;
 import com.example.MCM.domain.cartItem.entity.CartItem;
 import com.example.MCM.domain.cartItem.service.CartItemService;
+import com.example.MCM.domain.member.dto.MemberUpdateDTO;
 import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.member.service.MemberService;
 import com.example.MCM.domain.order.entity.Orders;
@@ -128,7 +129,7 @@ public class MypageController {
     }
 
     @GetMapping("/edit")
-    public String MypageEdit(){
+    public String MypageEdit(MemberUpdateDTO memberUpdateDTO){
         return "mypage/mypage-edit";
     }
 

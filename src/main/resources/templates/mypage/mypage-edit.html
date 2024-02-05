@@ -24,13 +24,13 @@
         </ul>
         <div class="edit-section">
             <div class="title">개인정보 변경</div>
-            <form  th:action="@{/member/update/me}" class="edit-user" th:object="${memberUpdateDTO}">
+            <form  th:action="@{/member/update/me}" class="edit-user" th:object="${memberUpdateDTO}" method="post">
                 <div class="pw-title">비밀번호</div>
                 <input type="text" class="pw" th:field="*{newPassword}">
                 <div class="pw-check-title">비밀번호 확인</div>
                 <input type="text" class="pw-check" th:field="*{newPassword2}">
                 <div class="nickName-title">닉네임</div>
-                <input type="text" class="nickName" th:field="*{newNickName}">
+                <input type="text" class="nickName" th:field="*{newNickname}">
                 <div class="email-title">E-mail</div>
                 <input type="text" class="email" th:field="*{newEmail}">
                 <div class="phone-title">휴대폰 번호</div>
@@ -40,16 +40,10 @@
 
 
 
-                <div class="button">
-                    <button type="submit">저장하기</button>
-                    <button>취소하기</button>
-                </div>
-
-
 
                 <div class="button">
                     <button>저장하기</button>
-                    <a href="/mypage/main">
+                    <a a th:href="@{/mypage}">
                         <button>취소하기</button>
                     </a>
                 </div>
