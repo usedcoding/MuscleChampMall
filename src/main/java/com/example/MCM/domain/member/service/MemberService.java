@@ -111,6 +111,12 @@ public class MemberService {
         return this.memberRepository.findByEmailAndPhoneNumber(email, phoneNumber);
     }
 
+  public Member findById(Long id) {
+        Optional<Member> member = this.memberRepository.findById(id);
+        if (member.isPresent()) {
+            return member.get();
+        } throw new DataNotFoundException("member not found");
+  }
     public Page<Member> getAll(Pageable pageable) {
        return this.memberRepository.findAll(pageable);
     }

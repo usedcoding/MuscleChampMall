@@ -23,19 +23,19 @@
       <tbody>
       <tr class="text-center text-[20px] ">
         <td class="flex justify-center">
-          <img class="w-[120px] h-[150px]" th:src="${product.coverImg}" alt="상품이미지">
+          <img class="w-[120px] h-[150px]" th:src="${product.imgPath}" alt="상품이미지">
         </td>
         <td class="">
           <span th:text="${product.id}"></span>
         </td>
         <td class="">
-          <span th:text="${member.lastName}+${member.firstName}"></span>
+          <span th:text="${member.username}"></span>
         </td>
         <td class="w-4/12">
-          <span th:text="${product.title}" class="font-bold"></span>
+          <span th:text="${product.name}" class="font-bold"></span>
         </td>
         <td class="">
-          <span th:text="${product.priceSales} + '원'" class="font-bold"></span>
+          <span th:text="${product.price} + '원'" class="font-bold"></span>
         </td>
       </tr>
       </tbody>

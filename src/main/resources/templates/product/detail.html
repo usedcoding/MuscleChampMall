@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="/product_detail.css">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
   <title>Title</title>
 </head>
 <body>
@@ -17,16 +19,29 @@
 <!--        <div class="averageScore">4.6 <span>점</span></div>-->
         <div class="cost" th:text="${product.price}"><span>원</span></div>
         <div th:text="${product.viewCount}"></div>
-        <a th:href="@{|/product/modify/${product.id}|}">
-          <button>수정</button>
-        </a>
-        <a th:href="@{|/product/delete/${product.id}|}">
-          <button>삭제</button>
-        </a>
-        <button class="cart">장바구니 담기</button>
-        <a href="">
-          <button class="buy">구매하기</button>
-        </a>
+        <div>
+          <form sec:authorize="isAuthenticated()" class="d-flex" th:if="${#authentication.principal}"
+                th:action="@{/member/cart/{memberId}/{productId}(memberId=${member.id}, productId=${product.id})}"
+                method="post">
+            <div class="flex justify-end w-full mr-[10px]">
+              <input class="form-control text-center me-3" id="amount" name="amount" type="hidden"
+                     value="1" style="max-width: 3rem"/>
+              <button class="ml-2 mr-4 px-4 py-2 w-24 btn btn-primary text-white add-to-cart-btn"
+                      type="submit">
+                장바구니
+              </button>
+              <a class="go-to-cart-btn hidden" sec:authorize="isAuthenticated()"
+                 th:href="@{/member/cart/{memberId}(memberId=${member.id})}">
+                장바구니로 이동
+              </a>
+            </div>
+          </form>
+          <div id="memberId" th:data-member-id="${memberId}"></div>
+          <form th:action="@{/order/detail}">
+            <input type="hidden" name="productsId" th:value="${product.id}">
+            <input type="submit" value="구매" class="btn btn-primary text-white">
+          </form>
+        </div>
       </div>
     </div>
     <div class="product-infosection">
@@ -36,6 +51,7 @@
           <div class="text" th:text="${product.description}"></div>
         </li>
       </ul>
+      <div>상세 설명</div>
       <div class="big-info" th:text="${product.content}"></div>
     </div>
 <!--    <div class="product-review">-->
@@ -113,7 +129,7 @@
 </div>
 </div>
 
-<!--<script>-->
+<script>
 <!--  document.addEventListener("DOMContentLoaded", function() {-->
 <!--    var modal = document.getElementById("modal");-->
 <!--    var reviewBtn = document.querySelector(".review-btn");-->
@@ -139,8 +155,33 @@
 <!--    });-->
 <!--});-->
 
-<!--</script>-->
+  $(document).ready(function () {
+  // 장바구니 버튼 클릭 이벤트 핸들러 등록
+  $('.add-to-cart-btn').on('click', function (event) {
+      event.preventDefault();
+      var memberId = document.getElementById('memberId').getAttribute('data-member-id');
+      console.log('Member ID:', memberId);
+      const form = $(this).closest('form');
 
+      if (confirm('이 상품을 장바구니에 추가하시겠습니까?')) {
+          $.ajax({
+              type: 'POST',
+              url: form.attr('action'),
+              data: form.serialize(),
+              success: function () {
+                  alert("상품이 장바구니에 추가되었습니다.");
+                  if (confirm('장바구니에 상품이 담겼습니다. 장바구니로 이동하시겠습니까?')) {
+                      var cartUrl = '/member/cart/' + memberId;
+                      window.location.href = cartUrl;
+                  }
+              },
+              error: function () {
+                  alert("상품 추가에 실패하였습니다.");
+              }
+          });
+      }
+  });
+</script>
 
 </body>
 </html>
