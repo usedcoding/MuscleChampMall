@@ -105,7 +105,7 @@ public class ProductService {
   }
 
   public void createValidate(Member author) {
-    if (author.getRole().equals(MemberRole.ADMIN)) {
+    if (!author.getRole().equals(MemberRole.ADMIN)) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "작성 권한이 없습니다.");
     }
   }
@@ -219,4 +219,7 @@ public class ProductService {
     this.productRepository.save(product);
   }
 
+  public Page<Product> getProducts(Pageable pageable) {
+    return this.productRepository.findAll(pageable);
+  }
 }

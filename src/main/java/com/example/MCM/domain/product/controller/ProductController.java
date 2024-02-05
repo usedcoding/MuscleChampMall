@@ -60,15 +60,24 @@ public class ProductController {
 
   @GetMapping(value = "/{id}")
   public String detail(Model model,
-                       @PathVariable("id") Long id){
+                       @PathVariable("id") Long id,
+                       Principal principal){
 
 
     Product product = this.productService.findById(id);
 
-    this.productService.addViewCount(product);
+    if (principal != null) {
+      Member member = this.memberService.getMember(principal.getName());
+      if (member != null) {
+        model.addAttribute("member", member);
+        Long memberId = member.getId();
+        model.addAttribute("memberId", memberId);
+      }
+    }
 
     model.addAttribute("product", product);
 
+    this.productService.addViewCount(product);
 
     List<Review> reviewList = this.reviewService.getReviewList(product);
     model.addAttribute("review", reviewList);

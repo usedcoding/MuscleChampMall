@@ -7,6 +7,8 @@ import com.example.MCM.domain.notice.dto.NoticeDto;
 import com.example.MCM.domain.notice.entity.Notice;
 import com.example.MCM.domain.notice.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -45,6 +47,7 @@ public class NoticeService {
         .subject(noticeDto.getSubject())
         .content(noticeDto.getContent())
         .author(author)
+        .viewCount(0L)
         .createDate(LocalDateTime.now())
         .build();
 
@@ -74,5 +77,16 @@ public class NoticeService {
 
   public void delete(Notice notice) {
     this.noticeRepository.delete(notice);
+  }
+
+  public void addViewCount(Notice notice) {
+    notice = notice.toBuilder()
+        .viewCount(notice.getViewCount() + 1)
+        .build();
+    this.noticeRepository.save(notice);
+  }
+
+  public Page<Notice> getNotices(Pageable pageable) {
+    return this.noticeRepository.findAll(pageable);
   }
 }
