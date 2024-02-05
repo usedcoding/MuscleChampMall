@@ -25,4 +25,12 @@ public class MemberUpdateDTO {
     //새로운 주소
     @NotBlank(message = "주소를 입력해 주세요")
     private String newAddress;
+
+    //새로운 비밀번호
+    @NotBlank(message = "새로운 비밀번호를 입력해 주세요")
+    private String newPassword;
+
+    //새로운 비밀번호 확인
+    @NotBlank(message = "새로운 비밀번호가 일치하지 않습니다.")
+    private String newPassword2;
 }
