@@ -1,5 +1,8 @@
 package com.example.MCM.domain.community.controller;
 
+import com.example.MCM.domain.comment.CommentCreateDTO;
+import com.example.MCM.domain.comment.entity.Comment;
+import com.example.MCM.domain.comment.service.CommentService;
 import com.example.MCM.domain.community.PostCreateDTO;
 import com.example.MCM.domain.community.entity.Post;
 import com.example.MCM.domain.community.service.PostService;
@@ -26,6 +29,8 @@ public class PostController {
     private final PostService postService;
 
     private final MemberService memberService;
+
+    private final CommentService commentService;
 
 
     @GetMapping("/list")
@@ -157,7 +162,7 @@ public class PostController {
 
     //상세 페이지로 이동
     @GetMapping("/detail/{id}")
-    public String detailPost(@PathVariable(value = "id")Long id, Model model) {
+    public String detailPost(@PathVariable(value = "id")Long id, Model model, CommentCreateDTO commentCreateDTO) {
         Post post = this.postService.getPost(id);
         model.addAttribute("post", post);
 
