@@ -20,7 +20,9 @@
       <tbody>
       <tr th:each="notice : ${noticeList}">
         <td th:text="${notice.id}"></td>
-        <td><a th:href="@{|/notice/${notice.id}|}" th:text="${notice.subject}"></a></td>
+        <td>
+          <a th:href="@{|/notice/${notice.id}|}" th:text="${notice.subject}"></a>
+        </td>
         <td th:text="${notice.createDate}"></td>
       </tr>
       </tbody>

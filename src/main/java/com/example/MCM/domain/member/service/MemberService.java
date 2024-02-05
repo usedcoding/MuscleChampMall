@@ -7,6 +7,8 @@ import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -109,4 +111,13 @@ public class MemberService {
         return this.memberRepository.findByEmailAndPhoneNumber(email, phoneNumber);
     }
 
+  public Member findById(Long id) {
+        Optional<Member> member = this.memberRepository.findById(id);
+        if (member.isPresent()) {
+            return member.get();
+        } throw new DataNotFoundException("member not found");
+  }
+    public Page<Member> getAll(Pageable pageable) {
+       return this.memberRepository.findAll(pageable);
+    }
 }

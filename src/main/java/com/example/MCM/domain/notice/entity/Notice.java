@@ -19,6 +19,8 @@ public class Notice extends BaseEntity {
 
   private String content;
 
+  private Long viewCount;
+
   @ManyToOne
   private Member author;
 }

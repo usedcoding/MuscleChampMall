@@ -38,7 +38,20 @@ public class OrdersController {
 
   private final ProductService productService;
 
-  @GetMapping("/{id}")
+  @GetMapping("/detail")
+  public String detail(Model model,
+                       @RequestParam(value = "productsId") Long productsId,
+                       Principal principal) {
+    Member member = this.memberService.getMember(principal.getName());
+    Product product = this.productService.findById(productsId);
+    Orders order = orderService.getByBuyerAndProductId(member.getUsername(), productsId);
+    model.addAttribute("product", product);
+    model.addAttribute("member", member);
+    model.addAttribute("order", order);
+    return "order/detail";
+  }
+
+  @GetMapping("/{id}/success")
   public String detail(Model model,
                        @PathVariable("id") Long id,
                        @RequestParam(value = "orderId") String orderId,
