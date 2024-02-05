@@ -4,6 +4,7 @@ import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.product.entity.Product;
 import com.example.MCM.domain.review.entity.Review;
 import com.example.MCM.domain.review.repository.ReviewRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +32,8 @@ public class ReviewService {
     }
 
     //리뷰 생성
-    public Review createReview(Member author, String title, String content, Double starScore) {
+    @Transactional
+    public Review createReview(Member author, String title, String content, Integer starScore) {
         Review review = Review.builder()
                 .author(author)
                 .content(content)
@@ -48,7 +50,8 @@ public class ReviewService {
     }
 
     //리뷰 수정
-    public void modifyReview(Review review, String title, String content, Double starScore) {
+    @Transactional
+    public void modifyReview(Review review, String title, String content, Integer starScore) {
         Review modifyReview = review.toBuilder()
                 .title(title)
                 .content(content)

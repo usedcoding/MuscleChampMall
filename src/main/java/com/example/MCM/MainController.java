@@ -26,7 +26,7 @@ public class MainController {
     @GetMapping("/")
     public String main(Model model) {
 
-        List<Product> productList = this.productService.getAll();
+        List<Product> productList = this.productService.getAllByReviewStarScore();
 
         List<Notice> noticeList = this.noticeService.getAll();
 

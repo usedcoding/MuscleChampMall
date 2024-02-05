@@ -23,7 +23,7 @@ public class Review extends BaseEntity {
 
     private String content;
 
-    private Double starScore;
+    private Integer starScore;
 
     @ManyToOne
     private Member author;

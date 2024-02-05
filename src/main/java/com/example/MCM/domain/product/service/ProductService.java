@@ -6,6 +6,7 @@ import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.product.dto.ProductDto;
 import com.example.MCM.domain.product.entity.Product;
 import com.example.MCM.domain.product.repository.ProductRepository;
+import com.example.MCM.domain.review.entity.Review;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,10 +23,8 @@ import org.thymeleaf.util.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -218,6 +217,24 @@ public class ProductService {
         .build();
     this.productRepository.save(product);
   }
+
+  public List<Product> getAllByReviewStarScore() {
+    return this.productRepository.findAll().stream()
+        .map(product -> {
+          List<Review> reviewList = product.getReviewList();
+
+          if (reviewList != null && !reviewList.isEmpty()) {
+            reviewList.sort(Comparator.comparingDouble(Review::getStarScore).reversed());
+
+            return product.toBuilder().reviewList(reviewList).build();
+          }
+
+          return product;
+
+        })
+        .collect(Collectors.toList());
+  }
+
 
   public Page<Product> getProducts(Pageable pageable) {
     return this.productRepository.findAll(pageable);

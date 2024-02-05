@@ -15,7 +15,7 @@
             <input type="text" name="title" th:field="*{title}">
             <div class="score-title">평점</div>
             <hr>
-            <div class="score">
+            <div th:field="*{starScore}" class="score">
                 <input type="checkbox">5점
                 <input type="checkbox">4점
                 <input type="checkbox">3점
