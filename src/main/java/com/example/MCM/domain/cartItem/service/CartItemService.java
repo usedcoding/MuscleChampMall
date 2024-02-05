@@ -42,4 +42,9 @@ public class CartItemService {
   public List<CartItem> getAll(Cart cart) {
     return this.cartItemRepository.findAll();
   }
+
+  public void cartItemDelete(Long itemId) {
+    CartItem cartItem = this.cartItemRepository.findCartItemById(itemId);
+    this.cartItemRepository.delete(cartItem);
+  }
 }

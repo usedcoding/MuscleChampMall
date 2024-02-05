@@ -292,9 +292,52 @@ public class MemberController {
             model.addAttribute("cartItems", cartItemList);
             model.addAttribute("member", memberService.findById(id));
 
-            return "cart";
+            return "cart/cart";
         }
         // 로그인 id와 장바구니 접속 id가 같지 않는 경우
+        else {
+            return "redirect:/main";
+        }
+    }
+
+    @GetMapping("/member/cart/{id}/{cartItemId}/delete")
+    public String deleteCartItem(@PathVariable("id") Long id,
+                                 @PathVariable("cartItemId") Long itemId,
+                                 Model model,
+                                 Principal principal) {
+        Member member = this.memberService.getMember(principal.getName());
+        if (member.getId().equals(id)) {
+            // itemId로 장바구니 상품 찾기
+            CartItem cartItem = cartService.findCartItemById(itemId);
+
+            // 장바구니 물건 삭제
+            cartItemService.cartItemDelete(itemId);
+
+            // 해당 유저의 카트 찾기
+            Cart cart = cartService.getCartByMemberId(id);
+
+            // 해당 유저의 장바구니 상품들
+            List<CartItem> cartItemList = cartService.getAllMemberCart(cart);
+
+            // 총 가격 += 수량 * 가격
+            int totalPrice = 0;
+            for (CartItem cartitem : cartItemList) {
+                totalPrice += cartitem.getCount() * cartitem.getProduct().getPrice();
+            }
+
+           cart = cart.toBuilder()
+               .count(cart.getCount() - cartItem.getCount())
+               .build();
+            this.cartService.saveCart(cart);
+
+            model.addAttribute("totalPrice", totalPrice);
+            model.addAttribute("totalCount", cart.getCount());
+            model.addAttribute("cartItems", cartItemList);
+            model.addAttribute("member", memberService.findById(id));
+
+            return "redirect:/member/cart/{id}";
+        }
+        // 로그인 id와 장바구니 삭제하려는 유저의 id가 같지 않는 경우
         else {
             return "redirect:/main";
         }

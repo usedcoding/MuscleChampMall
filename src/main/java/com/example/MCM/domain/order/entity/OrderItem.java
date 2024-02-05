@@ -21,7 +21,7 @@ import static jakarta.persistence.FetchType.LAZY;
 public class OrderItem extends BaseEntity {
 
   @ManyToOne(fetch = LAZY)
-  private Ord order;
+  private Orders order;
 
   private LocalDateTime payDate;
 

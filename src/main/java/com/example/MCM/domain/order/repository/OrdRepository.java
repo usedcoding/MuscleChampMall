@@ -1,12 +1,12 @@
 package com.example.MCM.domain.order.repository;
 
-import com.example.MCM.domain.order.entity.Ord;
+import com.example.MCM.domain.order.entity.Orders;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface OrdRepository extends JpaRepository<Ord, Long> {
-  Ord findByBuyerUsernameAndProductId(String username, Long productId);
+public interface OrdRepository extends JpaRepository<Orders, Long> {
+  Orders findByBuyerUsernameAndProductId(String username, Long productId);
 
-  List<Ord> findByBuyerId(Long id);
+  List<Orders> findByBuyerId(Long id);
 }
