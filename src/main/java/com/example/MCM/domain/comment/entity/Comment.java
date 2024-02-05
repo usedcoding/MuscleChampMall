@@ -1,6 +1,7 @@
-package com.example.MCM.domain.notice.entity;
+package com.example.MCM.domain.comment.entity;
 
 import com.example.MCM.base.entity.BaseEntity;
+import com.example.MCM.domain.community.entity.Post;
 import com.example.MCM.domain.member.entity.Member;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
@@ -13,14 +14,15 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @ToString(callSuper = true)
 @Entity
-public class Notice extends BaseEntity {
+public class Comment extends BaseEntity {
 
-  private String subject;
+    private String content;
 
-  private String content;
+    @ManyToOne
+    private Member author;
 
-  private Long viewCount;
+    @ManyToOne
+    private Post post;
 
-  @ManyToOne
-  private Member author;
+
 }

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/admin_notice.css">
+  <title>Title</title>
+</head>
+<body>
+<nav class="navbar navbar-default no-margin">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header fixed-brand">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" id="menu-toggle">
+      <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+    </button>
+    <a class="navbar-brand" th:href="@{/}"><img class="rogoimg" src="https://i.postimg.cc/qRMyWWkr/image.png"/></a>
+  </div>
+  <!-- navbar-header-->
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav">
+
+    </ul>
+  </div>
+  <!-- bs-example-navbar-collapse-1 -->
+</nav>
+<div id="wrapper">
+  <!-- Sidebar -->
+  <div id="sidebar-wrapper">
+    <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+      <li>
+        <a th:href="@{/admin/}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-cloud-download fa-stack-1x "></i></span>매출</a>
+      </li>
+      <li>
+        <a th:href="@{/admin/order}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-cart-plus fa-stack-1x "></i></span>주문 관리</a>
+      </li>
+      <li>
+        <a th:href="@{/admin/product}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-cart-plus fa-stack-1x "></i></span>상품 관리</a>
+      </li>
+      <li>
+        <a th:href="@{/admin/user}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-wrench fa-stack-1x "></i></span>회원 관리</a>
+      </li>
+      <li>
+        <a th:href="@{/admin/review}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-server fa-stack-1x "></i></span>리뷰 관리</a>
+      </li>
+      <li>
+        <a th:href="@{/admin/notice}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-server fa-stack-1x "></i></span>공지사항 관리</a>
+      </li>
+    </ul>
+  </div>
+  <!-- /#sidebar-wrapper -->
+  <!-- Page Content -->
+  <div id="page-content-wrapper">
+    <div class="container-fluid xyz">
+      <div class="row">
+        <div class="col-lg-12">
+          <h1>공지사항 관리</h1>
+
+          <div class="date_content">
+            <div class="date_title"><p>상품</p></div>
+            <div>
+              <table class="date_data">
+                <thead>
+                <th>No.</th>
+                <th>제목</th>
+                <th>조회수</th>
+                <th>등록일</th>
+                <th>수정</th>
+                <th>삭제</th>
+                </thead>
+                <tbody th:each="notice : ${noticeList}">
+                  <tr>
+                    <td th:text="${notice.id}"></td>
+                    <td>
+                        <a th:text="${notice.subject}" th:href="@{|/notice/${notice.id}|}"></a>
+                    </td>
+                    <td th:text="${notice.viewCount}"></td>
+                    <td th:text="${#temporals.format(notice.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+                    <td>
+                      <a th:href="@{|/notice/modify/${notice.id}}">
+                        <button>수정</button>
+                      </a>
+                    </td>
+                    <td>
+                      <a th:href="@{|/notice/delete/${notice.id}}">
+                        <button>삭제</button>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /#page-content-wrapper -->
+</div>
+</body>
+</html>

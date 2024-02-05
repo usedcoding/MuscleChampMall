@@ -98,4 +98,8 @@ public class PostService {
   public List<Post> getAll() {
         return this.postRepository.findAll();
   }
+
+  public Page<Post> getPosts(Pageable pageable) {
+        return this.postRepository.findAll(pageable);
+  }
 }

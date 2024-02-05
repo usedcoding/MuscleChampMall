@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -77,4 +78,19 @@ public class CartService {
     return this.cartRepository.save(cart);
   }
 
+  public CartItem findCartItemById(Long itemId) {
+    return this.cartItemRepository.findCartItemById(itemId);
+  }
+
+  public Cart getCartByMemberId(Long id) {
+    return this.cartRepository.findByMemberId(id);
+  }
+
+  public List<CartItem> getAllMemberCart(Cart cart) {
+    return this.cartItemRepository.findAllByCart(cart);
+  }
+
+  public void saveCart(Cart cart) {
+    this.cartRepository.save(cart);
+  }
 }

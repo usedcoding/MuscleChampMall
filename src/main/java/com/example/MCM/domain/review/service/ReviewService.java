@@ -5,6 +5,8 @@ import com.example.MCM.domain.product.entity.Product;
 import com.example.MCM.domain.review.entity.Review;
 import com.example.MCM.domain.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -57,5 +59,9 @@ public class ReviewService {
                 .modifyDate(LocalDateTime.now())
                 .build();
         this.reviewRepository.save(modifyReview);
+    }
+
+    public Page<Review> getByproduct(Product product, Pageable pageable) {
+        return this.reviewRepository.findByProduct(product, pageable);
     }
 }
