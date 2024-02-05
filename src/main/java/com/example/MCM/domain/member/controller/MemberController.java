@@ -100,38 +100,30 @@ public class MemberController {
 
 
     //비밀번호 변경
-    @PostMapping("/update/password")
-    public String updatePassword(@Valid MemberPasswordUpdateDTO memberPasswordUpdateDTO,
-                                 Principal principal,
-                                 Model model) {
-        // new password 비교
-        if (!Objects.equals(memberPasswordUpdateDTO.getNewPassword(), memberPasswordUpdateDTO.getConfirmPassword())) {
-            model.addAttribute("dto", memberPasswordUpdateDTO);
-            model.addAttribute("differentPassword", "비밀번호가 같지 않습니다.");
-            return "redirect:/member/update/Password";
-        }
-        Member result = memberService.updateMemberPassword(memberPasswordUpdateDTO, principal.getName());
-
-
-        // 현재 비밀번호가 틀렸을 경우
-        if (result == null) {
-            model.addAttribute("dto", memberPasswordUpdateDTO);
-            model.addAttribute("wrongPassword", "비밀번호가 맞지 않습니다.");
-            return "redirect:/member/update/Password";
-        }
-
-        return "redirect:/member/me";
-    }
+//    @PostMapping("/update/password")
+//    public String updatePassword(@Valid MemberPasswordUpdateDTO memberPasswordUpdateDTO, Principal principal, Model model) {
+//        // new password 비교
+//        if (!Objects.equals(memberPasswordUpdateDTO.getNewPassword(), memberPasswordUpdateDTO.getConfirmPassword())) {
+//            model.addAttribute("dto", memberPasswordUpdateDTO);
+//            model.addAttribute("differentPassword", "비밀번호가 같지 않습니다.");
+//            return "redirect:/member/update/Password";
+//        }
+//        Member result = memberService.updateMemberPassword(memberPasswordUpdateDTO, principal.getName());
+//
+//
+//        // 현재 비밀번호가 틀렸을 경우
+//        if (result == null) {
+//            model.addAttribute("dto", memberPasswordUpdateDTO);
+//            model.addAttribute("wrongPassword", "비밀번호가 맞지 않습니다.");
+//            return "redirect:/member/update/Password";
+//        }
+//
+//        return "redirect:/member/me";
+//    }
 
     //개인 정보 변경
     @PostMapping("/update/me")
-    public String updateMe(@Valid MemberEmailUpdateDTO memberEmailUpdateDTO,
-                           @Valid MemberAddressUpdateDTO memberAddressUpdateDTO,
-                           @Valid MemberNicknameUpdateDTO memberNicknameUpdateDTO,
-                           @Valid MemberPhoneNumUpdateDTO memberPhoneNumUpdateDTO,
-                           BindingResult bindingResult,
-                           Principal principal,
-                           Authentication authentication) {
+    public String updateMe(@Valid MemberUpdateDTO memberUpdateDTO, BindingResult bindingResult, Principal principal) {
 
         Member member = this.memberService.getMember(principal.getName());
 
@@ -144,37 +136,48 @@ public class MemberController {
         } else {
 
             //이메일 변경
-            if (memberEmailUpdateDTO.getNewEmail() != null) {
+            if (memberUpdateDTO.getNewEmail() != null) {
                 Member updateEmail = member.toBuilder()
-                        .email(memberEmailUpdateDTO.getNewEmail())
+                        .email(memberUpdateDTO.getNewEmail())
                         .build();
                 this.memberService.saveMember(updateEmail);
             }
 
             //주소 변경
-            if (memberAddressUpdateDTO.getNewAddress() != null) {
+            if (memberUpdateDTO.getNewAddress() != null) {
                 Member updateAddress = member.toBuilder()
-                        .address(memberAddressUpdateDTO.getNewAddress())
+                        .address(memberUpdateDTO.getNewAddress())
                         .build();
                 this.memberService.saveMember(updateAddress);
             }
 
             //닉네임 변경
-            if (memberNicknameUpdateDTO.getNewNickname() != null) {
+            if (memberUpdateDTO.getNewNickname() != null) {
                Member updateNickname = member.toBuilder()
-                        .address(memberNicknameUpdateDTO.getNewNickname())
+                        .address(memberUpdateDTO.getNewNickname())
                         .build();
                 this.memberService.saveMember(updateNickname);
             }
 
             //전화번호 변경
-            if (memberPhoneNumUpdateDTO.getNewPhoneNumber() != null) {
+            if (memberUpdateDTO.getNewPhoneNumber() != null) {
                 Member updatePhoneNumber = member.toBuilder()
-                        .address(memberPhoneNumUpdateDTO.getNewPhoneNumber())
+                        .address(memberUpdateDTO.getNewPhoneNumber())
                         .build();
                 this.memberService.saveMember(updatePhoneNumber);
             }
-            return "redirect:/";
+
+            if (memberUpdateDTO.getNewPassword() != null && memberUpdateDTO.getNewPassword().equals(memberUpdateDTO.getNewPassword2())) {
+                Member updatePassword = member.toBuilder()
+                        .address(memberUpdateDTO.getNewPassword())
+                        .build();
+                this.memberService.saveMember(updatePassword);
+            } else if (!memberUpdateDTO.getNewPassword().equals(memberUpdateDTO.getNewPassword2())) {
+                bindingResult.rejectValue("ewPassword2", "passwordInCorrect", "비밀번호가 일치하지 않습니다.");
+            }
+
+
+            return "redirect:/member/login";
         }
     }
 
