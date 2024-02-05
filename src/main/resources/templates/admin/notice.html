@@ -66,7 +66,7 @@
                 <th>수정</th>
                 <th>삭제</th>
                 </thead>
-                <tbodt th:each="notice : ${noticeList}">
+                <tbody th:each="notice : ${noticeList}">
                   <tr>
                     <td th:text="${notice.id}"></td>
                     <td>
@@ -85,7 +85,7 @@
                       </a>
                     </td>
                   </tr>
-                </tbodt>
+                </tbody>
               </table>
             </div>
           </div>

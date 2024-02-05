@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,25 +47,26 @@ public class AdminController {
   @GetMapping("/product")
   public String adminProduct(Model model,
                              Principal principal,
-                             @RequestParam(value = "page",defaultValue = "1") int page,
-                             @RequestParam(value = "size", defaultValue = "20") int size){
+                             @PageableDefault(page = 1) Pageable pageable){
 
     Member member = this.memberService.getMember(principal.getName());
 
     if (!member.getRole().equals(MemberRole.ADMIN)) return "/";
 
-    Pageable pageable = PageRequest.of(page, size);
-
     Page<Product> productPage = this.productService.getProducts(pageable);
 
-    List<Product> productList = productPage.getContent();
+    int blockLimit = 3;
+    int startPage = (((int) Math.ceil(((double) pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
+    int endPage = Math.min((startPage + blockLimit - 1), productPage.getTotalPages());
 
     long totalProducts = productPage.getTotalElements();
 
     int totalPages = productPage.getTotalPages();
 
-    model.addAttribute("productList",productList);
-    model.addAttribute("page", page);
+    model.addAttribute("productPages", productPage);
+    model.addAttribute("startPage", startPage);
+    model.addAttribute("endPage", endPage);
+
     model.addAttribute("totalProducts", totalProducts);
     model.addAttribute("totalPages", totalPages);
 
@@ -114,10 +116,18 @@ public class AdminController {
 
     for (Product product : productList) {
       Pageable pageable = PageRequest.of(page, size);
-      Page<Review> productReviewPage = this.reviewService.getByproduct(product, pageable);
-      List<Review> reviews = productReviewPage.getContent();
+      Page<Review> ReviewPage = this.reviewService.getByproduct(product, pageable);
+      List<Review> reviews = ReviewPage.getContent();
       reviewList.addAll(reviews);
     }
+
+//    long totalReview = reviewPage.getTotalElements();
+
+//    int totalPages = reviewPage.getTotalPages();
+
+    model.addAttribute("page", page);
+//    model.addAttribute("totalOrder", totalOrders);
+//    model.addAttribute("totalPages", totalPages);
 
     model.addAttribute("reviewList", reviewList);
 
@@ -185,6 +195,10 @@ public class AdminController {
                             Principal principal,
                             @RequestParam(value = "page", defaultValue = "1") int page,
                             @RequestParam(value = "size", defaultValue = "20") int size) {
+
+    if (page <= 0) {
+      return "redirect:/admin/member?page=" + page;
+    }
 
     Member member = this.memberService.getMember(principal.getName());
 
