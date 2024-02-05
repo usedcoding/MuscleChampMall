@@ -100,28 +100,26 @@ public class MemberController {
 
 
     //비밀번호 변경
-    @PostMapping("/update/password")
-    public String updatePassword(@Valid MemberPasswordUpdateDTO memberPasswordUpdateDTO,
-                                 Principal principal,
-                                 Model model) {
-        // new password 비교
-        if (!Objects.equals(memberPasswordUpdateDTO.getNewPassword(), memberPasswordUpdateDTO.getConfirmPassword())) {
-            model.addAttribute("dto", memberPasswordUpdateDTO);
-            model.addAttribute("differentPassword", "비밀번호가 같지 않습니다.");
-            return "redirect:/member/update/Password";
-        }
-        Member result = memberService.updateMemberPassword(memberPasswordUpdateDTO, principal.getName());
-
-
-        // 현재 비밀번호가 틀렸을 경우
-        if (result == null) {
-            model.addAttribute("dto", memberPasswordUpdateDTO);
-            model.addAttribute("wrongPassword", "비밀번호가 맞지 않습니다.");
-            return "redirect:/member/update/Password";
-        }
-
-        return "redirect:/member/me";
-    }
+//    @PostMapping("/update/password")
+//    public String updatePassword(@Valid MemberPasswordUpdateDTO memberPasswordUpdateDTO, Principal principal, Model model) {
+//        // new password 비교
+//        if (!Objects.equals(memberPasswordUpdateDTO.getNewPassword(), memberPasswordUpdateDTO.getConfirmPassword())) {
+//            model.addAttribute("dto", memberPasswordUpdateDTO);
+//            model.addAttribute("differentPassword", "비밀번호가 같지 않습니다.");
+//            return "redirect:/member/update/Password";
+//        }
+//        Member result = memberService.updateMemberPassword(memberPasswordUpdateDTO, principal.getName());
+//
+//
+//        // 현재 비밀번호가 틀렸을 경우
+//        if (result == null) {
+//            model.addAttribute("dto", memberPasswordUpdateDTO);
+//            model.addAttribute("wrongPassword", "비밀번호가 맞지 않습니다.");
+//            return "redirect:/member/update/Password";
+//        }
+//
+//        return "redirect:/member/me";
+//    }
 
     //개인 정보 변경
     @PostMapping("/update/me")
