@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mypage</title>
+    <link rel="stylesheet" href="/mypage/mypage-order.css"/>
+    <link rel="stylesheet" href="/layout.css">
+</head>
+<body>
+
+<div th:replace="/navbar.html"></div>
+
+<div layout:fragment="content" class="container">
+
+    <div class="img-section">
+        <img src="https://i.ytimg.com/vi/-gBA_HA9sV0/maxresdefault.jpg" alt="">
+    </div>
+    <div class="info-section">
+        <ul class="menu">
+            <a th:href="@{/mypage/me}"><li> 회원정보</li></a>
+            <a th:href="@{/mypage/order}"><li> 내가 주문한 상품</li></a>
+            <a th:href="@{/mypage/cart}"><li> 장바구니</li></a>
+            <a th:href="@{/mypage/review}"><li> 내가 쓴 리뷰</li></a>
+            <a href=""><li> 개인정보 변경</li></a>
+        </ul>
+        <div class="ment" th:if="${myOrders == null || #lists.isEmpty(myOrders)}">
+            <p>주문한 상품이 없습니다.</p>
+        </div>
+
+        <ul th:if="${myOrders != null && not #lists.isEmpty(myOrders)}" class="info">
+            <div class="title">내가 주문한 상품</div>
+            <li th:each="myOrder : ${myOrders}">
+                <div class="product-img">
+                    <a th:href="@{|/myOrders/${myOrder.product.id}|}">
+                        <img th:src="${myOrder.product.imgPath}" alt="">
+                    </a>
+                </div>
+                <div class="product-info">
+                    <div class="name">
+                        <a th:text="${myOrder.product.name}" th:href="@{|/myOrders/${myOrder.product.id}|}"></a>
+                    </div>
+                    <div class="price" th:text="${myOrder.product.price}"> <span>원</span></div>
+                    <div class="product-status">배송중</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+<div th:replace="/footer.html"></div>
+
+</body>
+</html>

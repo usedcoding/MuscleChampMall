@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mypage</title>
+    <link rel="stylesheet" href="/mypage/mypage-edit.css"/>
+    <link rel="stylesheet" href="/layout.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="img-section">
+        <img src="https://i.ytimg.com/vi/-gBA_HA9sV0/maxresdefault.jpg" alt="">
+    </div>
+    <div class="info-section">
+        <ul class="menu">
+            <a th:href="@{/mypage/me}"><li> 회원정보</li></a>
+            <a th:href="@{/mypage/order}"><li> 내가 주문한 상품</li></a>
+            <a th:href="@{/mypage/cart}"><li> 장바구니</li></a>
+            <a th:href="@{/mypage/review}"><li> 내가 쓴 리뷰</li></a>
+            <a href=""><li> 개인정보 변경</li></a>
+        </ul>
+        <div class="edit-section">
+            <div class="title">개인정보 변경</div>
+            <form  th:action="@{/member/update/me}" class="edit-user">
+                <div class="nickName-title">닉네임</div>
+                <input type="text" class="nickName">
+                <div class="email-title">E-mail</div>
+                <input type="text" class="email">
+                <div class="phone-title">휴대폰 번호</div>
+                <input type="text" class="email">
+                <div class="address-title">주소</div>
+                <input type="text" class="address">
+
+
+
+                <div class="button">
+                    <button>저장하기</button>
+                    <button>취소하기</button>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

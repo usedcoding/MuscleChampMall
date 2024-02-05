@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/mypage/mypage-main.css"/>
+    <link rel="stylesheet" href="/layout.css">
+    <title>Mypage</title>
+</head>
+<body>
+
+<div th:replace="/navbar.html"></div>
+
+<div layout:fragment="content" class="container">
+
+    <div class="img-section">
+        <img src="https://i.ytimg.com/vi/-gBA_HA9sV0/maxresdefault.jpg" alt="">
+    </div>
+    <div class="menu-bar">
+        <div class="title">UserTools</div>
+        <ul>
+            <a th:href="@{/mypage/me}"><li> 회원정보</li></a>
+            <a th:href="@{/mypage/order}"><li> 내가 주문한 상품</li></a>
+            <a th:href="@{/mypage/cart}"><li> 장바구니</li></a>
+            <a th:href="@{/mypage/review}"><li> 내가 쓴 리뷰</li></a>
+            <a href=""><li> 개인정보 변경</li></a>
+        </ul>
+    </div>
+
+</div>
+</div>
+
+<div th:replace="/footer.html"></div>
+
+</body>
+</html>
