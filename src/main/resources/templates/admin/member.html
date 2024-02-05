@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/admin_member.css">
+  <title>Title</title>
+</head>
+<body>
+<nav class="navbar navbar-default no-margin">
+  <!-- Brand and toggle get grouped for better mobile display -->
+  <div class="navbar-header fixed-brand">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" id="menu-toggle">
+      <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+    </button>
+    <a class="navbar-brand" th:href="@{/}"><img class="rogoimg" src="https://i.postimg.cc/qRMyWWkr/image.png"/></a>
+  </div>
+  <!-- navbar-header-->
+  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <ul class="nav navbar-nav">
+
+    </ul>
+  </div>
+  <!-- bs-example-navbar-collapse-1 -->
+</nav>
+<div id="wrapper">
+  <!-- Sidebar -->
+  <div id="sidebar-wrapper">
+    <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+      <li>
+        <a th:href="@{/admin/}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-cloud-download fa-stack-1x "></i></span>매출</a>
+      </li>
+      <li>
+        <a th:href="@{/admin/order}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-cart-plus fa-stack-1x "></i></span>주문 관리</a>
+      </li>
+      <li>
+        <a th:href="@{/admin/product}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-cart-plus fa-stack-1x "></i></span>상품 관리</a>
+      </li>
+      <li>
+        <a th:href="@{/admin/user}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-wrench fa-stack-1x "></i></span>회원 관리</a>
+      </li>
+      <li>
+        <a th:href="@{/admin/review}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-server fa-stack-1x "></i></span>리뷰 관리</a>
+      </li>
+      <li>
+        <a th:href="@{/admin/notice}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-server fa-stack-1x "></i></span>공지사항 관리</a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- /#sidebar-wrapper -->
+  <!-- Page Content -->
+  <div id="page-content-wrapper">
+    <div class="container-fluid xyz">
+      <div class="row">
+        <div class="col-lg-12">
+          <h1>회원 관리</h1>
+
+          <div class="date_content">
+            <div class="date_title"><p>회원 관리 </p></div>
+            <div class="btn_line">
+              <button type="button" class="date_btn" id="adminPlus" > 회원탈퇴 </button>
+              <button type="button" class="date_btn" id="adminMinus"> 회원탈퇴 되돌리기 </button>
+
+            </div>
+
+
+            <div class="date_data">
+              <!--    리스트 -->
+              <table class="list_table">
+                <thead>
+                <tr>
+                  <th class="number">회원번호</th>
+                  <th class="title">회원 e-mail</th>
+                  <th class="name">닉네임</th>
+                  <th class="name">가입일</th>
+                  <th class="date">현재 상태</th>
+                  <th class="button_menu">선택</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="member : ${memberList}">
+                  <td class="number" th:text="${member.id}"></td>
+                  <td class="title" th:text="${member.username}"></td>
+                  <td class="nickname" th:text="${member.nickname}">아무개</td>
+                  <td class="nickname" th:text="${member.createDate}">2001.01.01</td>
+                  <td class="date" th:text="${user.role.value}">탈퇴</td>
+                  <td class="button_menu">
+                    <label class="order_check"><input type="checkbox" name="userCheck"  > </label>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+              <!--        페이징     -->
+              <!-- 페이징처리 시작 -->
+              <div th:if="${!paging.isEmpty()}" style="text-align: center;">
+                <ul class="pagination justify-content-center">
+                  <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+                    <a class="page-link" th:href="${paging.hasPrevious} ? @{|?page=${paging.number-1}|} : @{|?page=0|}">
+                      <span>이전</span>
+                    </a>
+                  </li>
+                  <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+                      th:if="${page >= paging.number-5 and page <= paging.number+5}"
+                      th:classappend="${page == paging.number} ? 'active'"
+                      class="page-item">
+                    <a th:text="${page+1}" class="page-link" th:href="@{|?page=${page}|}"></a>
+                  </li>
+                  <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+                    <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
+                      <span>다음</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <!-- 페이징처리 끝 -->
+
+
+              <!--    리스트 -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /#page-content-wrapper -->
+</div>
+<!-- /#wrapper -->
+<!-- jQuery -->
+
+<script>
+  $(document).ready(function () {
+    $("#adminPlus").on("click", function () {
+      adminConfirmOrder(); // 버튼이 클릭되면 adminConfirmOrder 함수를 실행합니다.
+    });
+  });
+
+
+  function getSelectedUserId() {
+    const checkedUsers = $("input[name='userCheck']:checked");
+    if (checkedUsers.length === 1) {
+      return checkedUsers.first().closest('tr').find('.number').text();
+    } else {
+      alert("하나의 유저를 선택해주세요.");
+      return null;
+    }
+  }
+
+  function adminConfirmOrder() {
+    const selectedUserId = getSelectedUserId();
+
+    if (selectedUserId !== null) {
+      $.ajax({
+        type: "POST",
+        url: "/admin/user/adminPlus/" + selectedUserId,
+        success: function (response) {
+          alert("관리자로 변경되었습니다.");
+          window.location.reload();
+        },
+        error: function () {
+          alert("관리자 변경이 실패했습니다.");
+        }
+      });
+    } else {
+      alert("변경할 회원을 선택해주세요.");
+    }
+  }
+ //마이너스
+
+  $(document).ready(function () {
+    $("#adminMinus").on("click", function () {
+      adminMinus(); // 버튼이 클릭되면 adminMinus 함수를 실행합니다.
+    });
+  });
+
+
+  function adminMinus() {
+    const selectedUserId = getSelectedUserId();
+
+    if (selectedUserId !== null) {
+      $.ajax({
+        type: "POST",
+        url: "/admin/user/adminMinus/" + selectedUserId,
+        success: function (response) {
+          alert("관리자 권한이 회수되었습니다.");
+          window.location.reload();
+        },
+        error: function () {
+          alert("관리자 변경이 실패했습니다.");
+        }
+      });
+    } else {
+      alert("변경할 회원을 선택해주세요.");
+    }
+  }
+</script>
+</body>
+</html>

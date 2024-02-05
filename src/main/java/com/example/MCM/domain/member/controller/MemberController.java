@@ -243,7 +243,7 @@ public class MemberController {
         return "username_get";
     }
 
-    @PostMapping("/member/cart/{id}/{productId}")
+    @PostMapping("/cart/{id}/{productId}")
     @ResponseBody
     public String addCartItem(@PathVariable("id") Long id,
                               @PathVariable("productId") Long productId,
@@ -266,7 +266,7 @@ public class MemberController {
         }
     }
 
-    @GetMapping("/member/cart/{id}")
+    @GetMapping("/cart/{id}")
     public String memberCartPage(@PathVariable("id") Long id,
                                  Model model,
                                  Principal principal) {
@@ -289,7 +289,7 @@ public class MemberController {
 
             model.addAttribute("totalPrice", totalPrice);
             model.addAttribute("totalCount", cart.getCount());
-            model.addAttribute("cartItems", cartItemList);
+            model.addAttribute("cartItemList", cartItemList);
             model.addAttribute("member", memberService.findById(id));
 
             return "cart/cart";
@@ -300,7 +300,7 @@ public class MemberController {
         }
     }
 
-    @GetMapping("/member/cart/{id}/{cartItemId}/delete")
+    @GetMapping("/cart/{id}/{cartItemId}/delete")
     public String deleteCartItem(@PathVariable("id") Long id,
                                  @PathVariable("cartItemId") Long itemId,
                                  Model model,
