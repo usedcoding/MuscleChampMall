@@ -16,7 +16,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CartItemService {
 
-  private CartItemRepository cartItemRepository;
+  private final CartItemRepository cartItemRepository;
 
   public CartItem createCartItem(Product product1, Cart cart, Integer amount) {
 
@@ -43,4 +43,8 @@ public class CartItemService {
     return this.cartItemRepository.findAll();
   }
 
+  public void cartItemDelete(Long itemId) {
+    CartItem cartItem = this.cartItemRepository.findCartItemById(itemId);
+    this.cartItemRepository.delete(cartItem);
+  }
 }

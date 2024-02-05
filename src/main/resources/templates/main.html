@@ -58,8 +58,10 @@
                     <tbody>
                     <tr th:each="notice : ${noticeList}">
                         <td th:text="${notice.id}"></td>
-                        <td th:text="${notice.subject}">
-                            <a href=""></a>
+                        <td >
+                            <a th:href="@{|/notice/${notice.id}|}">
+                                <span th:text="${notice.subject}"></span>
+                            </a>
                         </td>
                         <td th:text="${#temporals.format(notice.createDate, 'yyyy-MM-dd HH:mm')}"></td>
                     </tr>
@@ -84,10 +86,12 @@
                     <tbody>
                     <tr th:each="post : ${postList}">
                         <td th:text="${post.id}"></td>
-                        <td th:text="${post.title}">
-                            <a href=""></a>
+                        <td>
+                            <a th:href="@{|/post/detail/${post.id}|}">
+                                <span th:text="${post.title}"></span>
+                            </a>
                         </td>
-                        <td th:text="${post.author}"></td>
+                        <td th:text="${post.author.username}"></td>
                         <td th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm')}"></td>
                     </tr>
                     </tbody>

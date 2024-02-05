@@ -58,10 +58,6 @@ public class OrderService {
     return orderRepository.findByBuyerId(id);
   }
 
-  public List<Orders> getAll() {
-    return this.orderRepository.findAll();
-  }
-
   public Page<Orders> getOrders(Pageable pageable) {
     return this.orderRepository.findAll(pageable);
   }
