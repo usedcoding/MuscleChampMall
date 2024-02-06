@@ -7,7 +7,7 @@
 </head>
 <body>
 <div id="modal">
-    <form th:action="@{/review/create}"  th:object="${reviewCreateDTO}" method="post">
+    <form th:action="@{/product/{productId}/review/create(productId=${product.id})}"  th:object="${reviewCreateDTO}" method="post">
         <div class="modal-content">
             <div class="main-title">Review</div>
             <div class="subject">제목</div>
@@ -15,12 +15,12 @@
             <input type="text" name="title" th:field="*{title}">
             <div class="score-title">평점</div>
             <hr>
-            <div th:field="*{starScore}" class="score">
-                <input type="checkbox">5점
-                <input type="checkbox">4점
-                <input type="checkbox">3점
-                <input type="checkbox">2점
-                <input type="checkbox">1점
+            <div  class="score">
+                <input th:field="*{starScore}" type="checkbox" value="5">5점
+                <input th:field="*{starScore}" type="checkbox" value="4">4점
+                <input th:field="*{starScore}" type="checkbox" value="3">3점
+                <input th:field="*{starScore}" type="checkbox" value="2">2점
+                <input th:field="*{starScore}" type="checkbox" value="1">1점
             </div>
             <div class="content">내용</div>
             <hr>
