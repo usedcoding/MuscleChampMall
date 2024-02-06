@@ -36,7 +36,7 @@ public class ReviewService {
 
     //리뷰 생성
     @Transactional
-    public Review createReview(Member author, String title, String content, Integer starScore, Product product) {
+    public Review createReview(Member author, String title, String content, double starScore, Product product) {
         Review review = Review.builder()
                 .author(author)
                 .content(content)
@@ -55,7 +55,7 @@ public class ReviewService {
 
     //리뷰 수정
     @Transactional
-    public void modifyReview(Review review, String title, String content, Integer starScore) {
+    public void modifyReview(Review review, String title, String content, double starScore) {
         Review modifyReview = review.toBuilder()
                 .title(title)
                 .content(content)
@@ -67,5 +67,9 @@ public class ReviewService {
 
     public Page<Review> getByproduct(Product product, Pageable pageable) {
         return this.reviewRepository.findByProduct(product, pageable);
+    }
+
+    public List<Review> getReviewsByProductId(Long productId) {
+        return this.reviewRepository.findByProductId(productId);
     }
 }

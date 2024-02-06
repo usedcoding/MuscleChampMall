@@ -7,6 +7,7 @@ import com.example.MCM.domain.product.dto.ProductDto;
 import com.example.MCM.domain.product.entity.Product;
 import com.example.MCM.domain.product.repository.ProductRepository;
 import com.example.MCM.domain.review.entity.Review;
+import com.example.MCM.domain.review.service.ReviewService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,6 +33,8 @@ import java.util.stream.Collectors;
 public class ProductService {
 
   private final ProductRepository productRepository;
+
+  private final ReviewService reviewService;
 
   @Value("${custom.originPath}")
   private String originPath;
@@ -220,20 +223,23 @@ public class ProductService {
 
   public List<Product> getAllByReviewStarScore() {
     return this.productRepository.findAll().stream()
-        .map(product -> {
-          List<Review> reviewList = product.getReviewList();
-
-          if (reviewList != null && !reviewList.isEmpty()) {
-            reviewList.sort(Comparator.comparingDouble(Review::getStarScore).reversed());
-
-            return product.toBuilder().reviewList(reviewList).build();
-          }
-
-          return product;
-
-        })
+        .sorted(Comparator.comparingDouble(product -> -calculateAverageStarScore(product.getId())))
         .collect(Collectors.toList());
   }
+
+  private double calculateAverageStarScore(Long productId) {
+    List<Review> reviews = reviewService.getReviewsByProductId(productId);
+    if (reviews.isEmpty()) return 0.0;
+    return reviews.stream()
+        .mapToDouble(Review::getStarScore)
+        .average()
+        .orElse(0.0);
+  }
+
+  public List<Product> getProductsSortedByStarScore() {
+    return getAllByReviewStarScore();
+  }
+
 
 
   public Page<Product> getProducts(Pageable pageable) {

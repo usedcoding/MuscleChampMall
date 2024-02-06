@@ -16,5 +16,5 @@ public class ReviewCreateDTO {
     private String content;
 
     @NotNull(message = "별점을 선택해 주세요.")
-    private Integer starScore;
+    private double starScore;
 }
