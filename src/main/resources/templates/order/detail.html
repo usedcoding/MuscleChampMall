@@ -6,7 +6,10 @@
   <link rel="stylesheet" href="/layout.css"/>
   <title>결제 페이지</title>
 </head>
-<div class="container">
+<body>
+<div th:replace="/navbar.html"></div>
+
+<div layout:fragment="content" class="container">
   <div class="wrap">
     <div class="title">상품구매</div>
     <form action="" method="post">
@@ -117,4 +120,7 @@
 
 
 </script>
+
+<div th:replace="/footer.html"></div>
+</body>
 </html>

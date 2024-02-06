@@ -1,11 +1,11 @@
 *{
   margin: 0;
   padding: 0;
-  background-color: black;
+   background-color: black;
   color:white;
 }
 form {
-    text-align : center;
+    text-align : left;
 }
 
 a{
@@ -18,11 +18,142 @@ ul,li{
   list-style:none;
 }
 
-/* 스타일 시작 */
+
+/* 스타일시작 */
 
 .container{
   width: 1200px;
-  margin:0 auto;
+  margin:auto;
+
+}
+
+.container>.wrap{
+  width: 900px;
+  margin:auto;
+  text-align : left;
+}
+
+.container>.wrap>.title{
+  margin-top: 50px;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+
+.wrap>form>.product-section{
+  margin-top: 50px;
+}
+
+.wrap>form>.product-section>.title{
+  text-align:left;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.wrap>form>.product-section>.info-section{
+  display:flex;
+  justify-content:start;
+}
+
+.wrap>form>.product-section>.info-section{
+  margin-top: 40px;
+}
+
+.wrap>form>.product-section>.info-section>.img-box{
+  width: 25%;
+}
+
+.wrap>form>.product-section>.info-section>.img-box>img{
+  width: 100%;
+}
+
+
+.wrap>form>.product-section>.info-section>.info{
+  margin-left: 100px;
+  text-align:left;
+}
+
+.info-section>.info>.name{
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.info-section>.info>.price{
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.wrap>form>.customer-section{
+    text-align:left;
+}
+
+.wrap>form>.customer-section>.title{
+  margin-top: 40px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.wrap>form>.customer-section>.user-info{
+  margin-top: 40px;
+  font-size: 20px;
+}
+
+.wrap>form>.customer-section>.user-info>.userName{
+  margin-top: 20px;
+}
+
+.wrap>form>.customer-section>.user-info>.userName>input{
+  width: 300px;
+  padding: 5px;
+  border:1px solid white;
+}
+
+.wrap>form>.customer-section>.user-info>.userEmail{
+  margin-top: 20px;
+}
+
+.wrap>form>.customer-section>.user-info>.userEmail>input{
+  width: 300px;
+  padding: 5px;
+  border:1px solid white;
+}
+
+.wrap>form>.payments-section{
+  margin-top: 30px;
+  text-align:left;
+}
+
+.wrap>form>.payments-section>.title{
+  margin-top: 40px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.wrap>form>.payments-section>.paymethod{
+  display:flex;
+  margin-top: 40px;
+}
+
+.paymethod>.toss-pay{
+  margin-left: 40px;
+}
+
+.container>.wrap>form>.button{
+  width: 100%;
+  margin:auto;
+  display:flex;
+  justify-content:end;
+  margin-top: 50px;
+}
+
+
+.container>.wrap>form>.button>button{
+  width: 150px;
+  height: 40px;
   color:white;
+  margin-left: 20px;
+  font-size: 20px;
+  border:1px solid white;
 }
 
