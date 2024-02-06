@@ -46,4 +46,7 @@ public class Product extends BaseEntity {
   @ManyToOne
   private Member author;
 
+  @Transient
+  private double averageRating = 0.0;
+
 }

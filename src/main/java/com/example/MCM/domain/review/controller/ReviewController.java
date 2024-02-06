@@ -66,6 +66,7 @@ public class ReviewController {
         }
 
         this.reviewService.createReview(member, reviewCreateDTO.getTitle(), reviewCreateDTO.getContent(), reviewCreateDTO.getStarScore(), product);
+        productService.updateAverageRating(product);
         return "redirect:/product/"+productId;
     }
 

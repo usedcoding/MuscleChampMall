@@ -2,6 +2,7 @@ package com.example.MCM.domain.review.service;
 
 import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.product.entity.Product;
+import com.example.MCM.domain.product.service.ProductService;
 import com.example.MCM.domain.review.entity.Review;
 import com.example.MCM.domain.review.repository.ReviewRepository;
 import jakarta.transaction.Transactional;
@@ -20,6 +21,7 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
 
+    private final ProductService productService;
     //상품 페이지에 해당 리뷰 리스트 출력
     public List<Review> getReviewList(Product product) {
         return this.reviewRepository.findByProduct(product);
@@ -45,7 +47,12 @@ public class ReviewService {
                 .product(product)
                 .createDate(LocalDateTime.now())
                 .build();
-        return this.reviewRepository.save(review);
+
+        reviewRepository.save(review);
+
+        productService.updateAverageRating(product);
+
+        return review;
     }
 
     //리뷰 삭제
@@ -72,4 +79,5 @@ public class ReviewService {
     public List<Review> getReviewsByProductId(Long productId) {
         return this.reviewRepository.findByProductId(productId);
     }
+
 }

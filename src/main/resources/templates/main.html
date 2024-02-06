@@ -34,7 +34,7 @@
                                 <span>원</span>
                             </div>
                             <h5 th:text="${'리뷰 개수: ' + #lists.size(product.reviewList)} + '건'"> </h5>
-                            <h3 th:text="${'평점: ' + #numbers.formatDecimal(#aggregates.sum(product.reviewList.![starScore]) / #lists.size(product.reviewList), 1, 1)}"> </h3>
+                            <h5 th:text="${product.averageRating}"></h5>
                         </div>
                     </a>
                 </li>

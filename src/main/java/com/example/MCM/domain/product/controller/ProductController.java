@@ -82,6 +82,9 @@ public class ProductController {
     this.productService.addViewCount(product);
 
     List<Review> reviewList = this.reviewService.getReviewList(product);
+
+    productService.updateAverageRating(product);
+
     model.addAttribute("review", reviewList);
 
 

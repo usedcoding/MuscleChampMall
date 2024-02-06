@@ -30,4 +30,6 @@ public class Review extends BaseEntity {
 
     @ManyToOne
     private Product product;
+
+
 }
