@@ -23,26 +23,24 @@
             <a th:href="@{|/post/modify/${post.id}|}">수정</a>
             <a th:href="@{|/post/delete/${post.id}|}">삭제</a>
         </div>
-
+<!--댓글 작성-->
         <form th:action="@{|/comment/create/${post.id}|}" th:object="${commentCreateDTO}" method="post">
             <input type="text" name="content" placeholder=" 내용을 입력해주세요.">
             <button type="submit" style="">저장하기</button>
             <button type="submit"><a th:href="@{|/post/detail/${post.id}|}">취소하기</a></button>
         </form>
-
+        <!-- 댓글 수정-->
         <div th:each="comment : ${post.commentList}">
             <ul>
                 <li th:id=${comment.id} th:text="${comment.content}"></li>
                 <div class="comment-option">
-<!--                    <a th:href="'javascript:doDisplay(\'' + ${comment.id} + '\')'"> 수정</a><br/><br/>-->
-                    <button type="button" th:onclick="doDisplay('${comment.id})')">수정</button>
+<!--                    수정 input창 버튼-->
+                    <button type="button" th:onclick="doDisplay([[${comment.id}]])">수정</button>
                     <div th:id="'myDIV-' + ${comment.id}" style="display:none;">
-                        <div id="commentId" th:data-comment-id="${comment.id}"></div>
-<!--                        <div id="content" th:data-content-id="${content}"></div>-->
                         <form th:id="'commentForm-' + ${comment.id}" th:object="${commentCreateDTO}">
-                            <input type="text" class="content">
-<!--                            <input type="hidden" th:id="'commentId-' + ${comment.id}" th:value="${comment.id}">-->
-                            <button type="button" th:onclick="sendComment('${comment.id}')">수정하기</button>
+                            <input type="text" th:id="'content-' + ${comment.id}">
+<!--                            수정 기능 실행 버튼-->
+                            <button type="button" th:onclick="sendComment([[${comment.id}]])">수정하기</button>
                             <button type="button"><a th:href="@{|/post/detail/${post.id}|}">취소하기</a></button>
                         </form>
                     </div>
@@ -61,6 +59,7 @@
 </body>
 
 <script>
+<!--    수정 input 접기 펼치기-->
     function doDisplay(commentId) {
          var con = document.getElementById("myDIV-" + commentId);
          if(con.style.display=='none'){
@@ -71,13 +70,13 @@
      }
 
      function sendComment(commentId) {
-          console.log(1)
-         // 댓글 데이터 가져오기
-         var content = $(".content").val();
-<!--         var commentId = $("#commentId").val();-->
-            console.log($("#content"))
+<!--          댓글 데이터 가져오기-->
+         var content = $("#content-"+commentId).val();
 
-          var commentId = document.getElementById('commentId').getAttribute('data-comment-id');
+<!--         var commentId = $("#commentId").val();-->
+            console.log(content)
+
+
 
          // AJAX 요청 보내기
          $.ajax({
@@ -86,7 +85,7 @@
              data: {content: content}, // 수정 데이터를 서버로 전달
              success: function(response) {
                  alert("수정 했습니다.");
-
+<!--   수정된 댓글로 변경              -->
                  $("#" + commentId).text(response)
              },
              error: function(xhr, status, error) {
@@ -94,7 +93,5 @@
              }
          });
      }
- <!--    ajax url 문제 해결 필요 comment id 데이터를 받아오지 못함-->
 </script>
-
 </html>
