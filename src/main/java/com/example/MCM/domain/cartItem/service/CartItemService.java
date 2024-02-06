@@ -6,7 +6,6 @@ import com.example.MCM.domain.cartItem.entity.CartItem;
 import com.example.MCM.domain.cartItem.repository.CartItemRepository;
 import com.example.MCM.domain.product.entity.Product;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -47,10 +46,8 @@ public class CartItemService {
     return this.cartItemRepository.findAll();
   }
 
-
   public void cartItemDelete(Long itemId) {
     CartItem cartItem = this.cartItemRepository.findCartItemById(itemId);
     this.cartItemRepository.delete(cartItem);
   }
-
 }

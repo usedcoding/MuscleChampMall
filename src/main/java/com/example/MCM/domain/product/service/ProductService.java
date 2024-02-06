@@ -6,6 +6,8 @@ import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.product.dto.ProductDto;
 import com.example.MCM.domain.product.entity.Product;
 import com.example.MCM.domain.product.repository.ProductRepository;
+import com.example.MCM.domain.review.entity.Review;
+import com.example.MCM.domain.review.service.ReviewService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,10 +24,8 @@ import org.thymeleaf.util.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -33,6 +33,8 @@ import java.util.UUID;
 public class ProductService {
 
   private final ProductRepository productRepository;
+
+  private final ReviewService reviewService;
 
   @Value("${custom.originPath}")
   private String originPath;
@@ -217,6 +219,25 @@ public class ProductService {
         .viewCount(product.getViewCount() + 1)
         .build();
     this.productRepository.save(product);
+  }
+
+  public List<Product> getAllByReviewStarScore() {
+    return this.productRepository.findAll().stream()
+        .sorted(Comparator.comparingDouble(product -> -calculateAverageStarScore(product.getId())))
+        .collect(Collectors.toList());
+  }
+
+  private double calculateAverageStarScore(Long productId) {
+    List<Review> reviews = reviewService.getReviewsByProductId(productId);
+    if (reviews.isEmpty()) return 0.0;
+    return reviews.stream()
+        .mapToDouble(Review::getStarScore)
+        .average()
+        .orElse(0.0);
+  }
+
+  public List<Product> getProductsSortedByStarScore() {
+    return getAllByReviewStarScore();
   }
 
   public Page<Product> getProducts(Pageable pageable) {

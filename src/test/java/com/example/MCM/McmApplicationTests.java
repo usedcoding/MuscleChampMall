@@ -4,6 +4,7 @@ import com.example.MCM.domain.email.MailService;
 import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.member.repository.MemberRepository;
 import com.example.MCM.domain.member.service.MemberService;
+import com.example.MCM.domain.review.service.ReviewService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 class McmApplicationTests {
+
+    @Autowired
+    ReviewService reviewService;
 
     @Autowired
     MemberRepository memberRepository;
