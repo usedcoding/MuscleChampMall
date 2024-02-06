@@ -6,6 +6,7 @@ import com.example.MCM.domain.member.service.MemberService;
 import com.example.MCM.domain.product.dto.ProductDto;
 import com.example.MCM.domain.product.entity.Product;
 import com.example.MCM.domain.product.service.ProductService;
+import com.example.MCM.domain.review.ReviewCreateDTO;
 import com.example.MCM.domain.review.entity.Review;
 import com.example.MCM.domain.review.service.ReviewService;
 import jakarta.transaction.Transactional;
@@ -61,7 +62,8 @@ public class ProductController {
   @GetMapping(value = "/{id}")
   public String detail(Model model,
                        @PathVariable("id") Long id,
-                       Principal principal){
+                       Principal principal,
+                       @ModelAttribute("reviewCreateDTO")ReviewCreateDTO reviewCreateDTO){
 
 
     Product product = this.productService.findById(id);
@@ -80,6 +82,7 @@ public class ProductController {
     this.productService.addViewCount(product);
 
     List<Review> reviewList = this.reviewService.getReviewList(product);
+
     model.addAttribute("review", reviewList);
 
 

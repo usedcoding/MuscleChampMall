@@ -23,11 +23,13 @@ public class Review extends BaseEntity {
 
     private String content;
 
-    private Double starScore;
+    private double starScore;
 
     @ManyToOne
     private Member author;
 
     @ManyToOne
     private Product product;
+
+
 }
