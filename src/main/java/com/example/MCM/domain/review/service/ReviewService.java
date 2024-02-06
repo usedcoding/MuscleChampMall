@@ -36,12 +36,13 @@ public class ReviewService {
 
     //리뷰 생성
     @Transactional
-    public Review createReview(Member author, String title, String content, Integer starScore) {
+    public Review createReview(Member author, String title, String content, Integer starScore, Product product) {
         Review review = Review.builder()
                 .author(author)
                 .content(content)
                 .title(title)
                 .starScore(starScore)
+                .product(product)
                 .createDate(LocalDateTime.now())
                 .build();
         return this.reviewRepository.save(review);

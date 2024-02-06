@@ -4,7 +4,6 @@ import com.example.MCM.domain.email.MailService;
 import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.member.repository.MemberRepository;
 import com.example.MCM.domain.member.service.MemberService;
-import com.example.MCM.domain.review.entity.Review;
 import com.example.MCM.domain.review.service.ReviewService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -55,10 +54,4 @@ class McmApplicationTests {
         assertEquals(true, getMember.isDeleted());
     }
 
-    @Test
-    @DisplayName("리뷰 생성")
-    void t3() {
-        Member member = this.memberService.getMember("admin");
-        Review review = this.reviewService.createReview(member, "리뷰1", "리뷰1", 5);
-    }
 }
