@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -221,5 +222,162 @@ public class ProductService {
 
   public Page<Product> getProducts(Pageable pageable) {
     return this.productRepository.findAll(pageable);
+  }
+
+  public Page<Product> getStarScore(String category, String subCategory, int page, String kw) {
+    if (StringUtils.isEmpty(category)) {
+      return getAllProductsSortStarScore(page, kw);
+    } else if (StringUtils.isEmpty(subCategory)) {
+      return getCategoryProductsSortStarScore(category, page, kw);
+    } else {
+      return getSubCategoryProductsSortStarScore(category, subCategory, page, kw);
+    }
+  }
+
+  private Page<Product> getAllProductsSortStarScore(int page, String kw) {
+    List<Sort.Order> sorts = new ArrayList<>();
+    sorts.add(Sort.Order.desc("starScore"));
+    Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
+    return productRepository.findAll(pageable);
+  }
+
+  private Page<Product> getCategoryProductsSortStarScore(String category, int page, String kw) {
+    List<Sort.Order> sorts = new ArrayList<>();
+    sorts.add(Sort.Order.desc("starScore"));
+    Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
+
+    if (category.equals("GOODS")) {
+      getGoodsProducts(page, kw);
+      return this.productRepository.findAllGoodsByKeyword(kw, pageable);
+    } else if (category.equals("EQUIPMENT")) {
+      getEquipmentProducts(page, kw);
+      return this.productRepository.findAllEquipmentByKeyword(kw, pageable);
+    } else if (category.equals("FOOD")) {
+      getFoodProducts(page, kw);
+      return this.productRepository.findAllFoodByKeyword(kw, pageable);
+    }
+    return Page.empty();
+  }
+
+  private Page<Product> getSubCategoryProductsSortStarScore(String category, String subCategory, int page, String kw) {
+    List<Sort.Order> sorts = new ArrayList<>();
+    sorts.add(Sort.Order.desc("starScore"));
+    Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
+    if (category.equals("GOODS")){
+      getGoodsProducts(page, kw);
+      return this.productRepository.findAllGoodsByKeywordAndSubCategory(kw, pageable, subCategory);
+    } else if (category.equals("EQUIPMENT")) {
+      getEquipmentProducts(page, kw);
+      return this.productRepository.findAllEquipmentByKeywordAndSubCategory(kw, pageable, subCategory);
+    } else if (category.equals("FOOD")) {
+      getFoodProducts(page, kw);
+      return this.productRepository.findAllFoodByKeywordAndSubCategory(kw, pageable, subCategory);
+    }
+    return Page.empty();
+  }
+
+ public Page<Product> getLowPrice(String category, String subCategory, int page, String kw) {
+    if (StringUtils.isEmpty(category)) {
+      return getAllProductsSortLowPrice(page, kw);
+    } else if (StringUtils.isEmpty(subCategory)) {
+      return getCategoryProductsSortLowPrice(category, page, kw);
+    } else {
+      return getSubCategoryProductsSortLowPrice(category, subCategory, page, kw);
+    }
+  }
+
+  private Page<Product> getAllProductsSortLowPrice(int page, String kw) {
+    List<Sort.Order> sorts = new ArrayList<>();
+    sorts.add(Sort.Order.asc("price"));
+    Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
+    return productRepository.findAll(pageable);
+  }
+
+  private Page<Product> getCategoryProductsSortLowPrice(String category, int page, String kw) {
+    List<Sort.Order> sorts = new ArrayList<>();
+    sorts.add(Sort.Order.asc("price"));
+    Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
+
+    if (category.equals("GOODS")) {
+      getGoodsProducts(page, kw);
+      return this.productRepository.findAllGoodsByKeyword(kw, pageable);
+    } else if (category.equals("EQUIPMENT")) {
+      getEquipmentProducts(page, kw);
+      return this.productRepository.findAllEquipmentByKeyword(kw, pageable);
+    } else if (category.equals("FOOD")) {
+      getFoodProducts(page, kw);
+      return this.productRepository.findAllFoodByKeyword(kw, pageable);
+    }
+    return Page.empty();
+  }
+
+  private Page<Product> getSubCategoryProductsSortLowPrice(String category, String subCategory, int page, String kw) {
+    List<Sort.Order> sorts = new ArrayList<>();
+    sorts.add(Sort.Order.asc("price"));
+    Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
+    if (category.equals("GOODS")){
+      getGoodsProducts(page, kw);
+      return this.productRepository.findAllGoodsByKeywordAndSubCategory(kw, pageable, subCategory);
+    } else if (category.equals("EQUIPMENT")) {
+      getEquipmentProducts(page, kw);
+      return this.productRepository.findAllEquipmentByKeywordAndSubCategory(kw, pageable, subCategory);
+    } else if (category.equals("FOOD")) {
+      getFoodProducts(page, kw);
+      return this.productRepository.findAllFoodByKeywordAndSubCategory(kw, pageable, subCategory);
+    }
+    return Page.empty();
+  }
+
+
+  public Page<Product> getHighPrice(String category, String subCategory, int page, String kw) {
+    if (StringUtils.isEmpty(category)) {
+      return getAllProductsSortHighPrice(page, kw);
+    } else if (StringUtils.isEmpty(subCategory)) {
+      return getCategoryProductsSortHighPrice(category, page, kw);
+    } else {
+      return getSubCategoryProductsSortHighPrice(category, subCategory, page, kw);
+    }
+  }
+
+  private Page<Product> getAllProductsSortHighPrice(int page, String kw) {
+    List<Sort.Order> sorts = new ArrayList<>();
+    sorts.add(Sort.Order.desc("price"));
+    Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
+    return productRepository.findAll(pageable);
+  }
+
+  private Page<Product> getCategoryProductsSortHighPrice(String category, int page, String kw) {
+    List<Sort.Order> sorts = new ArrayList<>();
+    sorts.add(Sort.Order.desc("price"));
+    Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
+
+    if (category.equals("GOODS")) {
+      getGoodsProducts(page, kw);
+      return this.productRepository.findAllGoodsByKeyword(kw, pageable);
+    } else if (category.equals("EQUIPMENT")) {
+      getEquipmentProducts(page, kw);
+      return this.productRepository.findAllEquipmentByKeyword(kw, pageable);
+    } else if (category.equals("FOOD")) {
+      getFoodProducts(page, kw);
+      return this.productRepository.findAllFoodByKeyword(kw, pageable);
+    }
+    return Page.empty();
+  }
+
+  private Page<Product> getSubCategoryProductsSortHighPrice(String category, String subCategory, int page, String kw) {
+    List<Sort.Order> sorts = new ArrayList<>();
+    sorts.add(Sort.Order.desc("price"));
+    Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
+    if (category.equals("GOODS")){
+      getGoodsProducts(page, kw);
+      return this.productRepository.findAllGoodsByKeywordAndSubCategory(kw, pageable, subCategory);
+    } else if (category.equals("EQUIPMENT")) {
+      getEquipmentProducts(page, kw);
+      return this.productRepository.findAllEquipmentByKeywordAndSubCategory(kw, pageable, subCategory);
+    } else if (category.equals("FOOD")) {
+      getFoodProducts(page, kw);
+      return this.productRepository.findAllFoodByKeywordAndSubCategory(kw, pageable, subCategory);
+    }
+    return Page.empty();
   }
 }
