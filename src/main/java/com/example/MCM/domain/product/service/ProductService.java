@@ -43,14 +43,38 @@ public class ProductService {
     return this.productRepository.findAll();
   }
 
-  public Page<Product> getList(String category, String subCategory, int page, String kw) {
+  public Page<Product> getList(String category, String subCategory, int page, String kw, String sort) {
     if (StringUtils.isEmpty(category)) {
       return getAllProducts(page, kw);
     } else if (StringUtils.isEmpty(subCategory)) {
       return getCategoryProducts(category, page, kw);
-    } else {
+    } else if (StringUtils.isEmpty(sort)){
       return getSubCategoryProducts(category, subCategory, page, kw);
+    } else {
+      return getSortProducts(category, subCategory, page, kw, sort);
     }
+  }
+
+  public Page<Product> getSortProducts(String category, String subCategory, int page, String kw, String sort) {
+
+    List<Sort.Order> sorts = new ArrayList<>();
+
+    Pageable pageable = PageRequest.of(page - 1, 20);
+
+    Page<Product> sortedProducts;
+
+    if (category.equals("GOODS") || category.equals("EQUIPMENT") || category.equals("FOOD")) {
+      if (sort.equals("popularity")) {
+        sorts.add(Sort.Order.desc("starScore"));
+      } else if (sort.equals("highPrice")) {
+        sorts.add(Sort.Order.desc("price"));
+      } else if (sort.equals("lowPrice")) {
+        sorts.add(Sort.Order.asc("price"));
+      }
+      sortedProducts = productRepository.findAllByCategoryAndSubCategoryOrderByAvgStarScoreDesc(category, subCategory, pageable);
+    }
+
+    return Page.empty();
   }
 
   private Page<Product> getSubCategoryProducts(String category, String subCategory, int page, String kw) {
@@ -243,4 +267,5 @@ public class ProductService {
   public Page<Product> getProducts(Pageable pageable) {
     return this.productRepository.findAll(pageable);
   }
+
 }

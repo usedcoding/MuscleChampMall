@@ -89,4 +89,24 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
   @Query("SELECT DISTINCT p.subCategory FROM Product p WHERE p.category = :category")
   List<String> findSubCategoriesByCategory(@Param("category") String category);
+
+
+  @Query("SELECT p FROM Product p WHERE p.category = :category AND p.subCategory = :subCategory ORDER BY p.avgStarScore DESC")
+  Page<Product> findAllByCategoryAndSubCategoryOrderByAvgStarScoreDesc(String category, String subCategory, Pageable pageable);
+
+
+
+
+  //  @Query(
+  //      "SELECT DISTINCT p "
+  //          + "FROM Product p "
+  //          + "LEFT JOIN FETCH p.reviewList r "
+  //          + "WHERE p.category = :category AND p.sort = :sort AND p.subCategory "
+  //          + "ORDER BY "
+  //          + "CASE WHEN :sort = 'popularity' THEN AVG(r.starScore) END DESC, "
+  //          + "CASE WHEN :sort = 'highPrice' THEN p.createDate END DESC, "
+  //          + "CASE WHEN :sort = 'lowPrice' THEN p.createDate END ASC, "
+  //          + "CASE WHEN :sort NOT IN ('popularity', 'highPrice', 'lowPrice') THEN AVG(r.starScore) END DESC"
+  //  )
+  //  List<Product> findAllByCategoryAndSubCategoryAndSort(@Param("category") String category,@Param("subCategory") String subCategory , @Param("sort") String sort, Pageable pageable);
 }
