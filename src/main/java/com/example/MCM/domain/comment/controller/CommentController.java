@@ -28,19 +28,20 @@ public class CommentController {
     private final CommentService commentService;
     private final PostService postService;
     private final MemberService memberService;
+
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create/{id}")
-    public String createComment(@PathVariable(value = "id")Long id, @Valid CommentCreateDTO commentCreateDTO, BindingResult bindingResult, Model model, Principal principal ) {
+    public String createComment(@PathVariable(value = "id") Long id, @Valid CommentCreateDTO commentCreateDTO, BindingResult bindingResult, Model model, Principal principal) {
         Post post = this.postService.getPost(id);
 
         Member member = this.memberService.getMember(principal.getName());
 
-        if(principal == null) {
+        if (principal == null) {
             return "redirect:/member/login";
         }
 
-        if(bindingResult.hasErrors()) {
-            return String.format("redirect:/post/detail/%s",post.getId());
+        if (bindingResult.hasErrors()) {
+            return String.format("redirect:/post/detail/%s", post.getId());
         }
 
         this.commentService.createComment(commentCreateDTO.getContent(), member, post);
@@ -50,11 +51,11 @@ public class CommentController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/delete/{id}")
-    public String deleteComment(@PathVariable(value = "id")Long id, Principal principal) {
+    public String deleteComment(@PathVariable(value = "id") Long id, Principal principal) {
 
         Comment comment = this.commentService.getComment(id);
 
-        if(comment.getAuthor().getUsername().equals(principal.getName())) {
+        if (comment.getAuthor().getUsername().equals(principal.getName())) {
             this.commentService.deleteComment(comment);
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
@@ -63,24 +64,20 @@ public class CommentController {
         return String.format("redirect:/post/detail/%d", comment.getPost().getId());
     }
 
-    //수정을 해야 할까? 해야 한다면 생성과 같은 곳에서 수정하는 것으로
-
     @PostMapping("/modify/{id}")
     @ResponseBody
-    public String modifyComment(@PathVariable(value = "id")Long id,@RequestParam(value = "content") String content) {
+    public String modifyComment(@PathVariable(value = "id") Long id, @RequestParam(value = "content") String content, Principal principal) {
         Comment comment = this.commentService.getComment(id);
 
-//        if (comment.getAuthor().getUsername().equals(principal.getName())) {
-            this.commentService.modifyComment(comment, content);
-//        }else {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
-//        }
-////
-//        if(bindingResult.hasErrors()) {
-//            return String.format("redirect:/post/detail/%s", comment.getPost().getId());
-//        }
-//
-//        model.addAttribute("comment", comment);
+        if (!comment.getAuthor().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "작성자만 수정 가능합니다.");
+        }
+
+        if (content == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "내용이 없습니다.");
+        }
+
+        this.commentService.modifyComment(comment, content);
 
         return content;
     }
