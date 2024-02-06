@@ -27,15 +27,15 @@
         <div class="product">
             <ul th:each="product : ${productList}">
                 <li>
-                    <a th:href="@{|/product/${product.id}|}" >
+                    <a th:href="@{|/product/${product.id}|}">
                         <img th:src="${product.imgPath}" alt="">
                         <div class=info>
                             <div th:text="${product.name}" class="subject"></div>
                             <div th:text="${product.price}" class="cost">
                                 <span>원</span>
                             </div>
-                            <h5 th:text="${'리뷰 개수: ' + #lists.size(product.reviewList)} + '건'"> </h5>
-                            <h3 th:text="${'평균점수: ' + #numbers.formatDecimal(#aggregates.sum(product.reviewList.![starScore])*1.0 / #lists.size(product.reviewList), 1, 1)}"> </h3>
+                            <h5 th:text="${'리뷰 개수: ' + #lists.size(product.reviewList)} + '건'"></h5>
+                            <h3 th:text="${'평균점수: ' + #numbers.formatDecimal(#aggregates.sum(product.reviewList.![starScore])*1.0 / #lists.size(product.reviewList), 1, 1)}"></h3>
                         </div>
                     </a>
                 </li>
@@ -61,7 +61,7 @@
                     <tbody>
                     <tr th:each="notice : ${noticeList}">
                         <td th:text="${notice.id}"></td>
-                        <td >
+                        <td>
                             <a th:href="@{|/notice/${notice.id}|}">
                                 <span th:text="${notice.subject}"></span>
                             </a>
@@ -95,11 +95,8 @@
                             </a>
                         </td>
                         <td th:text="${post.author.nickname}"></td>
-
-
                         <td th:text="${post.createDate}"></td>
                         <td th:text="${post.author}"></td>
-
                         <td th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm')}"></td>
                     </tr>
                     </tbody>
