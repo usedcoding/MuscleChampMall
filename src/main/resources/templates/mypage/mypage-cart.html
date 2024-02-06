@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/mypage/mypage-cart.css"/>
+    <link rel="stylesheet" href="/layout.css">
+</head>
+<body>
+
+<div th:replace="/navbar.html"></div>
+
+<div layout:fragment="content"  class="container">
+
+    <div class="img-section">
+        <img src="https://i.ytimg.com/vi/-gBA_HA9sV0/maxresdefault.jpg" alt="">
+    </div>
+    <div class="info-section">
+        <ul class="menu">
+            <a th:href="@{/mypage/me}"><li> 회원정보</li></a>
+            <a th:href="@{/mypage/order}"><li> 내가 주문한 상품</li></a>
+            <a th:href="@{/mypage/cart}"><li> 장바구니</li></a>
+            <a th:href="@{/mypage/review}"><li> 내가 쓴 리뷰</li></a>
+            <a th:href="@{/mypage/edit}"><li> 개인정보 변경</li></a>
+        </ul>
+
+        <div class="ment" th:if="${myOrders == null || #lists.isEmpty(myOrders)}">
+            <p>장바구니가 비어있습니다.</p>
+        </div>
+
+        <ul th:if="${mycart != null && not #lists.isEmpty(mycart)}" class=info>
+            <div class="title">나의 장바구니</div>
+            <li th:each="mycart : ${mycart}">
+                <div class="product-img">
+                    <a th:href="@{|/mycart/${mycart.product.id}|}">
+                        <img th:src="${mycart.product.imgPath}" alt="">
+                    </a>
+                </div>
+                <div class="product-info">
+                    <div class="name">
+                        <a th:text="${mycart.product.name}" th:href="@{|/mycart/${mycart.product.id}|}"></a>
+                    </div>
+                    <div class="price" th:text="${myOrder.product.price}"><span>원</span></div>
+                    <button>구매하기</button>
+                </div>
+            </li>
+            <li>
+                <div class="product-img">
+                    <img src="https://cf.monsterzym.com/images/thumbnails/640/640/detailed/31/%EC%95%84%EC%97%B0_%EA%B8%80%EB%A3%A8%EC%BD%94%EB%84%A4%EC%9D%B4%ED%8A%B8_30mg_250%EC%BA%A1%EC%8A%90.jpg?t=1698872036" alt="">
+                </div>
+                <div class="product-info">
+                    <div class="name">아연 글루코네이트 30mg 250캡슐</div>
+                    <div class="price">6658 <span>원</span></div>
+                    <button>구매하기</button>
+                </div>
+            </li>
+            <li>
+                <div class="product-img">
+                    <img src="https://cf.monsterzym.com/images/thumbnails/640/640/detailed/31/%EC%95%84%EC%97%B0_%EA%B8%80%EB%A3%A8%EC%BD%94%EB%84%A4%EC%9D%B4%ED%8A%B8_30mg_250%EC%BA%A1%EC%8A%90.jpg?t=1698872036" alt="">
+                </div>
+                <div class="product-info">
+                    <div class="name">아연 글루코네이트 30mg 250캡슐</div>
+                    <div class="price">6658 <span>원</span></div>
+                    <button>구매하기</button>
+                </div>
+            </li>
+            <li>
+                <div class="product-img">
+                    <img src="https://cf.monsterzym.com/images/thumbnails/640/640/detailed/31/%EC%95%84%EC%97%B0_%EA%B8%80%EB%A3%A8%EC%BD%94%EB%84%A4%EC%9D%B4%ED%8A%B8_30mg_250%EC%BA%A1%EC%8A%90.jpg?t=1698872036" alt="">
+                </div>
+                <div class="product-info">
+                    <div class="name">아연 글루코네이트 30mg 250캡슐</div>
+                    <div class="price">6658 <span>원</span></div>
+                    <button>구매하기</button>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+<div th:replace="/footer.html"></div>
+
+</body>
+</html>

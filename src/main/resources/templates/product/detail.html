@@ -67,22 +67,22 @@
 
             <div class="subject">제목</div>
             <hr>
-            <input th:field="*{title}" name="title" type="text">
+            <input th:field="*{title}" type="text">
 
             <div class="score-title">평점</div>
             <hr>
 
             <div  name="starScore" class="score">
-              <input th:field="*{starScore}" name="starScore" type="radio" value="5">5점
-              <input th:field="*{starScore}" name="starScore" type="radio" value="4">4점
-              <input th:field="*{starScore}" name="starScore" type="radio" value="3">3점
-              <input th:field="*{starScore}" name="starScore" type="radio" value="2">2점
-              <input th:field="*{starScore}" name="starScore" type="radio" value="1">1점
+              <input th:field="*{starScore}" type="radio" value="5">5점
+              <input th:field="*{starScore}" type="radio" value="4">4점
+              <input th:field="*{starScore}" type="radio" value="3">3점
+              <input th:field="*{starScore}" type="radio" value="2">2점
+              <input th:field="*{starScore}" type="radio" value="1">1점
             </div>
 
             <div class="content">내용</div>
             <hr>
-            <textarea th:field="*{content}" name="content" id="content" cols="30" rows="10"></textarea>
+            <textarea th:field="*{content}" id="content" cols="30" rows="10"></textarea>
 
             <div class="btn-section">
               <button type="submit">저장하기</button>

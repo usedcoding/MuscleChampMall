@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mypage</title>
+    <link rel="stylesheet" href="/mypage/mypage-edit.css"/>
+    <link rel="stylesheet" href="/layout.css">
+</head>
+<body>
+
+<div th:replace="/navbar.html"></div>
+
+<div layout:fragment="content"  class="container">
+    <div class="img-section">
+        <img src="https://i.ytimg.com/vi/-gBA_HA9sV0/maxresdefault.jpg" alt="">
+    </div>
+    <div class="info-section">
+        <ul class="menu">
+            <a th:href="@{/mypage/me}"><li> 회원정보</li></a>
+            <a th:href="@{/mypage/order}"><li> 내가 주문한 상품</li></a>
+            <a th:href="@{/mypage/cart}"><li> 장바구니</li></a>
+            <a th:href="@{/mypage/review}"><li> 내가 쓴 리뷰</li></a>
+            <a th:href="@{/mypage/edit}"><li> 개인정보 변경</li></a>
+        </ul>
+        <div class="edit-section">
+            <div class="title">개인정보 변경</div>
+            <form  th:action="@{/member/update/me}" class="edit-user" th:object="${memberUpdateDTO}" method="post">
+                <div class="form_errors" th:replace="~{form_errors :: formErrorsFragment}"></div>
+                <div class="pw-title">비밀번호</div>
+                <input type="text" class="pw" th:field="*{newPassword}" name="newPassword">
+                <div class="pw-check-title">비밀번호 확인</div>
+                <input type="text" class="pw-check" th:field="*{newPassword2}" name="newPassword2">
+                <div class="nickName-title">닉네임</div>
+                <input type="text" class="nickName" th:field="*{newNickname}" name="newNickname">
+                <div class="email-title">E-mail</div>
+                <input type="text" class="email" th:field="*{newEmail}" name="newEmail">
+                <div class="phone-title">휴대폰 번호</div>
+                <input type="text" class="phone" th:field="*{newPhoneNumber}" name="newPhoneNumber">
+                <div class="address-title">주소</div>
+                <input type="text" class="address" th:field="*{newAddress}" name="newAddress">
+
+
+
+
+                <div class="button">
+                    <button>저장하기</button>
+                    <a a th:href="@{/mypage}">
+                        <button>취소하기</button>
+                    </a>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<div th:replace="/footer.html"></div>
+
+</body>
+</html>
