@@ -34,6 +34,10 @@ public class MemberUpdateDTO {
     @NotBlank(message = "새로운 주소를 입력해 주세요")
     private String newAddress;
 
+    private String detailAddress;
+
+    private String extraAddress;
+
 
 
 
