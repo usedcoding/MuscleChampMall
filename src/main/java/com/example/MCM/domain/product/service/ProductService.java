@@ -56,7 +56,7 @@ public class ProductService {
     List<Sort.Order> sorts = new ArrayList<>();
     sorts.add(Sort.Order.desc("createDate"));
     Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
-    if (category.equals("GOODS")){
+    if (category.equals("GOODS")) {
       getGoodsProducts(page, kw);
       return this.productRepository.findAllGoodsByKeywordAndSubCategory(kw, pageable, subCategory);
     } else if (category.equals("EQUIPMENT")) {
@@ -70,9 +70,9 @@ public class ProductService {
   }
 
   private Page<Product> getCategoryProducts(String category, int page, String kw) {
-      List<Sort.Order> sorts = new ArrayList<>();
-      sorts.add(Sort.Order.desc("createDate"));
-      Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
+    List<Sort.Order> sorts = new ArrayList<>();
+    sorts.add(Sort.Order.desc("createDate"));
+    Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
 
     if (category.equals("GOODS")) {
       getGoodsProducts(page, kw);
@@ -98,7 +98,8 @@ public class ProductService {
     Optional<Product> product = this.productRepository.findById(id);
     if (product.isPresent()) {
       return product.get();
-    } throw new DataNotFoundException("product not found");
+    }
+    throw new DataNotFoundException("product not found");
   }
 
   public Optional<Product> findProductById(Long id) {
@@ -116,27 +117,27 @@ public class ProductService {
 
     String projectPath = System.getProperty("user.dir") + "/src/main/resources/static/upload";
 
-      UUID uuid = UUID.randomUUID();
+    UUID uuid = UUID.randomUUID();
 
-      String fileName = uuid + "_" + file.getOriginalFilename();
-      String filePath = originPath + fileName;
+    String fileName = uuid + "_" + file.getOriginalFilename();
+    String filePath = originPath + fileName;
 
-      File saveFile = new File(projectPath, fileName);
-      file.transferTo(saveFile);
+    File saveFile = new File(projectPath, fileName);
+    file.transferTo(saveFile);
 
     Product product = Product.builder()
-          .name(productDto.getName())
-          .content(productDto.getContent())
-          .price(productDto.getPrice())
-          .description(productDto.getDescription())
-          .author(author)
-          .imgPath(filePath)
-          .imgName(fileName)
-          .viewCount(0L)
-          .category(productDto.getCategory())
-          .subCategory(productDto.getSubCategory())
-          .createDate(LocalDateTime.now())
-          .build();
+            .name(productDto.getName())
+            .content(productDto.getContent())
+            .price(productDto.getPrice())
+            .description(productDto.getDescription())
+            .author(author)
+            .imgPath(filePath)
+            .imgName(fileName)
+            .viewCount(0L)
+            .category(productDto.getCategory())
+            .subCategory(productDto.getSubCategory())
+            .createDate(LocalDateTime.now())
+            .build();
     this.productRepository.save(product);
 
     return product;
@@ -150,34 +151,35 @@ public class ProductService {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "존재하지 않는 상품입니다.");
     }
   }
+
   @Transactional
   public void modify(Product product, ProductDto productCreateForm, MultipartFile file) throws IOException {
 
     String projectPath = System.getProperty("user.dir") + "/src/main/resources/static/upload";
 
-      UUID uuid = UUID.randomUUID();
+    UUID uuid = UUID.randomUUID();
 
-      String fileName = uuid + "_" + file.getOriginalFilename();
-      String filePath = originPath + fileName;
+    String fileName = uuid + "_" + file.getOriginalFilename();
+    String filePath = originPath + fileName;
 
-      File saveFile = new File(projectPath, fileName);
-      file.transferTo(saveFile);
+    File saveFile = new File(projectPath, fileName);
+    file.transferTo(saveFile);
 
     Product modifyProduct = product.toBuilder()
-        .name(productCreateForm.getName())
-        .price(productCreateForm.getPrice())
-        .category(productCreateForm.getCategory())
-        .subCategory(productCreateForm.getSubCategory())
-        .imgPath(filePath)
-        .imgName(fileName)
-        .modifyDate(LocalDateTime.now())
-        .build();
+            .name(productCreateForm.getName())
+            .price(productCreateForm.getPrice())
+            .category(productCreateForm.getCategory())
+            .subCategory(productCreateForm.getSubCategory())
+            .imgPath(filePath)
+            .imgName(fileName)
+            .modifyDate(LocalDateTime.now())
+            .build();
     this.productRepository.save(modifyProduct);
   }
 
   public void deleteValidate(Member author, Product product) {
     if (!author.getRole().equals(MemberRole.ADMIN)) {
-      throw new  ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
     }
     if (product == null) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "존재하지 않는 상품입니다.");
@@ -215,169 +217,12 @@ public class ProductService {
 
   public void addViewCount(Product product) {
     product = product.toBuilder()
-        .viewCount(product.getViewCount() + 1)
-        .build();
+            .viewCount(product.getViewCount() + 1)
+            .build();
     this.productRepository.save(product);
   }
 
   public Page<Product> getProducts(Pageable pageable) {
     return this.productRepository.findAll(pageable);
-  }
-
-  public Page<Product> getStarScore(String category, String subCategory, int page, String kw) {
-    if (StringUtils.isEmpty(category)) {
-      return getAllProductsSortStarScore(page, kw);
-    } else if (StringUtils.isEmpty(subCategory)) {
-      return getCategoryProductsSortStarScore(category, page, kw);
-    } else {
-      return getSubCategoryProductsSortStarScore(category, subCategory, page, kw);
-    }
-  }
-
-  private Page<Product> getAllProductsSortStarScore(int page, String kw) {
-    List<Sort.Order> sorts = new ArrayList<>();
-    sorts.add(Sort.Order.desc("starScore"));
-    Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
-    return productRepository.findAll(pageable);
-  }
-
-  private Page<Product> getCategoryProductsSortStarScore(String category, int page, String kw) {
-    List<Sort.Order> sorts = new ArrayList<>();
-    sorts.add(Sort.Order.desc("starScore"));
-    Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
-
-    if (category.equals("GOODS")) {
-      getGoodsProducts(page, kw);
-      return this.productRepository.findAllGoodsByKeyword(kw, pageable);
-    } else if (category.equals("EQUIPMENT")) {
-      getEquipmentProducts(page, kw);
-      return this.productRepository.findAllEquipmentByKeyword(kw, pageable);
-    } else if (category.equals("FOOD")) {
-      getFoodProducts(page, kw);
-      return this.productRepository.findAllFoodByKeyword(kw, pageable);
-    }
-    return Page.empty();
-  }
-
-  private Page<Product> getSubCategoryProductsSortStarScore(String category, String subCategory, int page, String kw) {
-    List<Sort.Order> sorts = new ArrayList<>();
-    sorts.add(Sort.Order.desc("starScore"));
-    Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
-    if (category.equals("GOODS")){
-      getGoodsProducts(page, kw);
-      return this.productRepository.findAllGoodsByKeywordAndSubCategory(kw, pageable, subCategory);
-    } else if (category.equals("EQUIPMENT")) {
-      getEquipmentProducts(page, kw);
-      return this.productRepository.findAllEquipmentByKeywordAndSubCategory(kw, pageable, subCategory);
-    } else if (category.equals("FOOD")) {
-      getFoodProducts(page, kw);
-      return this.productRepository.findAllFoodByKeywordAndSubCategory(kw, pageable, subCategory);
-    }
-    return Page.empty();
-  }
-
- public Page<Product> getLowPrice(String category, String subCategory, int page, String kw) {
-    if (StringUtils.isEmpty(category)) {
-      return getAllProductsSortLowPrice(page, kw);
-    } else if (StringUtils.isEmpty(subCategory)) {
-      return getCategoryProductsSortLowPrice(category, page, kw);
-    } else {
-      return getSubCategoryProductsSortLowPrice(category, subCategory, page, kw);
-    }
-  }
-
-  private Page<Product> getAllProductsSortLowPrice(int page, String kw) {
-    List<Sort.Order> sorts = new ArrayList<>();
-    sorts.add(Sort.Order.asc("price"));
-    Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
-    return productRepository.findAll(pageable);
-  }
-
-  private Page<Product> getCategoryProductsSortLowPrice(String category, int page, String kw) {
-    List<Sort.Order> sorts = new ArrayList<>();
-    sorts.add(Sort.Order.asc("price"));
-    Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
-
-    if (category.equals("GOODS")) {
-      getGoodsProducts(page, kw);
-      return this.productRepository.findAllGoodsByKeyword(kw, pageable);
-    } else if (category.equals("EQUIPMENT")) {
-      getEquipmentProducts(page, kw);
-      return this.productRepository.findAllEquipmentByKeyword(kw, pageable);
-    } else if (category.equals("FOOD")) {
-      getFoodProducts(page, kw);
-      return this.productRepository.findAllFoodByKeyword(kw, pageable);
-    }
-    return Page.empty();
-  }
-
-  private Page<Product> getSubCategoryProductsSortLowPrice(String category, String subCategory, int page, String kw) {
-    List<Sort.Order> sorts = new ArrayList<>();
-    sorts.add(Sort.Order.asc("price"));
-    Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
-    if (category.equals("GOODS")){
-      getGoodsProducts(page, kw);
-      return this.productRepository.findAllGoodsByKeywordAndSubCategory(kw, pageable, subCategory);
-    } else if (category.equals("EQUIPMENT")) {
-      getEquipmentProducts(page, kw);
-      return this.productRepository.findAllEquipmentByKeywordAndSubCategory(kw, pageable, subCategory);
-    } else if (category.equals("FOOD")) {
-      getFoodProducts(page, kw);
-      return this.productRepository.findAllFoodByKeywordAndSubCategory(kw, pageable, subCategory);
-    }
-    return Page.empty();
-  }
-
-
-  public Page<Product> getHighPrice(String category, String subCategory, int page, String kw) {
-    if (StringUtils.isEmpty(category)) {
-      return getAllProductsSortHighPrice(page, kw);
-    } else if (StringUtils.isEmpty(subCategory)) {
-      return getCategoryProductsSortHighPrice(category, page, kw);
-    } else {
-      return getSubCategoryProductsSortHighPrice(category, subCategory, page, kw);
-    }
-  }
-
-  private Page<Product> getAllProductsSortHighPrice(int page, String kw) {
-    List<Sort.Order> sorts = new ArrayList<>();
-    sorts.add(Sort.Order.desc("price"));
-    Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
-    return productRepository.findAll(pageable);
-  }
-
-  private Page<Product> getCategoryProductsSortHighPrice(String category, int page, String kw) {
-    List<Sort.Order> sorts = new ArrayList<>();
-    sorts.add(Sort.Order.desc("price"));
-    Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
-
-    if (category.equals("GOODS")) {
-      getGoodsProducts(page, kw);
-      return this.productRepository.findAllGoodsByKeyword(kw, pageable);
-    } else if (category.equals("EQUIPMENT")) {
-      getEquipmentProducts(page, kw);
-      return this.productRepository.findAllEquipmentByKeyword(kw, pageable);
-    } else if (category.equals("FOOD")) {
-      getFoodProducts(page, kw);
-      return this.productRepository.findAllFoodByKeyword(kw, pageable);
-    }
-    return Page.empty();
-  }
-
-  private Page<Product> getSubCategoryProductsSortHighPrice(String category, String subCategory, int page, String kw) {
-    List<Sort.Order> sorts = new ArrayList<>();
-    sorts.add(Sort.Order.desc("price"));
-    Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
-    if (category.equals("GOODS")){
-      getGoodsProducts(page, kw);
-      return this.productRepository.findAllGoodsByKeywordAndSubCategory(kw, pageable, subCategory);
-    } else if (category.equals("EQUIPMENT")) {
-      getEquipmentProducts(page, kw);
-      return this.productRepository.findAllEquipmentByKeywordAndSubCategory(kw, pageable, subCategory);
-    } else if (category.equals("FOOD")) {
-      getFoodProducts(page, kw);
-      return this.productRepository.findAllFoodByKeywordAndSubCategory(kw, pageable, subCategory);
-    }
-    return Page.empty();
   }
 }
