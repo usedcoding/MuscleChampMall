@@ -25,18 +25,19 @@
         <div class="edit-section">
             <div class="title">개인정보 변경</div>
             <form  th:action="@{/member/update/me}" class="edit-user" th:object="${memberUpdateDTO}" method="post">
+                <div class="form_errors" th:replace="~{form_errors :: formErrorsFragment}"></div>
                 <div class="pw-title">비밀번호</div>
-                <input type="text" class="pw" th:field="*{newPassword}">
+                <input type="text" class="pw" th:field="*{newPassword}" name="newPassword">
                 <div class="pw-check-title">비밀번호 확인</div>
-                <input type="text" class="pw-check" th:field="*{newPassword2}">
+                <input type="text" class="pw-check" th:field="*{newPassword2}" name="newPassword2">
                 <div class="nickName-title">닉네임</div>
-                <input type="text" class="nickName" th:field="*{newNickname}">
+                <input type="text" class="nickName" th:field="*{newNickname}" name="newNickname">
                 <div class="email-title">E-mail</div>
-                <input type="text" class="email" th:field="*{newEmail}">
+                <input type="text" class="email" th:field="*{newEmail}" name="newEmail">
                 <div class="phone-title">휴대폰 번호</div>
-                <input type="text" class="phone" th:field="*{newPhoneNumber}">
+                <input type="text" class="phone" th:field="*{newPhoneNumber}" name="newPhoneNumber">
                 <div class="address-title">주소</div>
-                <input type="text" class="address" th:field="*{newAddress}">
+                <input type="text" class="address" th:field="*{newAddress}" name="newAddress">
 
 
 

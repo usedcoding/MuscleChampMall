@@ -9,7 +9,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CommentCreateDTO {
-    @NotEmpty(message = "내용을 입력해 주세요.")
+
+    @NotBlank(message = "내용을 입력해 주세요.")
     private String content;
 }
 
