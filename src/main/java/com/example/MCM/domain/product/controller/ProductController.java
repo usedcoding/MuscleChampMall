@@ -83,8 +83,6 @@ public class ProductController {
 
     List<Review> reviewList = this.reviewService.getReviewList(product);
 
-    productService.updateAverageRating(product);
-
     model.addAttribute("review", reviewList);
 
 

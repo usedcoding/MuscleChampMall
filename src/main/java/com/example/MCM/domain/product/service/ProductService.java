@@ -240,21 +240,6 @@ public class ProductService {
     return getAllByReviewStarScore();
   }
 
-  public void updateAverageRating(Product product) {
-    List<Review> reviews = product.getReviewList();
-    if (!reviews.isEmpty()) {
-      double totalRating = 0.0;
-      for (Review review : reviews) {
-        totalRating += review.getStarScore();
-      }
-      double averageRating = totalRating / reviews.size();
-      product = product.toBuilder()
-          .averageRating(averageRating)
-          .build();
-      productRepository.save(product);
-    }
-  }
-
   public Page<Product> getProducts(Pageable pageable) {
     return this.productRepository.findAll(pageable);
   }
