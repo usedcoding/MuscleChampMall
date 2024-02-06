@@ -5,17 +5,6 @@
     <title>Title</title>
     <link rel="stylesheet" type="text/css" th:href="@{/post_detail.css}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script type="text/javascript">
-        var bDisplay = true;
-        function doDisplay(){
-            var con = document.getElementById("myDIV");
-            if(con.style.display=='none'){
-                con.style.display = 'block';
-            }else{
-                con.style.display = 'none';
-            }
-        }
-    </script>
 </head>
 <body>
 <div class="container">
@@ -34,23 +23,27 @@
             <a th:href="@{|/post/modify/${post.id}|}">수정</a>
             <a th:href="@{|/post/delete/${post.id}|}">삭제</a>
         </div>
-
+<!--댓글 작성-->
         <form th:action="@{|/comment/create/${post.id}|}" th:object="${commentCreateDTO}" method="post">
-            <input type="text" th:field="*{content}" name="content"  placeholder=" 내용을 입력해주세요.">
+            <div class="form_errors" th:replace="~{form_errors :: formErrorsFragment}"></div>
+            <input type="text" name="content" placeholder=" 내용을 입력해주세요.">
             <button type="submit" style="">저장하기</button>
             <button type="submit"><a th:href="@{|/post/detail/${post.id}|}">취소하기</a></button>
         </form>
-
+        <!-- 댓글 수정-->
         <div th:each="comment : ${post.commentList}">
             <ul>
-                <li th:text="${comment.content}"></li>
+                <li th:id=${comment.id} th:text="${comment.content}"></li>
                 <div class="comment-option">
-                    <a href="javascript:doDisplay();"> 수정</a><br/><br/>
-                    <div id="myDIV" style="display:none;">
-                        <form th:action="@{|/comment/modify/${comment.id}|}" th:object="${commentCreateDTO}"  method="post">
-                            <input type="text" id="comment" th:field="*{content}" name="content">
-                            <button type="submit" onclick="sendComment()">수정하기</button>
-                            <button type="submit"><a th:href="@{|/post/detail/${post.id}|}">취소하기</a></button>
+<!--                    수정 input창 버튼-->
+                    <button type="button" th:onclick="doDisplay([[${comment.id}]])">수정</button>
+                    <div th:id="'myDIV-' + ${comment.id}" style="display:none;">
+                        <form th:id="'commentForm-' + ${comment.id}" th:object="${commentCreateDTO}">
+                            <div class="form_errors" th:replace="~{form_errors :: formErrorsFragment}"></div>
+                            <input type="text" th:id="'content-' + ${comment.id}">
+<!--                            수정 기능 실행 버튼-->
+                            <button type="button" th:onclick="sendComment([[${comment.id}]])">수정하기</button>
+                            <button type="button"><a th:href="@{|/post/detail/${post.id}|}">취소하기</a></button>
                         </form>
                     </div>
                 </div>
@@ -61,33 +54,49 @@
                 </div>
             </ul>
         </div>
-
-
     </div>
 </div>
 
-<div class="egg">
-안녕하세요 한재현 입니다. 이건 이스터에그에요 시발 난 알라신의 힘을 이어받은 혁명전사입니다. 저에겐 붉은 낫과 망치 그외로 알라의 요술봉이 저의 주된 혁명도구입니다. 알라신과 저의 앞길을 막는건 그 무엇이라도 낫과 망치와 알라의 요술봉이 용서하지 않습니다. 안녕하세요 한재현 입니다. 이건 이스터에그에요 시발 난 알라신의 힘을 이어받은 혁명전사입니다. 저에겐 붉은 낫과 망치 그외로 알라의 요술봉이 저의 주된 혁명도구입니다. 알라신과 저의 앞길을 막는건 그 무엇이라도 낫과 망치와 알라의 요술봉이 용서하지 않습니다. 안녕하세요 한재현 입니다. 이건 이스터에그에요 시발 난 알라신의 힘을 이어받은 혁명전사입니다. 저에겐 붉은 낫과 망치 그외로 알라의 요술봉이 저의 주된 혁명도구입니다. 알라신과 저의 앞길을 막는건 그 무엇이라도 낫과 망치와 알라의 요술봉이 용서하지 않습니다. 안녕하세요 한재현 입니다. 이건 이스터에그에요 시발 난 알라신의 힘을 이어받은 혁명전사입니다. 저에겐 붉은 낫과 망치 그외로 알라의 요술봉이 저의 주된 혁명도구입니다. 알라신과 저의 앞길을 막는건 그 무엇이라도 낫과 망치와 알라의 요술봉이 용서하지 않습니다. 안녕하세요 한재현 입니다. 이건 이스터에그에요 시발 난 알라신의 힘을 이어받은 혁명전사입니다. 저에겐 붉은 낫과 망치 그외로 알라의 요술봉이 저의 주된 혁명도구입니다. 알라신과 저의 앞길을 막는건 그 무엇이라도 낫과 망치와 알라의 요술봉이 용서하지 않습니다.  알라는 위대하다!!!!!
-</div>
+
 </body>
 
 <script>
-    function sendComment() {
-        // 댓글 데이터 가져오기
-        var comment = $("#comment").val();
-        // AJAX 요청 보내기
-        $.ajax({
-            url: "/comment/modify/", // 수정 댓글을 보낼 URL
-            method: "POST",
-            data: {comment: comment}, // 수정 데이터를 서버로 전달
-            success: function(response) {
-                alert("수정 했습니다.");
-            },
-            error: function(xhr, status, error) {
-                alert("수정 실패했습니다. 다시 시도해주세요.");
-            }
-        });
-    }
-</script>
+<!--    수정 input 접기 펼치기-->
+    function doDisplay(commentId) {
+         var con = document.getElementById("myDIV-" + commentId);
+         if(con.style.display=='none'){
+             con.style.display = 'block';
+         }else{
+             con.style.display = 'none';
+         }
+     }
 
+     function sendComment(commentId) {
+<!--          댓글 데이터 가져오기-->
+         var content = $("#content-"+commentId).val();
+
+<!--         var commentId = $("#commentId").val();-->
+            console.log(content)
+        if (!content) {
+            alert("수정하실 내용을 입력해주세요.")
+            return
+        }
+
+
+         // AJAX 요청 보내기
+         $.ajax({
+             url: "/comment/modify/" + commentId, // 수정 댓글을 보낼 URL
+             method: "POST",
+             data: {content: content}, // 수정 데이터를 서버로 전달
+             success: function(response) {
+                 alert("수정 했습니다.");
+<!--   수정된 댓글로 변경              -->
+                 $("#" + commentId).text(response)
+             },
+             error: function(xhr, status, error) {
+                 alert("수정 실패했습니다. 다시 시도해주세요.");
+             }
+         });
+     }
+</script>
 </html>
