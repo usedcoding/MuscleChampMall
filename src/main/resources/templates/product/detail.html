@@ -2,13 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="/product_detail.css">
+  <link rel="stylesheet" href="/product/product_detail.css">
+  <link rel="stylesheet" href="/layout.css"/>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
   <title>Title</title>
 </head>
 <body>
-<div class="container">
+
+
+<div th:replace="/navbar.html"></div>
+
+<div layout:fragment="content" class="container">
   <div class="product-box">
     <div class="product">
       <div class="product-img">
@@ -23,7 +28,7 @@
           <form sec:authorize="isAuthenticated()" class="d-flex" th:if="${#authentication.principal}"
                 th:action="@{/member/cart/{memberId}/{productId}(memberId=${member.id}, productId=${product.id})}"
                 method="post">
-            <div class="flex justify-end w-full mr-[10px]">
+            <div class="holy flex justify-end w-full mr-[10px]">
               <input class="form-control text-center me-3" id="amount" name="amount" type="hidden"
                      value="1" style="max-width: 3rem"/>
               <button class="ml-2 mr-4 px-4 py-2 w-24 btn btn-primary text-white add-to-cart-btn"
@@ -183,5 +188,6 @@
   });
 </script>
 
+<div th:replace="/footer.html"></div>
 </body>
 </html>

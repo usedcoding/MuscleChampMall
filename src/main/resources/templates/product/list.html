@@ -5,26 +5,27 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="/product_list.css">
+  <link rel="stylesheet" href="/product/product_list.css">
+  <link rel="stylesheet" href="/layout.css"/>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <title>Document</title>
 </head>
 <body>
-<div class="container">
+<div layout:fragment="content"  class="container">
   <div class="nav-section">
     <nav>
       <ul>
         <li class="logo-box">
-          <a href="/"><img src="https://lh3.googleusercontent.com/proxy/mA1xk3N8MfwiFcA-0q704H6RKn8_dr52xtZGu3ZVoH7qPl6EnWpDLb6RRQeL6-AeaqWAqB_3crqOFyP9f0nMFeOv4D7AlDxqw4NDpt1uSfz4EZ0D2DYlTqYdKQ" alt=""></a>
+          <a href="/"><img src="https://i.imgur.com/S8oMBKh.png" alt=""></a>
           <div class="supplise"><a href="/product/list?category=GOODS">용품</a></div>
           <div class="supplise"><a href="/product/list?category=EQUIPMENT">기구</a></div>
           <div class="supplise"><a href="/product/list?category=FOOD">식품</a></div>
         </li>
         <li class="member-box">
-          <div class="login"><a href="/member/login">로그인</a></div>
-          <div class="logout"><a href="/member/logout">로그아웃</a></div>
-          <div class="mypage"><a href="#">마이페이지</a></div>
-          <div class="signup"><a href="/member/signup">회원가입</a></div>
+        <li><a th:href="@{/mypage}" sec:authorize="isAuthenticated()">마이페이지</a></li>
+        <li><a th:href="@{/member/logout}" sec:authorize="isAuthenticated()">로그아웃</a></li>
+        <li><a th:href="@{/member/signup}" sec:authorize="isAnonymous()">회원가입</a></li>
+        <li><a th:href="@{/member/login}" sec:authorize="isAnonymous()">로그인</a></li>
         </li>
       </ul>
       <div class="search">
@@ -102,9 +103,10 @@
 <!--      </ul>-->
 <!--    </div>-->
 <!--  </div>-->
-  <div class="footer">
-    푸터입니다.
-  </div>
+
 </div>
+
+
+  <div th:replace="/footer.html"></div>
 </body>
 </html>

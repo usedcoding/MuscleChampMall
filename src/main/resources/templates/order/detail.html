@@ -2,52 +2,65 @@
 <html xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="">
+  <link rel="stylesheet" href="/order/order-detail.css">
+  <link rel="stylesheet" href="/layout.css"/>
   <title>결제 페이지</title>
 </head>
-<div class="container mx-auto">
-  <div class="card w-full flex">
-    <div class="card-header flex items-center justify-center mb-[40px]">
-      <span class="text-5xl">주문 상세정보</span>
-    </div>
-    <table class="w-full mb-[20px]">
-      <thead>
-      <tr class="text-[20px]">
-        <th>상품 이미지</th>
-        <th>상품 번호</th>
-        <th>구매자</th>
-        <th>상품명</th>
-        <th>가격</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr class="text-center text-[20px] ">
-        <td class="flex justify-center">
-          <img class="w-[120px] h-[150px]" th:src="${product.imgPath}" alt="상품이미지">
-        </td>
-        <td class="">
-          <span th:text="${product.id}"></span>
-        </td>
-        <td class="">
-          <span th:text="${member.username}"></span>
-        </td>
-        <td class="w-4/12">
-          <span th:text="${product.name}" class="font-bold"></span>
-        </td>
-        <td class="">
-          <span th:text="${product.price} + '원'" class="font-bold"></span>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-  <div class="border border-solid border-gray-400"></div>
-  <div class="mt-[20px] text-end">
-    <form method="get" th:action="@{|{/order/{id}/success}}">
-      <input required type="hidden" name="productId" id="productId" th:value="${product.id}">
-      <button type="button" onclick="pay();" class="btn btn-primary">결제</button>
-      <a href="javascript:history.back()" class="btn btn-secondary ml-2">취소</a>
+<div class="container">
+  <div class="wrap">
+    <div class="title">상품구매</div>
+    <form action="" method="post">
+      <div class="product-section">
+        <div class="title">상품정보</div>
+        <hr>
+        <div class="info-section">
+          <div class="img-box">
+            <img src="https://cf.monsterzym.com/images/thumbnails/640/640/detailed/32/Anavite_180tabs.jpg?t=1698872022" alt="">
+          </div>
+          <div class="info">
+            <div class="name">
+              <span>상품명: </span> 아나바이트 180태블릿
+            </div>
+            <div class="price"><span>가격: </span>35428 <span>원</span></div>
+          </div>
+        </div>
+
+      </div>
+      <div class="customer-section">
+        <div class="title">회원정보</div>
+        <hr>
+        <div class="user-info">
+          <div class="userId">
+            <span>회원ID: </span>tjqls2013
+          </div>
+          <div class="userName">
+            <span>구매자명: </span> <input type="text" placeholder="구매자명을 입력해주세요.">
+          </div>
+          <div class="userEmail">
+            <span>E-mail: </span> <input type="text" placeholder="구매자명을 입력해주세요.">
+          </div>
+        </div>
+
+      </div>
+      <div class="payments-section">
+        <div class="title">결재방식</div>
+        <hr>
+        <div class="paymethod">
+          <div class="Bank-transfer">
+            <input type="checkbox"> 무통장 입금
+          </div>
+          <div class="toss-pay">
+            <input type="checkbox"> 토스페이
+          </div>
+        </div>
+      </div>
+
+      <div class="button">
+        <button>구매하기</button>
+        <button>취소하기</button>
+      </div>
     </form>
+
   </div>
 </div>
 <script src="https://js.tosspayments.com/v1"></script>

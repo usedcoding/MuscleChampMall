@@ -1,0 +1,28 @@
+*{
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  color:white;
+}
+form {
+    text-align : center;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+ul,li{
+  text-decoration:none;
+  list-style:none;
+}
+
+/* 스타일 시작 */
+
+.container{
+  width: 1200px;
+  margin:0 auto;
+  color:white;
+}
+
