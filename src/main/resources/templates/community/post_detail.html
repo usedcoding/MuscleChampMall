@@ -25,7 +25,7 @@
         </div>
 
         <form th:action="@{|/comment/create/${post.id}|}" th:object="${commentCreateDTO}" method="post">
-            <input type="text" th:field="*{content}" name="content" placeholder=" 내용을 입력해주세요.">
+            <input type="text" name="content" placeholder=" 내용을 입력해주세요.">
             <button type="submit" style="">저장하기</button>
             <button type="submit"><a th:href="@{|/post/detail/${post.id}|}">취소하기</a></button>
         </form>
@@ -34,12 +34,13 @@
             <ul>
                 <li th:id=${comment.id} th:text="${comment.content}"></li>
                 <div class="comment-option">
-                    <a th:href="'javascript:doDisplay(\'' + ${comment.id} + '\')'"> 수정</a><br/><br/>
+<!--                    <a th:href="'javascript:doDisplay(\'' + ${comment.id} + '\')'"> 수정</a><br/><br/>-->
+                    <button type="button" th:onclick="doDisplay('${comment.id})')">수정</button>
                     <div th:id="'myDIV-' + ${comment.id}" style="display:none;">
                         <div id="commentId" th:data-comment-id="${comment.id}"></div>
 <!--                        <div id="content" th:data-content-id="${content}"></div>-->
-                        <form  th:id="'commentForm-' + ${comment.id}">
-                            <input type="text" id="content" name="content">
+                        <form th:id="'commentForm-' + ${comment.id}" th:object="${commentCreateDTO}">
+                            <input type="text" class="content">
 <!--                            <input type="hidden" th:id="'commentId-' + ${comment.id}" th:value="${comment.id}">-->
                             <button type="button" th:onclick="sendComment('${comment.id}')">수정하기</button>
                             <button type="button"><a th:href="@{|/post/detail/${post.id}|}">취소하기</a></button>
@@ -70,9 +71,11 @@
      }
 
      function sendComment(commentId) {
+          console.log(1)
          // 댓글 데이터 가져오기
-         var content = $("#content").val();
+         var content = $(".content").val();
 <!--         var commentId = $("#commentId").val();-->
+            console.log($("#content"))
 
           var commentId = document.getElementById('commentId').getAttribute('data-comment-id');
 
