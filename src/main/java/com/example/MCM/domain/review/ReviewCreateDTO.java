@@ -1,6 +1,7 @@
 package com.example.MCM.domain.review;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +15,6 @@ public class ReviewCreateDTO {
     @NotBlank(message = "내용을 확인해 주세요.")
     private String content;
 
-    @NotBlank(message = "별점을 선택해 주세요.")
-    private Double starScore;
+    @NotNull(message = "별점을 선택해 주세요.")
+    private double starScore;
 }

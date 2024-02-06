@@ -6,6 +6,8 @@ import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.product.dto.ProductDto;
 import com.example.MCM.domain.product.entity.Product;
 import com.example.MCM.domain.product.repository.ProductRepository;
+import com.example.MCM.domain.review.entity.Review;
+import com.example.MCM.domain.review.service.ReviewService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,10 +25,8 @@ import org.thymeleaf.util.StringUtils;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -33,6 +34,8 @@ import java.util.UUID;
 public class ProductService {
 
   private final ProductRepository productRepository;
+
+  private final ReviewService reviewService;
 
   @Value("${custom.originPath}")
   private String originPath;
@@ -55,7 +58,7 @@ public class ProductService {
     List<Sort.Order> sorts = new ArrayList<>();
     sorts.add(Sort.Order.desc("createDate"));
     Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
-    if (category.equals("GOODS")){
+    if (category.equals("GOODS")) {
       getGoodsProducts(page, kw);
       return this.productRepository.findAllGoodsByKeywordAndSubCategory(kw, pageable, subCategory);
     } else if (category.equals("EQUIPMENT")) {
@@ -69,9 +72,9 @@ public class ProductService {
   }
 
   private Page<Product> getCategoryProducts(String category, int page, String kw) {
-      List<Sort.Order> sorts = new ArrayList<>();
-      sorts.add(Sort.Order.desc("createDate"));
-      Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
+    List<Sort.Order> sorts = new ArrayList<>();
+    sorts.add(Sort.Order.desc("createDate"));
+    Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
 
     if (category.equals("GOODS")) {
       getGoodsProducts(page, kw);
@@ -97,7 +100,8 @@ public class ProductService {
     Optional<Product> product = this.productRepository.findById(id);
     if (product.isPresent()) {
       return product.get();
-    } throw new DataNotFoundException("product not found");
+    }
+    throw new DataNotFoundException("product not found");
   }
 
   public Optional<Product> findProductById(Long id) {
@@ -115,27 +119,27 @@ public class ProductService {
 
     String projectPath = System.getProperty("user.dir") + "/src/main/resources/static/upload";
 
-      UUID uuid = UUID.randomUUID();
+    UUID uuid = UUID.randomUUID();
 
-      String fileName = uuid + "_" + file.getOriginalFilename();
-      String filePath = originPath + fileName;
+    String fileName = uuid + "_" + file.getOriginalFilename();
+    String filePath = originPath + fileName;
 
-      File saveFile = new File(projectPath, fileName);
-      file.transferTo(saveFile);
+    File saveFile = new File(projectPath, fileName);
+    file.transferTo(saveFile);
 
     Product product = Product.builder()
-          .name(productDto.getName())
-          .content(productDto.getContent())
-          .price(productDto.getPrice())
-          .description(productDto.getDescription())
-          .author(author)
-          .imgPath(filePath)
-          .imgName(fileName)
-          .viewCount(0L)
-          .category(productDto.getCategory())
-          .subCategory(productDto.getSubCategory())
-          .createDate(LocalDateTime.now())
-          .build();
+            .name(productDto.getName())
+            .content(productDto.getContent())
+            .price(productDto.getPrice())
+            .description(productDto.getDescription())
+            .author(author)
+            .imgPath(filePath)
+            .imgName(fileName)
+            .viewCount(0L)
+            .category(productDto.getCategory())
+            .subCategory(productDto.getSubCategory())
+            .createDate(LocalDateTime.now())
+            .build();
     this.productRepository.save(product);
 
     return product;
@@ -149,34 +153,35 @@ public class ProductService {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "존재하지 않는 상품입니다.");
     }
   }
+
   @Transactional
   public void modify(Product product, ProductDto productCreateForm, MultipartFile file) throws IOException {
 
     String projectPath = System.getProperty("user.dir") + "/src/main/resources/static/upload";
 
-      UUID uuid = UUID.randomUUID();
+    UUID uuid = UUID.randomUUID();
 
-      String fileName = uuid + "_" + file.getOriginalFilename();
-      String filePath = originPath + fileName;
+    String fileName = uuid + "_" + file.getOriginalFilename();
+    String filePath = originPath + fileName;
 
-      File saveFile = new File(projectPath, fileName);
-      file.transferTo(saveFile);
+    File saveFile = new File(projectPath, fileName);
+    file.transferTo(saveFile);
 
     Product modifyProduct = product.toBuilder()
-        .name(productCreateForm.getName())
-        .price(productCreateForm.getPrice())
-        .category(productCreateForm.getCategory())
-        .subCategory(productCreateForm.getSubCategory())
-        .imgPath(filePath)
-        .imgName(fileName)
-        .modifyDate(LocalDateTime.now())
-        .build();
+            .name(productCreateForm.getName())
+            .price(productCreateForm.getPrice())
+            .category(productCreateForm.getCategory())
+            .subCategory(productCreateForm.getSubCategory())
+            .imgPath(filePath)
+            .imgName(fileName)
+            .modifyDate(LocalDateTime.now())
+            .build();
     this.productRepository.save(modifyProduct);
   }
 
   public void deleteValidate(Member author, Product product) {
     if (!author.getRole().equals(MemberRole.ADMIN)) {
-      throw new  ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
     }
     if (product == null) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "존재하지 않는 상품입니다.");
@@ -214,9 +219,28 @@ public class ProductService {
 
   public void addViewCount(Product product) {
     product = product.toBuilder()
-        .viewCount(product.getViewCount() + 1)
-        .build();
+            .viewCount(product.getViewCount() + 1)
+            .build();
     this.productRepository.save(product);
+  }
+
+  public List<Product> getAllByReviewStarScore() {
+    return this.productRepository.findAll().stream()
+        .sorted(Comparator.comparingDouble(product -> -calculateAverageStarScore(product.getId())))
+        .collect(Collectors.toList());
+  }
+
+  private double calculateAverageStarScore(Long productId) {
+    List<Review> reviews = reviewService.getReviewsByProductId(productId);
+    if (reviews.isEmpty()) return 0.0;
+    return reviews.stream()
+        .mapToDouble(Review::getStarScore)
+        .average()
+        .orElse(0.0);
+  }
+
+  public List<Product> getProductsSortedByStarScore() {
+    return getAllByReviewStarScore();
   }
 
   public Page<Product> getProducts(Pageable pageable) {
