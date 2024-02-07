@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="/admin_product.css">
+  <link rel="stylesheet" href="/admin/admin_product.css">
   <title>Title</title>
 </head>
 <body>
@@ -26,9 +26,6 @@
   <!-- Sidebar -->
   <div id="sidebar-wrapper">
     <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
-      <li>
-        <a th:href="@{/admin/}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-cloud-download fa-stack-1x "></i></span>매출</a>
-      </li>
       <li>
         <a th:href="@{/admin/order}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-cart-plus fa-stack-1x "></i></span>주문 관리</a>
       </li>
@@ -56,7 +53,7 @@
 
           <div class="date_content">
             <div class="date_title"><p>상품</p></div>
-            <div>
+            <div><a th:href="">상품등록</a></div>
             <table class="date_data">
               <thead>
                 <th>No.</th>
