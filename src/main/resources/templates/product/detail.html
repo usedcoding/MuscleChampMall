@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <link rel="stylesheet" href="/product_detail.css">
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
   <title>Title</title>
 </head>
 <body>
@@ -21,7 +20,7 @@
         <div th:text="${product.viewCount}"></div>
         <div>
           <form sec:authorize="isAuthenticated()" class="d-flex" th:if="${#authentication.principal}"
-                th:action="@{/member/cart/{id}/{productId}(id=${member.id}, productId=${product.id})}"
+                th:action="@{/member/cart/{memberId}/{productId}(memberId=${member.id}, productId=${product.id})}"
                 method="post">
             <div class="flex justify-end w-full mr-[10px]">
               <input class="form-control text-center me-3" id="amount" name="amount" type="hidden"
@@ -30,6 +29,10 @@
                       type="submit">
                 장바구니
               </button>
+              <a class="go-to-cart-btn hidden" sec:authorize="isAuthenticated()"
+                 th:href="@{/member/cart/{memberId}(memberId=${member.id})}">
+                장바구니로 이동
+              </a>
             </div>
           </form>
           <div id="memberId" th:data-member-id="${memberId}"></div>
@@ -84,7 +87,11 @@
             </div>
           </div>
         </form>
+
+
       </div>
+
+
       <ul th:each="review : ${review}">
         <li class="review">
           <div th:text="${review.content}" class="content"></div>
