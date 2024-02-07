@@ -5,9 +5,13 @@
     <title>Title</title>
     <link rel="stylesheet" type="text/css" th:href="@{/post_detail.css}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/nav.css"/>
+    <link rel="stylesheet" href="/layout.css"/>
 </head>
 <body>
-<div class="container">
+
+<div th:replace="/navbar.html"></div>
+<div layout:fragment="content" class="container">
     <div class="board">
         <div class="board-subject" th:text="${post.title}">
         </div>
@@ -61,7 +65,7 @@
     </div>
 </div>
 
-
+<div th:replace="/footer.html"></div>
 </body>
 
 <script>

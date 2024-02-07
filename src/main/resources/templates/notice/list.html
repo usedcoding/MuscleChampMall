@@ -3,10 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="/notice_list.css">
+  <link rel="stylesheet" href="/nav.css"/>
+  <link rel="stylesheet" href="/layout.css"/>
   <title>공지사항 게시판</title>
 </head>
 <body>
-<div class="container">
+<div th:replace="/navbar.html"></div>
+<div layout:fragment="content" class="container">
   <div class="notice-section">
     <div class="title">공지사항</div>
     <table>
@@ -23,11 +26,12 @@
         <td>
           <a th:href="@{|/notice/${notice.id}|}" th:text="${notice.subject}"></a>
         </td>
-        <td th:text="${notice.createDate}"></td>
+        <td th:text="${#temporals.format(notice.createDate, 'yyyy-MM-dd HH:mm')}"></td>
       </tr>
       </tbody>
     </table>
   </div>
+
 <!--  <div th:if="${!paging.isEmpty()}" style="text-align: center;">-->
 <!--    <ul class=" page-btn pagination1 justify-content-center">-->
 <!--      <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">-->
@@ -49,5 +53,6 @@
 <!--    </ul>-->
 <!--  </div>-->
 </div>
+<div th:replace="/footer.html"></div>
 </body>
 </html>
