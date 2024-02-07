@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="/mypage/mypage-reviews.css"/>
+    <link rel="stylesheet" href="/mypage/mypage-post.css"/>
     <link rel="stylesheet" href="/layout.css">
     <meta charset="UTF-8">
     <title>Title</title>
@@ -19,16 +19,16 @@
             <a th:href="@{/mypage/me}"><li> 회원정보</li></a>
             <a th:href="@{/mypage/order}"><li> 내가 주문한 상품</li></a>
             <a th:href="@{/mypage/cart}"><li> 장바구니</li></a>
-            <a th:href="@{/mypage/review}"><li> 내가 쓴 리뷰</li></a>
+            <a th:href="@{/mypage/post}"><li> 내가 쓴 게시글</li></a>
             <a th:href="@{/mypage/edit}"><li> 개인정보 변경</li></a>
         </ul>
 
-        <div class="ment" th:if="${reviews == null || #lists.isEmpty(reviews)}">
+        <div class="ment" th:if="${posts == null || #lists.isEmpty(posts)}">
             <p>작성한 리뷰가 없습니다.</p>
         </div>
 
-        <div class="review-section" th:if="${not #lists.isEmpty(reviews)}">
-            <div class="title">내가 쓴 리뷰</div>
+        <div class="review-section" th:if="${not #lists.isEmpty(posts)}">
+            <div class="title">내가 쓴 커뮤니티 게시글</div>
             <table>
                 <thead>
                 <tr>
@@ -38,10 +38,11 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="reviews : ${reviews}">
-                    <td th:text="${reviews.id}">1</td>
-                    <td><a th:href="@{|reviews/${reviews.id}|}" th:text="${reviews.title}">혁명전사를 찾습니다</a></td>
-                    <td th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+                <tr th:each="posts : ${posts}">
+                    <td th:text="${posts.id}"></td>
+                    <td><a th:href="@{/post/detail/{postId}(postId=${posts.id})}" th:text="${posts.title}">혁명전사를 찾습니다</a>
+                    </td>
+                    <td th:text="${#temporals.format(posts.createDate, 'yyyy-MM-dd HH:mm')}"></td>
 
                 </tr>
                 </tbody>
