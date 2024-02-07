@@ -27,18 +27,18 @@
         </ul>
         <ul class=info>
             <li>
-                <div>NickName : </div>
-                <div th:text="${member.nickname}"></div>
+                <div>아이디 : </div>
+                <div th:text="${member.username}"></div>
             </li>
             <li>
-                <div>username : </div>
-                <div th:text="${member.username}"></div>
+                <div>닉네임 : </div>
+                <div th:text="${member.nickname}"></div>
             </li>
             <li><div>E-mail : </div>
                 <div th:text="${member.email}"></div></li>
-            <li><div>phone-number : </div>
+            <li><div>전화번호 : </div>
                 <div th:text="${member.phoneNumber}"></div></li>
-            <li><div>Address : </div>
+            <li><div>주소 : </div>
                 <div th:text="${member.address}"></div></li>
             <a th:href="@{${'/member/delete/' + member.username}}">
                 <button>회원 탈퇴</button>
