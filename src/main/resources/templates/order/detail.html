@@ -12,19 +12,20 @@
 <div layout:fragment="content" class="container">
   <div class="wrap">
     <div class="title">상품구매</div>
-    <form action="" method="post">
+    <form th:action="@{/order/detail}" method="post">
       <div class="product-section">
         <div class="title">상품정보</div>
         <hr>
         <div class="info-section">
           <div class="img-box">
-            <img src="https://cf.monsterzym.com/images/thumbnails/640/640/detailed/32/Anavite_180tabs.jpg?t=1698872022" alt="">
+            <img th:src="${product.imgPath}" alt="">
           </div>
           <div class="info">
             <div class="name">
-              <span>상품명: </span> 아나바이트 180태블릿
+              <span>상품명: </span>
+              <span th:text="${product.name}"></span>
             </div>
-            <div class="price"><span>가격: </span>35428 <span>원</span></div>
+            <div class="price"><span>가격: </span><span th:text="${product.price} + ' 원'"></span></div>
           </div>
         </div>
 
@@ -34,7 +35,7 @@
         <hr>
         <div class="user-info">
           <div class="userId">
-            <span>회원ID: </span>tjqls2013
+            <span>회원ID: </span> <span th:text="${member.nickname}"></span>
           </div>
           <div class="userName">
             <span>구매자명: </span> <input type="text" placeholder="구매자명을 입력해주세요.">
@@ -59,7 +60,11 @@
       </div>
 
       <div class="button">
-        <button>구매하기</button>
+        <div id="memberId" th:data-member-id="${memberId}"></div>
+        <form th:action="@{/order/detail}">
+          <input type="hidden" name="productsId" th:value="${product.id}">
+          <button type="button" onclick="pay()" class="btn btn-primary text-white">구매하기</button>
+        </form>
         <button>취소하기</button>
       </div>
     </form>

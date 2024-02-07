@@ -59,7 +59,7 @@ public class CartService {
         cartItemRepository.save(update);
       }
 
-     cart =  cart.toBuilder()
+     cart = cart.toBuilder()
           .count(cart.getCount() * amount)
           .build();
       cartRepository.save(cart);

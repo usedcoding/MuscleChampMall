@@ -5,7 +5,6 @@
   <link rel="stylesheet" href="/product_detail.css">
   <link rel="stylesheet" href="/layout.css"/>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
   <title>Title</title>
 </head>
 <body>
@@ -37,7 +36,7 @@
 
         <div class="form-section">
             <form sec:authorize="isAuthenticated()" th:if="${#authentication.principal}"
-                  th:action="@{/member/cart/{memberId}/{productId}(memberId=${member.id}, productId=${product.id})}"
+                  th:action="@{/member/cart/{id}/{productId}(id=${member.id}, productId=${product.id})}"
                   method="post">
               <input class="form-control text-center me-3" id="amount" name="amount" type="hidden"
                      value="1" style="max-width: 3rem"/>

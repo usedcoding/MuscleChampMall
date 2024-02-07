@@ -6,7 +6,10 @@ import com.example.MCM.domain.cart.service.CartService;
 import com.example.MCM.domain.cartItem.entity.CartItem;
 import com.example.MCM.domain.cartItem.service.CartItemService;
 import com.example.MCM.domain.email.MailDto;
-import com.example.MCM.domain.member.dto.*;
+import com.example.MCM.domain.member.dto.MemberCreateDTO;
+import com.example.MCM.domain.member.dto.MemberDeleteDTO;
+import com.example.MCM.domain.member.dto.MemberFindUsernameDTO;
+import com.example.MCM.domain.member.dto.MemberUpdateDTO;
 import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.member.service.MemberService;
 import com.example.MCM.domain.product.entity.Product;
@@ -16,7 +19,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,9 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
@@ -220,7 +220,7 @@ public class MemberController {
     @ResponseBody
     public String addCartItem(@PathVariable("id") Long id,
                               @PathVariable("productId") Long productId,
-                              Integer amount) {
+                              @RequestParam("amount") Integer amount) {
 
         Member member = this.memberService.findById(id);
 

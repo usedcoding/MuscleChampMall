@@ -44,7 +44,7 @@ public class AdminController {
   private final OrderService orderService;
 
   private final PostService postService;
-  @GetMapping("/product")
+  @GetMapping("/")
   public String adminProduct(Model model,
                              Principal principal,
                              @PageableDefault(page = 1) Pageable pageable){
@@ -114,21 +114,26 @@ public class AdminController {
 
     List<Review> reviewList = new ArrayList<>();
 
+    long totalReview = 0;
+
+    int totalPages = 0;
+
     for (Product product : productList) {
-      Pageable pageable = PageRequest.of(page, size);
-      Page<Review> ReviewPage = this.reviewService.getByproduct(product, pageable);
-      List<Review> reviews = ReviewPage.getContent();
+      Pageable pageable = PageRequest.of(page - 1, size);  // Adjust page index
+      Page<Review> reviewPage = this.reviewService.getByProduct(product, pageable);
+      List<Review> reviews = reviewPage.getContent();
       reviewList.addAll(reviews);
+
+      totalReview += reviewPage.getTotalElements();
     }
 
-//    long totalReview = reviewPage.getTotalElements();
-
-//    int totalPages = reviewPage.getTotalPages();
+    if (!reviewList.isEmpty()) {
+      totalPages = (int) Math.ceil((double) totalReview / size);
+    }
 
     model.addAttribute("page", page);
-//    model.addAttribute("totalOrder", totalOrders);
-//    model.addAttribute("totalPages", totalPages);
-
+    model.addAttribute("totalReview", totalReview);
+    model.addAttribute("totalPages", totalPages);
     model.addAttribute("reviewList", reviewList);
 
     return "admin/review";
@@ -204,20 +209,9 @@ public class AdminController {
 
     if (!member.getRole().equals(MemberRole.ADMIN)) return "/";
 
-    Pageable pageable = PageRequest.of(page, size);
+   List<Member> memberList = this.memberService.getAll();
 
-    Page<Member> memberPage = this.memberService.getAll(pageable);
-
-    List<Member> memberList = memberPage.getContent();
-
-    long totalMembers = memberPage.getTotalElements();
-
-    long totalPages = memberPage.getTotalPages();
-
-    model.addAttribute("memberList",memberList);
-    model.addAttribute("page", page);
-    model.addAttribute("totalMembers", totalMembers);
-    model.addAttribute("totalPages", totalPages);
+   model.addAttribute("memberList", memberList);
 
     return "admin/member";
   }
