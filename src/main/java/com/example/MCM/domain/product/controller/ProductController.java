@@ -42,20 +42,18 @@ public class ProductController {
                      @RequestParam(value = "size", defaultValue = "20") int size,
                      @RequestParam(value = "kw", defaultValue = "") String kw,
                      @RequestParam(value = "category", defaultValue = "", required = false) String category,
-                     @RequestParam(value = "subCategory", defaultValue = "", required = false) String subCategory,
-                     @RequestParam(value = "sort", defaultValue = "createDate", required = false) String sort){
+                     @RequestParam(value = "subCategory", defaultValue = "", required = false) String subCategory){
 
     if (page <= 0) {
       return "redirect:/product/list?category=" + category + "&subCategory=" + subCategory + "&page=1";
     }
 
-    Page<Product> products = this.productService.getList(category, subCategory, page, kw, sort);
+    Page<Product> products = this.productService.getList(category, subCategory, page, kw);
     List<String> subCategories = this.productService.getSubCategoriesByCategory(category);
 
     model.addAttribute("products", products);
     model.addAttribute("category", category);
     model.addAttribute("subCategory", subCategory);
-    model.addAttribute("sort", sort);
     model.addAttribute("subCategories", subCategories);
     model.addAttribute("kw", kw);
     model.addAttribute("size", size);
@@ -168,5 +166,4 @@ public class ProductController {
 
     return "redirect:/product/list";
   }
-
 }

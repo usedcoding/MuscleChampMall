@@ -124,12 +124,18 @@ public class MemberController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
         }
 
+        //주소 합치는 로직, 자바스크립트에서 해결하면 베스트
+        String address =  memberUpdateDTO.getNewAddress().concat(memberUpdateDTO.getExtraAddress());
+        String finalAddress = address.concat(memberUpdateDTO.getDetailAddress());
+
+        //최종 데이터베이스 저장 주소 변수는 finalAddress
+
         this.memberService.updateMember(member,
                 memberUpdateDTO.getNewPassword(),
                 memberUpdateDTO.getNewNickname(),
                 memberUpdateDTO.getNewEmail(),
                 memberUpdateDTO.getNewPhoneNumber(),
-                memberUpdateDTO.getNewAddress());
+                finalAddress);
 
         return "redirect:/member/login";
 

@@ -43,45 +43,21 @@ public class ProductService {
     return this.productRepository.findAll();
   }
 
-  public Page<Product> getList(String category, String subCategory, int page, String kw, String sort) {
+  public Page<Product> getList(String category, String subCategory, int page, String kw) {
     if (StringUtils.isEmpty(category)) {
       return getAllProducts(page, kw);
     } else if (StringUtils.isEmpty(subCategory)) {
       return getCategoryProducts(category, page, kw);
-    } else if (StringUtils.isEmpty(sort)){
-      return getSubCategoryProducts(category, subCategory, page, kw);
     } else {
-      return getSortProducts(category, subCategory, page, kw, sort);
+      return getSubCategoryProducts(category, subCategory, page, kw);
     }
-  }
-
-  public Page<Product> getSortProducts(String category, String subCategory, int page, String kw, String sort) {
-
-    List<Sort.Order> sorts = new ArrayList<>();
-
-    Pageable pageable = PageRequest.of(page - 1, 20);
-
-    Page<Product> sortedProducts;
-
-    if (category.equals("GOODS") || category.equals("EQUIPMENT") || category.equals("FOOD")) {
-      if (sort.equals("popularity")) {
-        sorts.add(Sort.Order.desc("starScore"));
-      } else if (sort.equals("highPrice")) {
-        sorts.add(Sort.Order.desc("price"));
-      } else if (sort.equals("lowPrice")) {
-        sorts.add(Sort.Order.asc("price"));
-      }
-      sortedProducts = productRepository.findAllByCategoryAndSubCategoryOrderByAvgStarScoreDesc(category, subCategory, pageable);
-    }
-
-    return Page.empty();
   }
 
   private Page<Product> getSubCategoryProducts(String category, String subCategory, int page, String kw) {
     List<Sort.Order> sorts = new ArrayList<>();
     sorts.add(Sort.Order.desc("createDate"));
     Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
-    if (category.equals("GOODS")){
+    if (category.equals("GOODS")) {
       getGoodsProducts(page, kw);
       return this.productRepository.findAllGoodsByKeywordAndSubCategory(kw, pageable, subCategory);
     } else if (category.equals("EQUIPMENT")) {
@@ -95,9 +71,9 @@ public class ProductService {
   }
 
   private Page<Product> getCategoryProducts(String category, int page, String kw) {
-      List<Sort.Order> sorts = new ArrayList<>();
-      sorts.add(Sort.Order.desc("createDate"));
-      Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
+    List<Sort.Order> sorts = new ArrayList<>();
+    sorts.add(Sort.Order.desc("createDate"));
+    Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
 
     if (category.equals("GOODS")) {
       getGoodsProducts(page, kw);
@@ -123,7 +99,8 @@ public class ProductService {
     Optional<Product> product = this.productRepository.findById(id);
     if (product.isPresent()) {
       return product.get();
-    } throw new DataNotFoundException("product not found");
+    }
+    throw new DataNotFoundException("product not found");
   }
 
   public Optional<Product> findProductById(Long id) {
@@ -141,27 +118,27 @@ public class ProductService {
 
     String projectPath = System.getProperty("user.dir") + "/src/main/resources/static/upload";
 
-      UUID uuid = UUID.randomUUID();
+    UUID uuid = UUID.randomUUID();
 
-      String fileName = uuid + "_" + file.getOriginalFilename();
-      String filePath = originPath + fileName;
+    String fileName = uuid + "_" + file.getOriginalFilename();
+    String filePath = originPath + fileName;
 
-      File saveFile = new File(projectPath, fileName);
-      file.transferTo(saveFile);
+    File saveFile = new File(projectPath, fileName);
+    file.transferTo(saveFile);
 
     Product product = Product.builder()
-          .name(productDto.getName())
-          .content(productDto.getContent())
-          .price(productDto.getPrice())
-          .description(productDto.getDescription())
-          .author(author)
-          .imgPath(filePath)
-          .imgName(fileName)
-          .viewCount(0L)
-          .category(productDto.getCategory())
-          .subCategory(productDto.getSubCategory())
-          .createDate(LocalDateTime.now())
-          .build();
+            .name(productDto.getName())
+            .content(productDto.getContent())
+            .price(productDto.getPrice())
+            .description(productDto.getDescription())
+            .author(author)
+            .imgPath(filePath)
+            .imgName(fileName)
+            .viewCount(0L)
+            .category(productDto.getCategory())
+            .subCategory(productDto.getSubCategory())
+            .createDate(LocalDateTime.now())
+            .build();
     this.productRepository.save(product);
 
     return product;
@@ -175,34 +152,35 @@ public class ProductService {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "존재하지 않는 상품입니다.");
     }
   }
+
   @Transactional
   public void modify(Product product, ProductDto productCreateForm, MultipartFile file) throws IOException {
 
     String projectPath = System.getProperty("user.dir") + "/src/main/resources/static/upload";
 
-      UUID uuid = UUID.randomUUID();
+    UUID uuid = UUID.randomUUID();
 
-      String fileName = uuid + "_" + file.getOriginalFilename();
-      String filePath = originPath + fileName;
+    String fileName = uuid + "_" + file.getOriginalFilename();
+    String filePath = originPath + fileName;
 
-      File saveFile = new File(projectPath, fileName);
-      file.transferTo(saveFile);
+    File saveFile = new File(projectPath, fileName);
+    file.transferTo(saveFile);
 
     Product modifyProduct = product.toBuilder()
-        .name(productCreateForm.getName())
-        .price(productCreateForm.getPrice())
-        .category(productCreateForm.getCategory())
-        .subCategory(productCreateForm.getSubCategory())
-        .imgPath(filePath)
-        .imgName(fileName)
-        .modifyDate(LocalDateTime.now())
-        .build();
+            .name(productCreateForm.getName())
+            .price(productCreateForm.getPrice())
+            .category(productCreateForm.getCategory())
+            .subCategory(productCreateForm.getSubCategory())
+            .imgPath(filePath)
+            .imgName(fileName)
+            .modifyDate(LocalDateTime.now())
+            .build();
     this.productRepository.save(modifyProduct);
   }
 
   public void deleteValidate(Member author, Product product) {
     if (!author.getRole().equals(MemberRole.ADMIN)) {
-      throw new  ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
     }
     if (product == null) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "존재하지 않는 상품입니다.");
@@ -240,8 +218,8 @@ public class ProductService {
 
   public void addViewCount(Product product) {
     product = product.toBuilder()
-        .viewCount(product.getViewCount() + 1)
-        .build();
+            .viewCount(product.getViewCount() + 1)
+            .build();
     this.productRepository.save(product);
   }
 
@@ -260,12 +238,50 @@ public class ProductService {
         .orElse(0.0);
   }
 
-  public List<Product> getProductsSortedByStarScore() {
-    return getAllByReviewStarScore();
-  }
-
   public Page<Product> getProducts(Pageable pageable) {
     return this.productRepository.findAll(pageable);
   }
+
+//  public Page<Product> getList(String category, String subCategory, String sort, int page, String kw) {
+//    if (StringUtils.isEmpty(category)) {
+//      return getAllProducts(page, kw);
+//    } else if (StringUtils.isEmpty(subCategory)) {
+//      return getCategoryProducts(category, page, kw);
+//    } else if (StringUtils.isEmpty(sort)){
+//      return getSubCategoryProducts(category, subCategory, page, kw);
+//    } else {
+//      return getSortProducts(category, subCategory, sort, page, kw);
+//    }
+//  }
+
+//  private Page<Product> getSortProducts(String category, String subCategory, String sort, int page, String kw) {
+//    List<Sort.Order> sorts = new ArrayList<>();
+//
+//    if (sort.equals("popularity")) {
+//      sorts.add(Sort.Order.desc("avgStarScore"));
+//    } else if (sort.equals("highPrice")) {
+//      sorts.add(Sort.Order.desc("price"));
+//    } else if (sort.equals("lowPrice")) {
+//      sorts.add(Sort.Order.asc("price"));
+//    }
+//
+//    Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
+//
+//    if (category.equals("GOODS")) {
+//      if (sort.equals("popularity")) {
+//        return productRepository.findGoodsProductsOrderByPopularity(kw, pageable, subCategory);
+//      } else if (sort.equals("highPrice")) {
+//        return productRepository.findGoodsProductsOrderByHighPrice(kw, pageable, subCategory);
+//      } else if (sort.equals("lowPrice")) {
+//        return productRepository.findGoodsProductsOrderByLowPrice(kw, pageable, subCategory);
+//      }
+//    } else if (category.equals("EQUIPMENT")) {
+//      // EQUIPMENT에 대한 정렬 메소드 호출 및 처리
+//    } else if (category.equals("FOOD")) {
+//      // FOOD에 대한 정렬 메소드 호출 및 처리
+//    }
+//
+//    return Page.empty();
+//  }
 
 }
