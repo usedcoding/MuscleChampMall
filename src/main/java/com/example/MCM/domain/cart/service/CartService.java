@@ -53,7 +53,7 @@ public class CartService {
         CartItem update = cartItem.toBuilder()
             .cart(cartItem.getCart())
             .product(cartItem.getProduct())
-            .count(cartItem.getCount())
+            .count(cartItem.getCount() + amount)
             .modifyDate(LocalDateTime.now())
             .build();
         cartItemRepository.save(update);
