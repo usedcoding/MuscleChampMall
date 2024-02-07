@@ -3,6 +3,8 @@ package com.example.MCM.domain.mypage;
 import com.example.MCM.domain.cart.entity.Cart;
 import com.example.MCM.domain.cartItem.entity.CartItem;
 import com.example.MCM.domain.cartItem.service.CartItemService;
+import com.example.MCM.domain.community.entity.Post;
+import com.example.MCM.domain.community.service.PostService;
 import com.example.MCM.domain.member.dto.MemberUpdateDTO;
 import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.member.service.MemberService;
@@ -33,6 +35,7 @@ public class MypageController {
     private final ReviewService reviewService;
     private final CartItemService cartItemService;
     private final OrderService orderService;
+    private final PostService postService;
 
 
 
@@ -108,11 +111,11 @@ public class MypageController {
 
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/review")
-    public String MypageReview(Model model, Principal principal){
+    @GetMapping("/post")
+    public String MypagePost(Model model, Principal principal){
         Member member = this.memberService.getMember(principal.getName());
         Cart cart = member.getCart();
-        List<Review> reviews = this.reviewService.getReviewAll();
+        List<Post> posts = this.postService.getAll();
         List<CartItem> mycart = this.cartItemService.getAll(cart);
         List<Orders> myOrders = this.orderService.getByBuyerId(member.getId());
 
@@ -121,11 +124,11 @@ public class MypageController {
         }
 
         model.addAttribute("member", member);
-        model.addAttribute("reviews", reviews);
+        model.addAttribute("posts", posts);
         model.addAttribute("mycart", mycart);
         model.addAttribute("myOrders", myOrders);
 
-        return "mypage/mypage-review";
+        return "mypage/mypage-post";
     }
 
     @GetMapping("/edit")

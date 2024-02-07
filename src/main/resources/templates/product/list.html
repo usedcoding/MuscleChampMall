@@ -6,36 +6,34 @@
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="/product_list.css">
+  <link rel="stylesheet" href="/layout.css"/>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <title>Document</title>
 </head>
 <body>
-<div class="container">
+<div layout:fragment="content" class="container">
   <div class="nav-section">
     <nav>
       <ul>
         <li class="logo-box">
-          <a href="/"><img src="https://lh3.googleusercontent.com/proxy/mA1xk3N8MfwiFcA-0q704H6RKn8_dr52xtZGu3ZVoH7qPl6EnWpDLb6RRQeL6-AeaqWAqB_3crqOFyP9f0nMFeOv4D7AlDxqw4NDpt1uSfz4EZ0D2DYlTqYdKQ" alt=""></a>
+          <a href=""><img src="https://lh3.googleusercontent.com/proxy/mA1xk3N8MfwiFcA-0q704H6RKn8_dr52xtZGu3ZVoH7qPl6EnWpDLb6RRQeL6-AeaqWAqB_3crqOFyP9f0nMFeOv4D7AlDxqw4NDpt1uSfz4EZ0D2DYlTqYdKQ" alt=""></a>
           <div class="supplise"><a href="/product/list?category=GOODS">용품</a></div>
           <div class="supplise"><a href="/product/list?category=EQUIPMENT">기구</a></div>
           <div class="supplise"><a href="/product/list?category=FOOD">식품</a></div>
         </li>
         <li class="member-box">
-          <div class="login"><a href="/member/login">로그인</a></div>
-          <div class="logout"><a href="/member/logout">로그아웃</a></div>
-          <div class="mypage"><a href="#">마이페이지</a></div>
-          <div class="signup"><a href="/member/signup">회원가입</a></div>
+          <div class="login"><a th:href="@{/member/login}" sec:authorize="isAnonymous()">로그인</a></div>
+          <div class="logout"><a th:href="@{/member/logout}" sec:authorize="isAuthenticated()">로그아웃</a></div>
+          <div class="mypage"><a th:href="@{/mypage}" sec:authorize="isAuthenticated()">마이페이지</a></div>
+          <div class="signup"><a th:href="@{/member/signup}" sec:authorize="isAnonymous()">회원가입>회원가입</a></div>
         </li>
       </ul>
       <div class="search">
         <div class="search-box">
-          <form id="search-form" method="get" th:action="@{/product/list}">
+          <form id="search-form" method="get" th:action="@{|/product/list?mainCategory=${mainCategory}|}">
             <input id="search_kw" name="kw" placeholder="검색어를 입력해주세요." th:value="${kw}" type="text">
-            <input type="hidden" name="category" th:value="${category}" />
-            <input type="hidden" name="subCategory" th:value="${subCategory}" />
-            <button type="submit">
-              <img
-                src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></button>
+            <button type="submit"><img
+                    src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png"></button>
           </form>
         </div>
       </div>
@@ -43,33 +41,43 @@
   </div>
   <div class="container-wrap">
 
-    <div th:each="subCategory : ${subCategories}" class="subcategory">
+    <div class="subcategory" th:text="${subCategory}">
       <ul>
         <li >
           <a th:href="@{|/product/list?category=${category}&subCategory=${subCategory}|}" th:text="${subCategory}"></a>
         </li>
       </ul>
-      <div th:text="${subCategory}" class="product-title"></div>
     </div>
+
+    <div class="product-title" th:text="${subCategory}">스트랩</div>
 
     <div class="sort-section">
       <ul>
+<<<<<<< HEAD
+        <li><button>인기순</button></li>
+        <li><button>높은 가격순</button></li>
+        <li><button>낮은 가격순</button></li>
+=======
         <li><a th:href="@{/product/list(category=${category}, subCategory=${subCategory}, sort='popularity')}">인기순</a></li>
         <li><a th:href="@{/product/list(category=${category}, subCategory=${subCategory}, sort='highPrice')}">높은 가격순</a></li>
         <li><a th:href="@{/product/list(category=${category}, subCategory=${subCategory}, sort='lowPrice')}">낮은 가격순</a></li>
+>>>>>>> f1724c4bbe7bb5f4d1cafadd0f7b272b3e953091
       </ul>
     </div>
 
     <div class="product-list">
       <ul th:each="product : ${products}">
         <li>
-          <a href="">
+          <a th:href="@{|/product/${product.id}|}">
             <div class="img-box">
-              <a th:href="@{|/product/${product.id}|}">
-               <img th:src="${product.imgPath}" alt="">
-              </a>
+              <img th:src="${product.imgPath}" alt="">
             </div>
             <div class="info">
+<<<<<<< HEAD
+              <div class="name" th:text="${product.name}">베르사그립 pro</div>
+              <div class="cost" th:text="${product.price}">110000 <span>원</span></div>
+              <div class="viewcount" th:text="${product.viewCount}"><span>조회수: </span>21</div>
+=======
               <div >
                 <a th:text="${product.name}" class="name" th:href="@{|/product/${product.id}|}"></a>
               </div>
@@ -77,36 +85,39 @@
               <h5 th:text="${'리뷰 개수: ' + ((#lists.size(product.reviewList) == 0) ? 0 : #lists.size(product.reviewList)) + '건'}"> </h5>
               <h3 th:text="${'평균점수: ' + ((#lists.size(product.reviewList) == 0) ? '0.0' : #numbers.formatDecimal(#aggregates.sum(product.reviewList.![starScore])*1.0 / #lists.size(product.reviewList), 1, 1))}"> </
               <div th:text="${product.viewCount}"></div>
+>>>>>>> f1724c4bbe7bb5f4d1cafadd0f7b272b3e953091
             </div>
           </a>
+
         </li>
+
       </ul>
     </div>
 
-<!--    <div th:if="${paging?.isEmpty() == false}" style="text-align: center;">-->
-<!--      <ul class=" page-btn pagination1 justify-content-center">-->
-<!--        <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">-->
-<!--          <a class="page-link1" th:href="${paging.hasPrevious} ? @{|?page=${paging.number-1}|} : @{|?page=0|}">-->
-<!--            <span><</span>-->
-<!--          </a>-->
-<!--        </li>-->
-<!--        <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"-->
-<!--            th:if="${page >= paging.number-5 and page <= paging.number+5}"-->
-<!--            th:classappend="${page == paging.number} ? 'active'"-->
-<!--            class="page-item">-->
-<!--          <a th:text="${page+1}" class="page-link1" th:href="@{|?page=${page}|}"></a>-->
-<!--        </li>-->
-<!--        <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">-->
-<!--          <a class="page-link1" th:href="@{|?page=${paging.number+1}|}">-->
-<!--            <span>></span>-->
-<!--          </a>-->
-<!--        </li>-->
-<!--      </ul>-->
-<!--    </div>-->
-<!--  </div>-->
-  <div class="footer">
-    푸터입니다.
+    <!--      <div th:if="${!paging.isEmpty()}" style="text-align: center;">
+            <ul class=" page-btn pagination1 justify-content-center">
+                <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+                    <a class="page-link1" th:href="${paging.hasPrevious} ? @{|?page=${paging.number-1}|} : @{|?page=0|}">
+                        <span><</span>
+                    </a>
+                </li>
+                <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+                    th:if="${page >= paging.number-5 and page <= paging.number+5}"
+                    th:classappend="${page == paging.number} ? 'active'"
+                    class="page-item">
+                    <a th:text="${page+1}" class="page-link1" th:href="@{|?page=${page}|}"></a>
+                </li>
+                <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+                    <a class="page-link1" th:href="@{|?page=${paging.number+1}|}">
+                        <span>></span>
+                    </a>
+                </li>
+            </ul>
+        </div> -->
   </div>
 </div>
-</body>
+</div>
+
+<div th:replace="/footer.html"></div>
+ </body>
 </html>
