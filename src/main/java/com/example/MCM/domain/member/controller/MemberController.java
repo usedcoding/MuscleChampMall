@@ -259,7 +259,6 @@ public class MemberController {
             }
 
             model.addAttribute("totalPrice", totalPrice);
-//            model.addAttribute("totalCount", cart.getCount());
             model.addAttribute("cartItemList", cartItemList);
             model.addAttribute("member", memberService.findById(id));
 
