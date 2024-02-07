@@ -70,20 +70,9 @@ public class AdminController {
 
     if (!member.getRole().equals(MemberRole.ADMIN)) return "/";
 
-    Pageable pageable = PageRequest.of(page, size);
-
-    Page<Notice> noticePage = this.noticeService.getNotices(pageable);
-
-    List<Notice> noticeList = noticePage.getContent();
-
-    long totalNotices = noticePage.getTotalElements();
-
-    int totalPages = noticePage.getTotalPages();
+    List<Notice> noticeList = this.noticeService.getAll();
 
     model.addAttribute("noticeList",noticeList);
-    model.addAttribute("page", page);
-    model.addAttribute("totalNotice", totalNotices);
-    model.addAttribute("totalPages", totalPages);
 
     return "admin/notice";
   }
