@@ -15,16 +15,6 @@
     <div class="form_errors" th:replace="~{form_errors :: formErrorsFragment}"></div>
     <div class="big-wrap">
         <div class="wrap">
-            <div class="top-bar">
-                <div class="logo-box">
-                    <div class="logo"><a th:href="@{|/|}">MCM</a></div>
-                </div>
-                <div class="user-box">
-                    <div class="login"><a th:href="@{|/member/login|}">로그인</a></div>
-                    <div class="sign-up"><a th:href="@{|/member/signup|}">회원가입</a></div>
-                </div>
-            </div>
-
             <div class="content">
                 <div class="hello">
                     <div class="hello-box">
@@ -43,14 +33,14 @@
                     </div>
 
                     <div class="password-box">
-                        <div class="password-text">비밀번호 * (영문,숫자 8글자 이상)</div>
+                        <div class="password-text">비밀번호 * </div>
                         <div class="password">
                             <input id="password-input" th:field="*{password1}" type="password" placeholder="비밀번호를 입력해주세요."
                                    required="" value="">
                             <div class="password-checkmark">✓</div>
                             <i id="show-password" class="fa-solid fa-eye fa-lg" alt="Show Password"></i>
                         </div>
-                        <div id="password-error" style="display: none; color: red;">비밀번호는 영문, 숫자 8글자 이상을 입력하세요.</div>
+<!--                        <div id="password-error" style="display: none; color: red;">비밀번호는 영문, 숫자 8글자 이상을 입력하세요.</div>-->
                     </div>
 
                     <div class="password-check-box">
@@ -96,7 +86,7 @@
                     </div>
 
                     <div class="nickname-box">
-                        <div class="nickname-text">닉네임 * (공백,특수문자 제외한 2~10글자)</div>
+                        <div class="nickname-text">닉네임 *</div>
                         <div class="nickname">
                             <div class="nickname2">
                                 <input th:field="*{nickname}" type="text" placeholder="닉네임을 입력해주세요." class="nickname-input" required="" value="" id="nicknameInput">
