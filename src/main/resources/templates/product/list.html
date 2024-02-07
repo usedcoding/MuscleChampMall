@@ -25,7 +25,7 @@
           <div class="login"><a th:href="@{/member/login}" sec:authorize="isAnonymous()">로그인</a></div>
           <div class="logout"><a th:href="@{/member/logout}" sec:authorize="isAuthenticated()">로그아웃</a></div>
           <div class="mypage"><a th:href="@{/mypage}" sec:authorize="isAuthenticated()">마이페이지</a></div>
-          <div class="signup"><a th:href="@{/member/signup}" sec:authorize="isAnonymous()">회원가입>회원가입</a></div>
+          <div class="signup"><a th:href="@{/member/signup}" sec:authorize="isAnonymous()">회원가입</a></div>
         </li>
       </ul>
       <div class="search">
@@ -53,15 +53,12 @@
 
     <div class="sort-section">
       <ul>
-<<<<<<< HEAD
         <li><button>인기순</button></li>
         <li><button>높은 가격순</button></li>
         <li><button>낮은 가격순</button></li>
-=======
         <li><a th:href="@{/product/list(category=${category}, subCategory=${subCategory}, sort='popularity')}">인기순</a></li>
         <li><a th:href="@{/product/list(category=${category}, subCategory=${subCategory}, sort='highPrice')}">높은 가격순</a></li>
         <li><a th:href="@{/product/list(category=${category}, subCategory=${subCategory}, sort='lowPrice')}">낮은 가격순</a></li>
->>>>>>> f1724c4bbe7bb5f4d1cafadd0f7b272b3e953091
       </ul>
     </div>
 
@@ -73,11 +70,9 @@
               <img th:src="${product.imgPath}" alt="">
             </div>
             <div class="info">
-<<<<<<< HEAD
               <div class="name" th:text="${product.name}">베르사그립 pro</div>
               <div class="cost" th:text="${product.price}">110000 <span>원</span></div>
               <div class="viewcount" th:text="${product.viewCount}"><span>조회수: </span>21</div>
-=======
               <div >
                 <a th:text="${product.name}" class="name" th:href="@{|/product/${product.id}|}"></a>
               </div>
@@ -85,7 +80,6 @@
               <h5 th:text="${'리뷰 개수: ' + ((#lists.size(product.reviewList) == 0) ? 0 : #lists.size(product.reviewList)) + '건'}"> </h5>
               <h3 th:text="${'평균점수: ' + ((#lists.size(product.reviewList) == 0) ? '0.0' : #numbers.formatDecimal(#aggregates.sum(product.reviewList.![starScore])*1.0 / #lists.size(product.reviewList), 1, 1))}"> </
               <div th:text="${product.viewCount}"></div>
->>>>>>> f1724c4bbe7bb5f4d1cafadd0f7b272b3e953091
             </div>
           </a>
 
