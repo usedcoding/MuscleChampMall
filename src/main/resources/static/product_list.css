@@ -170,6 +170,7 @@ background-color:white;
   grid-template-columns: repeat(5, minmax(160px, 160px));
   gap: 25px; /* 간격 설정 */
   margin-top: 30px;
+  margin-bottom:30px;
 }
 
 .container-wrap>.subcategory>ul>li{

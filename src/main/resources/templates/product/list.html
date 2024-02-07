@@ -54,20 +54,19 @@
 
     <div class="container-wrap">
 
-        <div th:each="subCategory : ${subCategories}" class="subcategory">
+        <div class="subcategory">
             <ul>
-                <li >
+                <li th:each="subCategory : ${subCategories}">
                     <a th:href="@{|/product/list?category=${category}&subCategory=${subCategory}|}" th:text="${subCategory}"></a>
                 </li>
             </ul>
-            <div th:text="${subCategory}" class="product-title"></div>
         </div>
 
 
 
         <div class="product-list">
-            <ul th:each="product : ${products}">
-                <li>
+            <ul>
+                <li th:each="product : ${products}">
                     <a th:href="@{|/product/${product.id}|}">
                         <div class="img-box">
                             <img th:src="${product.imgPath}" alt="">
