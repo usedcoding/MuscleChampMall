@@ -107,6 +107,18 @@ margin:0;}
    display:inline-block;
 }
 
+.create-button{
+  display:flex;
+   justify-content: right;
+  padding:10px;
+  padding-right:141px;
+  margin:10px;
+}
+.create-button>.create-button-bt{
+  width:132px;
+  height:30px;
+}
+
 
 hr{
   color:white;

@@ -4,9 +4,14 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" type="text/css" th:href="@{/post_create.css}">
+    <link rel="stylesheet" href="/nav.css"/>
+    <link rel="stylesheet" href="/layout.css"/>
 </head>
 <body>
-content<div class="container">
+
+<div th:replace="/navbar.html"></div>
+
+content<div layout:fragment="content" class="container">
     <div class="create-section">
         <div class="title">게시글 등록</div>
         <form th:action="@{/post/create}" th:object="${postCreateDTO}" method="post">
@@ -28,5 +33,6 @@ content<div class="container">
     </div>
 </div>
 
+<div th:replace="/footer.html"></div>
 </body>
 </html>
