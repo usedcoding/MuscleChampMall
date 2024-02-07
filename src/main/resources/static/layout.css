@@ -31,30 +31,57 @@ ul,li{
   display:flex;
   justify-content:space-between;
   align-items:center;
+  position:relative;
 }
 
 .container>nav>.logo-section{
-  width: 400px;
+  width: 300px;
 }
 
 .container>nav>.logo-section>ul{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  font-size:20px;
+  font-size:25px;
   font-weight:bold;
 }
 
-.container>nav>.logo-section>ul>li>.logo>a>img{
+.container>nav>.logo{
+width:300px;
+text-align:center;
+}
+
+.container>nav>.logo>a>img{
   width: 150px;
   height: 150px;
+  display:inline-block;
+}
+nav>.member-section{
+    width:300px;
 }
 
 nav>.member-section>ul{
   display:flex;
-  justify-content:space-between;
-  width: 150px;
+  justify-content:end;
   font-weight:bold;
+  font-size:25px;
+}
+
+nav>.member-section>ul>li{
+    margin-left:20px;
+}
+
+nav>.login-section{
+    position:absolute;
+      top:10px;
+      left:85%;
+}
+
+nav>.login-section>ul{
+    width:200px;
+    font-size:12px;
+    display:flex;
+    justify-content:space-between;
 }
 
 .footer-wrap{

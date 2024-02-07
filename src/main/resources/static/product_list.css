@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   background-color: ;
+  color:white;
 }
 form {
     text-align : center;
@@ -57,7 +58,7 @@ ul,li{
 }
 
 .container>.nav-section>nav>ul>.member-box{
-  width: 150px;
+  width: 250px;
   display:flex;
   justify-content:space-between;
   font-size: 18px;
@@ -194,8 +195,14 @@ nav>.search>.search-box>#search-form>button>img{
   height: 160px;
 }
 
+.container-wrap>.product-list>ul>li>a{
+    background-color: rgb(33, 39, 48);
+}
+
 .container-wrap>.product-list>ul>li>a>.info{
   text-align:left;
+  margin-left: 5px;
+
 }
 
 
