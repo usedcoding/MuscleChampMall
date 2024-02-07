@@ -14,9 +14,6 @@
         <a th:href="@{/}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-cart-plus fa-stack-1x "></i></span>메인 페이지</a>
       </li>
       <li>
-        <a th:href="@{/admin/}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-cloud-download fa-stack-1x "></i></span>매출</a>
-      </li>
-      <li>
         <a th:href="@{/admin/order}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-cart-plus fa-stack-1x "></i></span>주문 관리</a>
       </li>
       <li>
@@ -65,7 +62,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="orders, loop : ${paging}">
+                <tr th:each="orders : ${orderList}">
                   <td class="number" id="selectedOrderId" th:text="${orders.id}"></td>
                   <td class="title">
                     <a th:href="@{|/product/${orders.id}|}" th:text="${orders.product.name}">상품명</a>

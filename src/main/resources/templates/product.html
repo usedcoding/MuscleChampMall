@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="/admin/admin_product.css">
+  <link rel="stylesheet" href="/admin/admin_notice.css">
   <title>Title</title>
 </head>
 <body>
@@ -40,13 +40,16 @@
 
           <div class="date_content">
             <div class="date_title"><p>상품</p></div>
-            <div><a th:href="">상품등록</a></div>
+            <div>
+              <a th:href="@{/product/create}"><button>상품등록</button></a>
+            </div>
             <table class="date_data">
               <thead>
                 <th>No.</th>
                 <th>상품 이름</th>
                 <th>가격</th>
                 <th>조회수</th>
+                <th>리뷰개수</th>
                 <th>평점</th>
                 <th>등록일</th>
                 <th>수정</th>
@@ -55,14 +58,14 @@
               <tbodt th:each="product : ${productList}">
                 <tr>
                   <td th:text="${product.id}"></td>
-                  <td th:text="${product.name}"></td>
-                  <td th:text="${product.price}">
+                  <td>
+                    <a th:text="${product.name}" th:href="@{|/product/${product.id}|}"></a>
+                  </td>                  <td th:text="${product.price}">
                     <span>원</span>
                   </td>
                   <td th:text="${product.viewCount}"></td>
-                  <td>
-                    <a th:text="${product.name}" th:href="@{|/product/${product.id}|}"></a>
-                  </td>
+                  <td th:text="${'리뷰 개수: ' + ((#lists.size(product.reviewList) == 0) ? 0 : #lists.size(product.reviewList)) + '건'}"> </td>
+                  <td th:text="${'평균점수: ' + ((#lists.size(product.reviewList) == 0) ? '0.0' : #numbers.formatDecimal(#aggregates.sum(product.reviewList.![starScore])*1.0 / #lists.size(product.reviewList), 1, 1))}"> </
                   <td th:text="${#temporals.format(product.createDate, 'yyyy-MM-dd HH:mm')}"></td>
                   <td>
                     <a th:href="@{|/product/modify/${product.id}}">
@@ -76,34 +79,7 @@
                   </td>
                 </tr>
               </tbodt>
-            </table>
-              <!-- 첫번째 페이지로 이동 -->
-              <a th:href="@{/admin/product(page=1)}">첫 페이지 </a>
-
-              <!-- 이전 링크 활성화 비활성화 -->
-              <a th:href="${productPages.first} ? '#' : @{/admin/product(page=${productPages.number})}"> 이전 </a>
-
-              <!-- 페이지 번호 링크(현재 페이지는 숫자만)
-                      for(int page=startPage; page<=endPage; page++)-->
-              <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
-
-		<!-- 현재페이지는 링크 없이 숫자만 -->
-            <span th:if="${page == productPages.number + 1}" th:text="${page}"></span>
-                <!-- 현재페이지 링크 X, 다른 페이지번호에는 링크를 보여준다 -->
-            <span th:unless="${page == productPages.number + 1}">
-        <a th:href="@{/admin/product(page=${page})}" th:text="${page}"></a>
-            </span>
-        </span>
-
-              <!-- 다음 링크 활성화 비활성화 -->
-              <a th:href="${productPages.last} ? '#' : @{/admin/product(page=${productPages.number + 2})}"> 다음 </a>
-
-              <!-- 마지막 페이지로 이동 -->
-              <a th:href="@{/admin/product(page=${productPages.totalPages})}"> 마지막 페이지</a>
-
-            </div>
-            </div>
-          </div>
+            </table>       </div>
         </div>
       </div>
     </div>

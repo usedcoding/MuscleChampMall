@@ -62,4 +62,7 @@ public class OrderService {
     return this.orderRepository.findAll(pageable);
   }
 
+  public List<Orders> getAll() {
+    return this.orderRepository.findAll();
+  }
 }

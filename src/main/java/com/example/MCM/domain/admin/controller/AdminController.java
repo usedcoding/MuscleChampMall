@@ -44,7 +44,7 @@ public class AdminController {
   private final OrderService orderService;
 
   private final PostService postService;
-  @GetMapping("/")
+  @GetMapping("/product")
   public String adminProduct(Model model,
                              Principal principal,
                              @PageableDefault(page = 1) Pageable pageable){
@@ -53,24 +53,11 @@ public class AdminController {
 
     if (!member.getRole().equals(MemberRole.ADMIN)) return "/";
 
-    Page<Product> productPage = this.productService.getProducts(pageable);
+   List<Product> productList = this.productService.getAll();
 
-    int blockLimit = 3;
-    int startPage = (((int) Math.ceil(((double) pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
-    int endPage = Math.min((startPage + blockLimit - 1), productPage.getTotalPages());
+   model.addAttribute("productList", productList);
 
-    long totalProducts = productPage.getTotalElements();
-
-    int totalPages = productPage.getTotalPages();
-
-    model.addAttribute("productPages", productPage);
-    model.addAttribute("startPage", startPage);
-    model.addAttribute("endPage", endPage);
-
-    model.addAttribute("totalProducts", totalProducts);
-    model.addAttribute("totalPages", totalPages);
-
-    return "admin/product";
+    return "product";
   }
 
   @GetMapping("/notice")
@@ -139,7 +126,7 @@ public class AdminController {
     return "admin/review";
   }
 
-  @GetMapping("/orders")
+  @GetMapping("/order")
   public String adminOrders(Model model,
                             Principal principal,
                             @RequestParam(value = "page", defaultValue = "1") int page,
@@ -149,22 +136,11 @@ public class AdminController {
 
     if (!member.getRole().equals(MemberRole.ADMIN)) return "/";
 
-    Pageable pageable = PageRequest.of(page, size);
+    List<Orders> ordersList = this.orderService.getAll();
 
-    Page<Orders> ordersPage = this.orderService.getOrders(pageable);
+    model.addAttribute("orderList", ordersList);
 
-    List<Orders> ordersList = ordersPage.getContent();
-
-    long totalOrders = ordersPage.getTotalElements();
-
-    int totalPages = ordersPage.getTotalPages();
-
-    model.addAttribute("orderList",ordersList);
-    model.addAttribute("page", page);
-    model.addAttribute("totalOrder", totalOrders);
-    model.addAttribute("totalPages", totalPages);
-
-    return "admin/orders";
+    return "orders";
   }
 
   @GetMapping("/post")
