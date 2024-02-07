@@ -62,8 +62,6 @@
       <div th:text="${subCategory}" class="product-title"></div>
     </div>
 
-
-
     <div class="product-list">
       <ul th:each="product : ${products}">
         <li>
@@ -76,8 +74,8 @@
               <div >
                 <a th:text="${product.name}" class="name" th:href="@{|/product/${product.id}|}"></a>
               </div>
-              <div class="cost" th:text="${product.price + '원'}">110000 <span></span> </div>
-              <div class="viewcount" th:text="${'조회수:' + product.viewCount}"><span> </span>21</div>
+              <div class="cost" th:text="${product.price + '원'}"><span></span> </div>
+              <div class="viewcount" th:text="${'조회수:' + product.viewCount}"><span> </span></div>
               <h5 th:text="${'리뷰 개수: ' + ((#lists.size(product.reviewList) == 0) ? 0 : #lists.size(product.reviewList)) + '건'}"> </h5>
               <h3 th:text="${'평균점수: ' + ((#lists.size(product.reviewList) == 0) ? '0.0' : #numbers.formatDecimal(#aggregates.sum(product.reviewList.![starScore])*1.0 / #lists.size(product.reviewList), 1, 1))}"> </
               <div th:text="${product.viewCount}"></div>
@@ -90,45 +88,6 @@
       </ul>
     </div>
 
-    <!--      <div th:if="${!paging.isEmpty()}" style="text-align: center;">
-            <ul class=" page-btn pagination1 justify-content-center">
-                <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
-                    <a class="page-link1" th:href="${paging.hasPrevious} ? @{|?page=${paging.number-1}|} : @{|?page=0|}">
-                        <span><</span>
-                    </a>
-                </li>
-                <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
-                    th:if="${page >= paging.number-5 and page <= paging.number+5}"
-                    th:classappend="${page == paging.number} ? 'active'"
-                    class="page-item">
-                    <a th:text="${page+1}" class="page-link1" th:href="@{|?page=${page}|}"></a>
-                </li>
-                <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
-                    <a class="page-link1" th:href="@{|?page=${paging.number+1}|}">
-                        <span>></span>
-                    </a>
-
-
-             <div th:if="${!paging.isEmpty()}" style="text-align: center;">
-                <ul class=" page-btn pagination1 justify-content-center">
-                    <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
-                        <a class="page-link1" th:href="${paging.hasPrevious} ? @{|?page=${paging.number-1}|} : @{|?page=0|}">
-                            <span><</span>
-                        </a>
-                    </li>
-                    <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
-                        th:if="${page >= paging.number-5 and page <= paging.number+5}"
-                        th:classappend="${page == paging.number} ? 'active'"
-                        class="page-item">
-                        <a th:text="${page+1}" class="page-link1" th:href="@{|?page=${page}|}"></a>
-                    </li>
-                    <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
-                        <a class="page-link1" th:href="@{|?page=${paging.number+1}|}">
-                            <span>></span>
-                        </a>
-                    </li>
-                </ul>
-            </div> -->
     </div>
 </div>
 

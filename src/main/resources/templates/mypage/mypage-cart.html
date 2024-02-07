@@ -32,7 +32,7 @@
             <div class="title">나의 장바구니</div>
             <li th:each="mycart : ${mycart}">
                 <div class="product-img">
-                    <a th:href="@{|/mycart/${mycart.product.id}|}">
+                    <a th:href="@{|/product/${mycart.product.id}|}">
                         <img th:src="${mycart.product.imgPath}" alt="">
                     </a>
                 </div>
