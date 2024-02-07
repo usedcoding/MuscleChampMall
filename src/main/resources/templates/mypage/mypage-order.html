@@ -31,13 +31,13 @@
             <div class="title">내가 주문한 상품</div>
             <li th:each="myOrder : ${myOrders}">
                 <div class="product-img">
-                    <a th:href="@{|/myOrders/${myOrder.product.id}|}">
+                    <a th:href="@{|/product/${myOrder.product.id}|}">
                         <img th:src="${myOrder.product.imgPath}" alt="">
                     </a>
                 </div>
                 <div class="product-info">
                     <div class="name">
-                        <a th:text="${myOrder.product.name}" th:href="@{|/myOrders/${myOrder.product.id}|}"></a>
+                        <a th:text="${myOrder.product.name}" th:href="@{|/product/${myOrder.product.id}|}"></a>
                     </div>
                     <div class="price" th:text="${myOrder.product.price}"> <span>원</span></div>
                     <div class="product-status">배송중</div>
