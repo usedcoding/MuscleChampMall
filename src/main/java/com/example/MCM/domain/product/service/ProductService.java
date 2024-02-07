@@ -15,7 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -239,11 +238,50 @@ public class ProductService {
         .orElse(0.0);
   }
 
-  public List<Product> getProductsSortedByStarScore() {
-    return getAllByReviewStarScore();
-  }
-
   public Page<Product> getProducts(Pageable pageable) {
     return this.productRepository.findAll(pageable);
   }
+
+//  public Page<Product> getList(String category, String subCategory, String sort, int page, String kw) {
+//    if (StringUtils.isEmpty(category)) {
+//      return getAllProducts(page, kw);
+//    } else if (StringUtils.isEmpty(subCategory)) {
+//      return getCategoryProducts(category, page, kw);
+//    } else if (StringUtils.isEmpty(sort)){
+//      return getSubCategoryProducts(category, subCategory, page, kw);
+//    } else {
+//      return getSortProducts(category, subCategory, sort, page, kw);
+//    }
+//  }
+
+//  private Page<Product> getSortProducts(String category, String subCategory, String sort, int page, String kw) {
+//    List<Sort.Order> sorts = new ArrayList<>();
+//
+//    if (sort.equals("popularity")) {
+//      sorts.add(Sort.Order.desc("avgStarScore"));
+//    } else if (sort.equals("highPrice")) {
+//      sorts.add(Sort.Order.desc("price"));
+//    } else if (sort.equals("lowPrice")) {
+//      sorts.add(Sort.Order.asc("price"));
+//    }
+//
+//    Pageable pageable = PageRequest.of(page - 1, 20, Sort.by(sorts));
+//
+//    if (category.equals("GOODS")) {
+//      if (sort.equals("popularity")) {
+//        return productRepository.findGoodsProductsOrderByPopularity(kw, pageable, subCategory);
+//      } else if (sort.equals("highPrice")) {
+//        return productRepository.findGoodsProductsOrderByHighPrice(kw, pageable, subCategory);
+//      } else if (sort.equals("lowPrice")) {
+//        return productRepository.findGoodsProductsOrderByLowPrice(kw, pageable, subCategory);
+//      }
+//    } else if (category.equals("EQUIPMENT")) {
+//      // EQUIPMENT에 대한 정렬 메소드 호출 및 처리
+//    } else if (category.equals("FOOD")) {
+//      // FOOD에 대한 정렬 메소드 호출 및 처리
+//    }
+//
+//    return Page.empty();
+//  }
+
 }

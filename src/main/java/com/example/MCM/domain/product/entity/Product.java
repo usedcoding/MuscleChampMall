@@ -35,6 +35,17 @@ public class Product extends BaseEntity {
 
   private String subCategory;
 
+  private String sort;
+
+  private double avgStarScore;
+
+  public double getAvgStarScore() {
+    return reviewList.stream()
+        .mapToDouble(Review::getStarScore)
+        .average()
+        .orElse(0.0);
+  }
+
   private Long viewCount;
 
   @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE, orphanRemoval = true)

@@ -34,8 +34,8 @@
                             <div th:text="${product.price}" class="cost">
                                 <span>원</span>
                             </div>
-                            <h5 th:text="${'리뷰 개수: ' + #lists.size(product.reviewList)} + '건'"></h5>
-                            <h3 th:text="${'평균점수: ' + #numbers.formatDecimal(#aggregates.sum(product.reviewList.![starScore])*1.0 / #lists.size(product.reviewList), 1, 1)}"></h3>
+                            <h5 th:text="${'리뷰 개수: ' + ((#lists.size(product.reviewList) == 0) ? 0 : #lists.size(product.reviewList)) + '건'}"> </h5>
+                            <h3 th:text="${'평균점수: ' + ((#lists.size(product.reviewList) == 0) ? '0.0' : #numbers.formatDecimal(#aggregates.sum(product.reviewList.![starScore])*1.0 / #lists.size(product.reviewList), 1, 1))}"> </
                         </div>
                     </a>
                 </li>

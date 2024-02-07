@@ -39,6 +39,7 @@ public class ProductController {
   @GetMapping("/list")
   public String list(Model model,
                      @RequestParam(value = "page", defaultValue = "1") int page,
+                     @RequestParam(value = "size", defaultValue = "20") int size,
                      @RequestParam(value = "kw", defaultValue = "") String kw,
                      @RequestParam(value = "category", defaultValue = "", required = false) String category,
                      @RequestParam(value = "subCategory", defaultValue = "", required = false) String subCategory){
@@ -55,6 +56,7 @@ public class ProductController {
     model.addAttribute("subCategory", subCategory);
     model.addAttribute("subCategories", subCategories);
     model.addAttribute("kw", kw);
+    model.addAttribute("size", size);
 
     return "product/list";
   }
