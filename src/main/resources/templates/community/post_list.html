@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" type="text/css" th:href="@{/post_list.css}">
+    <link rel="stylesheet" href="/nav.css"/>
+    <link rel="stylesheet" href="/layout.css"/>
 </head>
 <body>
-<div class="container">
+
+<div th:replace="/navbar.html"></div>
+<div layout:fragment="content" class="container">
     <div class="board-section">
         <div class="title">커뮤니티 게시판</div>
         <table>
@@ -30,6 +34,11 @@
             </tbody>
         </table>
     </div>
+
+    <div class=create-button>
+        <button class=create-button-bt><a th:href="@{/post/create}" style="color:white;">게시글 작성</a></button>
+    </div>
+
     <div th:if="${!paging.isEmpty()}" style="text-align: center;">
         <ul class=" page-btn pagination1 justify-content-center">
             <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
@@ -51,9 +60,10 @@
         </ul>
     </div>
     <div>
-        <a th:href="@{/post/create}" style="color:white;">게시글 작성</a>
     </div>
 </div>
+
+<div th:replace="/footer.html"></div>
 
 </body>
 </html>
