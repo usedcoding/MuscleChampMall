@@ -108,7 +108,7 @@
           <div class="content-info">
             <div th:text="${review.author.username}" class="author"></div>\
             <div th:text="${review.starScore}"></div>/
-            <div th:text="${review.createDate}" class="create-date"></div>
+            <div th:text="${#temporals.format(review.createDate, 'yyyy-MM-dd HH:mm')}" class="create-date"></div>
           </div>
         </li>
       </ul>
