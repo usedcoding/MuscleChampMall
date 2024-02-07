@@ -115,7 +115,7 @@ public class ProductController {
 
     Product product = this.productService.create(productDto, file, author);
 
-    return "redirect:/product/list";
+    return "redirect:/admin/product";
   }
 
   @GetMapping("/modify/{id}")
