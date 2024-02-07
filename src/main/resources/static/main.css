@@ -94,12 +94,14 @@ ul,li{
 }
 
 .container>.top-product-section>.product{
-
+    width:900px;
+      margin-bottom: 40px;
 }
 
 .container>.top-product-section>.product>ul{
-  display:flex;
-  justify-content:space-between;
+  display: grid;
+    grid-template-columns: repeat(5, minmax(160px, 160px));
+    gap: 25px; /* 간격 설정 */
 }
 
 .container>.top-product-section>.product>ul>li>a>img{

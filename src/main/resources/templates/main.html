@@ -25,8 +25,8 @@
             스토어 인기랭킹
         </div>
         <div class="product">
-            <ul th:each="product : ${productList}">
-                <li>
+            <ul>
+                <li th:each="product : ${productList}" th:if="${productStat.index} &lt; 5">
                     <a th:href="@{|/product/${product.id}|}">
                         <img th:src="${product.imgPath}" alt="">
                         <div class=info>
