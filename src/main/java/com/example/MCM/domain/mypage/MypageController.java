@@ -10,7 +10,6 @@ import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.member.service.MemberService;
 import com.example.MCM.domain.order.entity.Orders;
 import com.example.MCM.domain.order.service.OrderService;
-import com.example.MCM.domain.product.entity.Product;
 import com.example.MCM.domain.product.service.ProductService;
 import com.example.MCM.domain.review.entity.Review;
 import com.example.MCM.domain.review.service.ReviewService;
@@ -115,7 +114,7 @@ public class MypageController {
     public String MypagePost(Model model, Principal principal){
         Member member = this.memberService.getMember(principal.getName());
         Cart cart = member.getCart();
-        List<Post> posts = this.postService.getAll();
+        List<Post> posts = this.postService.getAllByAuthorId(member.getId());
         List<CartItem> mycart = this.cartItemService.getAll(cart);
         List<Orders> myOrders = this.orderService.getByBuyerId(member.getId());
 

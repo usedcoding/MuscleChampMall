@@ -147,4 +147,5 @@ public class MemberService {
   public List<Member> getAll() {
         return this.memberRepository.findAll();
   }
+
 }

@@ -40,12 +40,12 @@
                     <div class="name">
                         <a th:text="${mycart.product.name}" th:href="@{|/mycart/${mycart.product.id}|}"></a>
                     </div>
-                    <div class="price" th:text="${mycart.product.price}"></div><span>원</span>
-                    <div class="amount" th:text="${mycart.count}"></div><span>개</span>
+                    <div class="price" th:text="${mycart.product.price} + 원"></div>
+                    <div class="amount" th:text="${mycart.count} + 개"></div>
                     <div id="memberId" th:data-member-id="${memberId}"></div>
                     <form th:action="@{/order/detail}">
                         <input type="hidden" name="productsId" th:value="${mycart.product.id}">
-                            <button type="submit" class="buy">구매하기</button>
+                            <button type="submit" class="buy" style="color:white;">구매하기</button>
                     </form>
                 </div>
             </li>

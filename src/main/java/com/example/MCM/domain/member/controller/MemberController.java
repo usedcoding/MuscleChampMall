@@ -7,7 +7,6 @@ import com.example.MCM.domain.cartItem.entity.CartItem;
 import com.example.MCM.domain.cartItem.service.CartItemService;
 import com.example.MCM.domain.email.MailDto;
 import com.example.MCM.domain.member.dto.MemberCreateDTO;
-import com.example.MCM.domain.member.dto.MemberDeleteDTO;
 import com.example.MCM.domain.member.dto.MemberFindUsernameDTO;
 import com.example.MCM.domain.member.dto.MemberUpdateDTO;
 import com.example.MCM.domain.member.entity.Member;
@@ -78,12 +77,13 @@ public class MemberController {
     //로그인
     @GetMapping("/login")
     public String login() {
+
         return "login_form";
     }
 
     //로그아웃
     @GetMapping("/logout")
-    public String Logout(HttpSession session) {
+    public String logout(HttpSession session) {
         session.removeAttribute("loggedIn");
         return "redirect:/login";
     }
@@ -157,29 +157,27 @@ public class MemberController {
     @GetMapping("/delete/{username}")
     public String delete(@PathVariable(value = "username") String username,
                          Principal principal,
-                         @Valid MemberDeleteDTO memberDeleteDTO,
-                         BindingResult bindingResult) {
+                         Model model) {
         Member member = this.memberService.getMember(username);
+        model.addAttribute("member", member);
 
-        if (bindingResult.hasErrors()) {
-            return String.format("redirect:/delete/%s", member.getUsername());
-        }
+//        if (bindingResult.hasErrors()) {
+//            return String.format("redirect:/member/delete/%s", member.getUsername());
+//        }
         if (!member.getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
         }
 
         if (member.isDeleted() == true) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "회원이 없습니다.");
-        } else {
+        }
+        memberService.delete(member);
 
-            if (memberDeleteDTO.getConfirmPassword().equals(member.getPassword())) {
-                this.memberService.delete(member);
-            } else if (!memberDeleteDTO.getConfirmPassword().equals(member.getPassword())) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
-            }
             return "redirect:/";
         }
-    }
+
+
+
 
     //비밀번호 찾기 페이지 이동
     @GetMapping("/findPassword")

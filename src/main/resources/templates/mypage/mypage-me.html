@@ -30,12 +30,19 @@
                 <div>NickName : </div>
                 <div th:text="${member.nickname}"></div>
             </li>
+            <li>
+                <div>username : </div>
+                <div th:text="${member.username}"></div>
+            </li>
             <li><div>E-mail : </div>
                 <div th:text="${member.email}"></div></li>
             <li><div>phone-number : </div>
                 <div th:text="${member.phoneNumber}"></div></li>
             <li><div>Address : </div>
                 <div th:text="${member.address}"></div></li>
+            <a th:href="@{${'/member/delete/' + member.username}}">
+                <button>회원 탈퇴</button>
+            </a>
         </ul>
     </div>
 </div>

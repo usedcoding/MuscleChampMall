@@ -102,4 +102,8 @@ public class PostService {
   public Page<Post> getPosts(Pageable pageable) {
         return this.postRepository.findAll(pageable);
   }
+
+    public List<Post> getAllByAuthorId(Long id) {
+        return this.postRepository.findAllByAuthorId(id);
+    }
 }
