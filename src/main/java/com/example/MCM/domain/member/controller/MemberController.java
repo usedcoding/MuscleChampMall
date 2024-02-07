@@ -1,5 +1,6 @@
 package com.example.MCM.domain.member.controller;
 
+import com.example.MCM.base.exception.DataNotFoundException.DataNotFoundException;
 import com.example.MCM.domain.cart.entity.Cart;
 import com.example.MCM.domain.cart.service.CartService;
 import com.example.MCM.domain.cartItem.entity.CartItem;
@@ -196,13 +197,18 @@ public class MemberController {
 
     //회원 아이디 찾기
     @PostMapping("/findUsername")
-    public String findUsername(@Valid MemberFindUsernameDTO memberFindUsernameDTO, Model model) {
+    public String findUsername(@Valid MemberFindUsernameDTO memberFindUsernameDTO, BindingResult bindingResult, Model model) {
 
         //DTO에 있는 데이터 호출 후 저장
-        Member member = this.memberService.findUsername(memberFindUsernameDTO.getEmail(), memberFindUsernameDTO.getPhoneNumber());
-
-        model.addAttribute("member", member);
-
+        try{
+            Member member =  this.memberService.findUsername(memberFindUsernameDTO.getEmail(), memberFindUsernameDTO.getPhoneNumber());
+            model.addAttribute("member", member);
+        } catch (DataNotFoundException e) {
+            e.printStackTrace();
+            bindingResult.reject("findFailed", "회원 정보를 다시 확인해 주세요.");
+            return "username_find";
+        }
+        
         return "username_get";
     }
 

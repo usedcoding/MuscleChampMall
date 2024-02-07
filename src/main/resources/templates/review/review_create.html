@@ -8,6 +8,7 @@
 <body>
 <div id="modal">
     <form th:action="@{/product/{productId}/review/create(productId=${product.id})}"  th:object="${reviewCreateDTO}" method="post">
+        <div class="form_errors" th:replace="~{form_errors :: formErrorsFragment}"></div>
         <div class="modal-content">
             <div class="main-title">Review</div>
             <div class="subject">제목</div>
