@@ -22,62 +22,86 @@ ul,li{
 
 .container{
   width: 1200px;
-    height: 1200px;
   margin:0 auto;
   color:white;
   background-color: black;
 }
 
-.container>.nav-section{
-  text-align:center;
+
+.container>nav{
+  width: 900px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:relative;
 }
 
-.container>.nav-section>nav{
-  width: 900px;
+nav>.logo-section{
+  width: 300px;
+}
+
+.container>nav>.logo-section>ul{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:25px;
+  font-weight:bold;
+}
+
+.container>nav>.logo{
+width:300px;
+text-align:center;
+}
+
+.container>nav>.logo>a>img{
+  width: 150px;
+  height: 150px;
   display:inline-block;
 }
 
-.container>.nav-section>nav>ul{
+
+nav>.member-section{
+    width:300px;
+}
+
+nav>.member-section>ul{
   display:flex;
-  justify-content:space-between;
-  align-items:center;
-
+  justify-content:end;
+  font-weight:bold;
+  font-size:25px;
 }
 
-.container>.nav-section>nav>ul>.logo-box{
-  width: 400px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  font-size: 18px;
+nav>.member-section>ul>li{
+    margin-left:20px;
 }
 
-.nav-section>nav>ul>.logo-box>a>img{
-  width: 170px;
-  height: 150px;
+nav>.login-section{
+    position:absolute;
+      top:10px;
+      left:85%;
 }
 
-.container>.nav-section>nav>ul>.member-box{
-  width: 250px;
-  display:flex;
-  justify-content:space-between;
-  font-size: 18px;
-
+nav>.login-section>ul{
+    width:200px;
+    font-size:12px;
+    display:flex;
+    justify-content:space-between;
 }
 
-nav>.search{
+.container>.search{
   text-align:center;
 }
 
 
-nav>.search>.search-box{
+.container>.search>.search-box{
   display:inline-block;
   position:relative;
   width: 400px;
   margin-bottom: 20px;
 }
 
-nav>.search>.search-box>#search-form>input{
+.container>.search>.search-box>#search-form>input{
   width: 370px;
   border: 1px solid #bbb;
   border-radius: 8px;
@@ -86,7 +110,7 @@ nav>.search>.search-box>#search-form>input{
 }
 
 
-nav>.search>.search-box>#search-form>button>img{
+.container>.search>.search-box>#search-form>button>img{
   position : absolute;
   width: 20px;
   top: 10px;
@@ -107,6 +131,7 @@ nav>.search>.search-box>#search-form>button>img{
 #search-form {
     display: flex;
     align-items: center;
+
 }
 
 #search-form button {
@@ -115,9 +140,15 @@ nav>.search>.search-box>#search-form>button>img{
     cursor: pointer;
 }
 
+#search_kw{
+    background-color:white;
+    color:black;
+}
+
 #search-form button img {
     width: 20px;
     height: 20px;
+background-color:white;
 }
 
 
@@ -148,7 +179,7 @@ nav>.search>.search-box>#search-form>button>img{
   text-align:center;
 }
 
-.container-wrap>.product-title{
+.container-wrap>.subcategory>.product-title{
   font-size: 30px;
   font-weight: bold;
   margin-top: 40px;
@@ -177,6 +208,7 @@ nav>.search>.search-box>#search-form>button>img{
 }
 
 .container-wrap>.product-list{
+    width:900px;
   margin-bottom: 40px;
 }
 
