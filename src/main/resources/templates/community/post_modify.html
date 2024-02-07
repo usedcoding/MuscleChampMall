@@ -10,6 +10,7 @@ content<div class="container">
     <div class="create-section">
         <div class="title">게시글 수정</div>
         <form th:action="@{|/post/modify/${post.id}|}" th:object="${postCreateDTO}" method="post">
+            <div class="form_errors" th:replace="~{form_errors :: formErrorsFragment}"></div>
             <div class="form-container">
                 <div class="menu">제목</div>
                 <input type="text" th:field="*{title}" name="title" class="notice-subject" placeholder=" 제목을 입력해주세요.">

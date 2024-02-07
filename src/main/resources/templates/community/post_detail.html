@@ -20,8 +20,10 @@
 
         <div class="list">
             <a th:href="@{/post/list}">목록</a>
-            <a th:href="@{|/post/modify/${post.id}|}">수정</a>
-            <a th:href="@{|/post/delete/${post.id}|}">삭제</a>
+            <a th:href="@{|/post/modify/${post.id}|}"  sec:authorize="isAuthenticated()"
+               th:if="${post.author != null and #authentication.getPrincipal().getUsername() == post.author.username}">수정</a>
+            <a th:href="@{|/post/delete/${post.id}|}" sec:authorize="isAuthenticated()"
+               th:if="${post.author != null and #authentication.getPrincipal().getUsername() == post.author.username}">삭제</a>
         </div>
 <!--댓글 작성-->
         <form th:action="@{|/comment/create/${post.id}|}" th:object="${commentCreateDTO}" method="post">
@@ -36,7 +38,8 @@
                 <li th:id=${comment.id} th:text="${comment.content}"></li>
                 <div class="comment-option">
 <!--                    수정 input창 버튼-->
-                    <button type="button" th:onclick="doDisplay([[${comment.id}]])">수정</button>
+                    <button type="button" th:onclick="doDisplay([[${comment.id}]])" sec:authorize="isAuthenticated()"
+                            th:if="${comment.author != null and #authentication.getPrincipal().getUsername() == comment.author.username}">수정</button>
                     <div th:id="'myDIV-' + ${comment.id}" style="display:none;">
                         <form th:id="'commentForm-' + ${comment.id}" th:object="${commentCreateDTO}">
                             <div class="form_errors" th:replace="~{form_errors :: formErrorsFragment}"></div>
@@ -48,7 +51,8 @@
                     </div>
                 </div>
                 <div class="comment-option">
-                    <a th:href="@{|/comment/delete/${comment.id}|}">
+                    <a th:href="@{|/comment/delete/${comment.id}|}" sec:authorize="isAuthenticated()"
+                       th:if="${comment.author != null and #authentication.getPrincipal().getUsername() == comment.author.username}">
                         삭제
                     </a>
                 </div>
