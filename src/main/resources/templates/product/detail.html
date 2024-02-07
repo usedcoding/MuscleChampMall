@@ -3,12 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" href="/product_detail.css">
+  <link rel="stylesheet" href="/layout.css"/>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
   <title>Title</title>
 </head>
 <body>
-<div class="container">
+
+
+<div th:replace="/navbar.html"></div>
+
+<div layout:fragment="content" class="container">
   <div class="product-box">
     <div class="product">
       <div class="product-img">
@@ -19,29 +24,33 @@
 <!--        <div class="averageScore"><span>점</span></div>-->
         <div class="cost" th:text="${product.price}"><span>원</span></div>
         <div th:text="${product.viewCount}"></div>
-        <div>
-          <form sec:authorize="isAuthenticated()" class="d-flex" th:if="${#authentication.principal}"
-                th:action="@{/member/cart/{memberId}/{productId}(memberId=${member.id}, productId=${product.id})}"
-                method="post">
-            <div class="flex justify-end w-full mr-[10px]">
+
+        <div class="bd_ADEkA"><div class="bd_33paV">
+          <div class="bd_2cuha"><button type="button" class="bd_EZ05h bd_3ex46 bd_2jhSJ N=a:pcs.quantity" >
+            <span class="blind"> 빼기</span></button>
+            <input type="number" class=" shet bd_2eiJL N=a:pcs.quantity" value="1">
+            <button type="button" class="bd_EZ05h bd_2nJMW N=a:pcs.quantity">
+              <span class="blind">추가</span></button>
+          </div>
+        </div>
+        </div>
+
+        <div class="form-section">
+            <form sec:authorize="isAuthenticated()" th:if="${#authentication.principal}"
+                  th:action="@{/member/cart/{memberId}/{productId}(memberId=${member.id}, productId=${product.id})}"
+                  method="post">
               <input class="form-control text-center me-3" id="amount" name="amount" type="hidden"
                      value="1" style="max-width: 3rem"/>
-              <button class="ml-2 mr-4 px-4 py-2 w-24 btn btn-primary text-white add-to-cart-btn"
-                      type="submit">
-                장바구니
-              </button>
-              <a class="go-to-cart-btn hidden" sec:authorize="isAuthenticated()"
-                 th:href="@{/member/cart/{memberId}(memberId=${member.id})}">
-                장바구니로 이동
-              </a>
-            </div>
-          </form>
-          <div id="memberId" th:data-member-id="${memberId}"></div>
-          <form th:action="@{/order/detail}">
-            <input type="hidden" name="productsId" th:value="${product.id}">
-            <input type="submit" value="구매" class="btn btn-primary text-white">
-          </form>
-        </div>
+              <button class="cart">장바구니 담기</button>
+            </form>
+
+            <div id="memberId" th:data-member-id="${memberId}"></div>
+            <form th:action="@{/order/detail}">
+              <input type="hidden" name="productsId" th:value="${product.id}">
+              <a href=""><button type="submit" class="buy">구매하기</button></a>
+            </form>
+          </div>
+
       </div>
     </div>
     <div class="product-infosection">
@@ -128,6 +137,39 @@
   </div>
 </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var decreaseButton = document.querySelector('.bd_3ex46'); // 수량 빼기 버튼
+        var increaseButton = document.querySelector('.bd_2nJMW'); // 수량 추가 버튼
+        var quantityInput = document.querySelector('.bd_2eiJL'); // 수량 입력란
+
+        // 수량 입력란 값이 변경될 때마다 수량 빼기 버튼을 활성화/비활성화
+        quantityInput.addEventListener('input', function() {
+            var currentValue = parseInt(quantityInput.value); // 현재 수량 값
+
+            // 수량이 2 이상이면 수량 빼기 버튼을 활성화
+            if (currentValue >= 2) {
+                decreaseButton.removeAttribute('disabled');
+            } else { // 수량이 1일 때는 수량 빼기 버튼 비활성화
+                decreaseButton.setAttribute('disabled', 'disabled');
+            }
+        });
+
+        // 수량 빼기 버튼 클릭 시 동작
+        decreaseButton.addEventListener('click', function() {
+            var currentValue = parseInt(quantityInput.value); // 현재 수량 값
+            if (currentValue > 1) { // 수량이 1보다 크면
+                quantityInput.value = currentValue - 1; // 수량 1 감소
+            }
+        });
+
+        // 수량 추가 버튼 클릭 시 동작
+        increaseButton.addEventListener('click', function() {
+            var currentValue = parseInt(quantityInput.value); // 현재 수량 값
+            quantityInput.value = currentValue + 1; // 수량 1 증가
+        });
+    });
+</script>
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
@@ -181,7 +223,10 @@
           });
       }
   });
+
+
 </script>
 
+<div th:replace="/footer.html"></div>
 </body>
 </html>

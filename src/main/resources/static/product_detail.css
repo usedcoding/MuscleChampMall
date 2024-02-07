@@ -60,7 +60,11 @@ li {
   font-size: 25px;
 }
 
-.product-box > .product > .product-info > .cart {
+.product-box > .product > .product-info >.form-section{
+  display:flex;
+}
+
+.product-box > .product > .product-info >.form-section>form> .cart {
   margin-top: 50px;
   font-size: 20px;
   padding: 10px;
@@ -69,13 +73,15 @@ li {
 
 }
 
-.product-box > .product > .product-info > a > .buy {
+.product-box > .product > .product-info >.form-section>form> a > .buy {
   font-size: 20px;
   padding: 10px;
   border: 1px solid white;
   border-radius: 3px;
-  margin-left: 30px;
+  margin-left: 10px;
+  margin-top: 50px;
 }
+
 
 .container > .product-box > .product-infosection {
   margin-top: 50px;
@@ -221,6 +227,11 @@ li {
   margin-left: 10px;
 }
 
+
+.shet{
+  width: 40px;
+  text-align:center;
+}
 
 /* 하단버튼 */
 .bt_box{
