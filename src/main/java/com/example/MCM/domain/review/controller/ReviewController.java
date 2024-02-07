@@ -93,6 +93,7 @@ public class ReviewController {
     }
 
     //리뷰수정
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/review/modify/{id}")
     public String modifyReview(@PathVariable(value = "id") Long id, Principal principal, @Valid ReviewCreateDTO reviewCreateDTO, BindingResult bindingResult) {
         Review review = this.reviewService.getReview(id);

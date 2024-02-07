@@ -42,14 +42,10 @@
                     <td th:text="${reviews.id}">1</td>
                     <td><a th:href="@{|reviews/${reviews.id}|}" th:text="${reviews.title}">혁명전사를 찾습니다</a></td>
                     <td th:text="${#temporals.format(reviews.createDate, 'yyyy-MM-dd HH:mm')}"></td>
-
                 </tr>
                 </tbody>
             </table>
-
-
         </div>
-
     </div>
 
 

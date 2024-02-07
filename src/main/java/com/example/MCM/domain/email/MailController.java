@@ -11,6 +11,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -54,7 +55,7 @@ public class MailController {
 
     //비밀번호 전송
     @PostMapping("/user/findPw/sendEmail")
-    public String sendEmailForPw(@Valid MailDto mailDto) {
+    public String sendEmailForPw(@Valid MailDto mailDto, BindingResult bindingResult) {
 
         String tempPw = mailService.getTempPassword();
         String from = "usedcoding@gmail.com";//보내는 이 메일주소
@@ -75,9 +76,14 @@ public class MailController {
             //일치 하지 않는 경우 오류 처리 필요
             this.mailService.updatePassword(tempPw, mailDto.getEmail(), mailDto.getPhoneNumber(), mailDto.getUsername());
 
+        }  catch (DataNotFoundException e) {
+            e.printStackTrace();
+            bindingResult.reject("findFailed", "회원 정보를 다시 확인해 주세요.");
+            return "password_find";
         } catch (Exception e) {
-            throw new DataNotFoundException("error");
+            throw new RuntimeException("error");
         }
+
 
         return "redirect:/";
     }

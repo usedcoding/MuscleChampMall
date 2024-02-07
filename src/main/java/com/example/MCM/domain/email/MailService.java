@@ -1,5 +1,6 @@
 package com.example.MCM.domain.email;
 
+import com.example.MCM.base.exception.DataNotFoundException.DataNotFoundException;
 import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,18 @@ public class MailService {
 
     //임시 비밀번호 회원 정보에 저장
     public void updatePassword(String tempPw, String email, String phoneNumber, String username) {
+
+        if(!email.isBlank()) {
+            throw new DataNotFoundException("email not found");
+        }
+
+        if(!phoneNumber.isBlank()) {
+            throw new DataNotFoundException("phoneNumber not found");
+        }
+
+        if(!username.isBlank()) {
+            throw new DataNotFoundException("username not found");
+        }
 
         Member member = this.memberRepository.findByEmailAndPhoneNumberAndUsername(email, phoneNumber, username);
 
