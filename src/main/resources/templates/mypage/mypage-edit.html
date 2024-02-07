@@ -41,24 +41,25 @@
 
                 <div class="phone-title">휴대폰 번호</div>
                 <input type="text" class="phone" th:field="*{newPhoneNumber}" name="newPhoneNumber">
-                <br>
+
 
                 <!--  회원 주소 수정           -->
-                <input type="text" id="sample6_postcode" placeholder="우편번호">
+                <div class="address-title">주소</div>
 
-                <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+                <div class="adr-section">
+                    <input type="text" class="address" id="sample6_postcode" placeholder="우편번호">
+                    <input class="adr-find" type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">
+                </div>
 
-                <input type="text" id="sample6_address" name="newAddress" placeholder="주소" autocomplete="off"><br>
+                <input type="text" id="sample6_address" name="newAddress" placeholder="주소" class="num">
 
-                <input type="text" id="sample6_detailAddress" name="detailAddress" placeholder="상세주소" autocomplete="off">
+                <input type="text" id="sample6_extraAddress" name="extraAddress" placeholder="참고항목" class="num">
 
-                <input type="text" id="sample6_extraAddress" name="extraAddress" placeholder="참고항목">
+                <input type="text" id="sample6_detailAddress" name="detailAddress" class="num" placeholder="상세주소를 입력해주세요.">
 
                 <div class="button">
                     <button>저장하기</button>
-                    <a a th:href="@{/mypage}">
-                        <button>취소하기</button>
-                    </a>
+                    <button type="button" th:onclick="|location.href='@{/mypage}'|">취소하기</a></button>
                 </div>
             </form>
         </div>
@@ -120,8 +121,6 @@
                 <!--      상세주소          -->
                 document.getElementById("sample6_detailAddress").value = detailAddr
                 // 커서를 상세주소 필드로 이동한다.
-
-
                 document.getElementById("sample6_detailAddress").focus();
 
             }
