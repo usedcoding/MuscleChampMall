@@ -5,32 +5,16 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link rel="stylesheet" href="/admin_review.css">
+  <link rel="stylesheet" href="/admin/admin_review.css">
   <title>Document</title>
 </head>
 <body>
-<nav class="navbar navbar-default no-margin">
-  <!-- Brand and toggle get grouped for better mobile display -->
-  <div class="navbar-header fixed-brand">
-    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" id="menu-toggle">
-      <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
-    </button>
-    <a class="navbar-brand" th:href="@{/}"><img class="rogoimg" src="https://i.postimg.cc/qRMyWWkr/image.png"/></a>
-  </div>
-  <!-- navbar-header-->
-  <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-    <ul class="nav navbar-nav">
-
-    </ul>
-  </div>
-  <!-- bs-example-navbar-collapse-1 -->
-</nav>
 <div id="wrapper">
   <!-- Sidebar -->
   <div id="sidebar-wrapper">
     <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
       <li>
-        <a th:href="@{/admin/}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-cloud-download fa-stack-1x "></i></span>매출</a>
+        <a th:href="@{/}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-cart-plus fa-stack-1x "></i></span>메인 페이지</a>
       </li>
       <li>
         <a th:href="@{/admin/order}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-cart-plus fa-stack-1x "></i></span>주문 관리</a>
@@ -84,14 +68,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="review : ${paging}">
-                  <td class="number" th:text="${review.id}">1</td>
+                <tr th:each="review : ${reviewList}">
+                  <td class="number" th:text="${review.id}"></td>
                   <td class="user">
-                    <span th:text="${review.author.username}">작성자</span>
+                    <span th:text="${review.author.nickname}"></span>
                   </td>
-                  <td class="subject" th:text="${review.content}">리뷰 내용</td>
-                  <td class="product-name" ><a th:href="@{|/product/${review.product.id}|}" th:text="${review.orders.product.name}">상품명</a></td>
-                  <td class="score" th:text="${review.starScore}">평점</td>
+                  <td class="subject" th:text="${review.content}"></td>
+                  <td class="product-name" ><a th:href="@{|/product/${review.product.id}|}" th:text="${review.product.name}"></a></td>
+                  <td class="score" th:text="${review.starScore}"></td>
                   <td class="button_menu">
                     <label class="order_check">
                       <input type="checkbox" name="orderCheck" th:value="${review.id}">
@@ -100,28 +84,6 @@
                 </tr>
                 </tbody>
               </table>
-              <!-- 페이징처리 시작 -->
-<!--              <div th:if="${!paging.isEmpty()}" style="text-align: center;">-->
-<!--                <ul class="pagination justify-content-center">-->
-<!--                  <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">-->
-<!--                    <a class="page-link" th:href="${paging.hasPrevious} ? @{|?page=${paging.number-1}|} : @{|?page=0|}">-->
-<!--                      <span>이전</span>-->
-<!--                    </a>-->
-<!--                  </li>-->
-<!--                  <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"-->
-<!--                      th:if="${page >= paging.number-5 and page <= paging.number+5}"-->
-<!--                      th:classappend="${page == paging.number} ? 'active'"-->
-<!--                      class="page-item">-->
-<!--                    <a th:text="${page+1}" class="page-link" th:href="@{|?page=${page}|}"></a>-->
-<!--                  </li>-->
-<!--                  <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">-->
-<!--                    <a class="page-link" th:href="@{|?page=${paging.number+1}|}">-->
-<!--                      <span>다음</span>-->
-<!--                    </a>-->
-<!--                  </li>-->
-<!--                </ul>-->
-<!--              </div>-->
-               페이징처리 끝
             </div>
           </div>
         </div>

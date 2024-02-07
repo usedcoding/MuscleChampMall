@@ -2,18 +2,17 @@ package com.example.MCM.domain.member.service;
 
 import com.example.MCM.base.exception.DataNotFoundException.DataNotFoundException;
 import com.example.MCM.domain.member.MemberRole;
-import com.example.MCM.domain.member.dto.MemberPasswordUpdateDTO;
 import com.example.MCM.domain.member.entity.Member;
 import com.example.MCM.domain.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -144,4 +143,8 @@ public class MemberService {
     public Page<Member> getAll(Pageable pageable) {
         return this.memberRepository.findAll(pageable);
     }
+
+  public List<Member> getAll() {
+        return this.memberRepository.findAll();
+  }
 }

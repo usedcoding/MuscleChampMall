@@ -76,4 +76,7 @@ public class ReviewService {
         return this.reviewRepository.findByProductId(productId);
     }
 
+  public Page<Review> getByProduct(Product product, Pageable pageable) {
+        return this.reviewRepository.findByProduct(product, pageable);
+    }
 }
