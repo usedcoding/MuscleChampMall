@@ -216,7 +216,7 @@ public class MemberController {
     @ResponseBody
     public String addCartItem(@PathVariable("id") Long id,
                               @PathVariable("productId") Long productId,
-                              Integer amount) {
+                              @RequestParam("amount") Integer amount) {
 
         Member member = this.memberService.findById(id);
 

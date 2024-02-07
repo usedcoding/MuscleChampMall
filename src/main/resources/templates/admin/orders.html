@@ -76,14 +76,14 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="orderProduct, loop : ${paging}">
+                <tr th:each="orders, loop : ${paging}">
                   <td class="number" id="selectedOrderId" th:text="${orders.id}"></td>
                   <td class="title">
                     <a th:href="@{|/product/${orders.id}|}" th:text="${orders.product.name}">상품명</a>
                   </td>
                   <td class="nickname" th:text="${orders.buyer.username}">주문자명</td>
                   <td class="date" th:text="${orders.buyer.email}">test@test.test</td>
-                  <td class="inquiry" th:text="${orderProduct.isPaid}">주문상태</td>
+                  <td class="inquiry" th:text="${orders.isPaid}">주문상태</td>
                   <td class="button_menu">
                     <label class=“order_check>
                       <input type="checkbox" name="orderCheck" th:value="${orders.id}">
