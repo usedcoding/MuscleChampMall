@@ -76,13 +76,15 @@ public class MailController {
             //일치 하지 않는 경우 오류 처리 필요
             this.mailService.updatePassword(tempPw, mailDto.getEmail(), mailDto.getPhoneNumber(), mailDto.getUsername());
 
+
         }  catch (DataNotFoundException e) {
-            e.printStackTrace();
             bindingResult.reject("findFailed", "회원 정보를 다시 확인해 주세요.");
             return "password_find";
         } catch (Exception e) {
-            throw new RuntimeException("error");
+            bindingResult.reject("Failed", "정보를 다시 확인해 주세요.");
+            return "password_find";
         }
+
 
 
         return "redirect:/";

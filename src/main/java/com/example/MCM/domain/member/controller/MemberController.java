@@ -189,9 +189,9 @@ public class MemberController {
 
     //회원 아이디 찾기 이동
     @GetMapping("/findUsername")
-    public String findUsername(Model model) {
+    public String findUsername(MemberFindUsernameDTO memberFindUsernameDTO, Model model) {
         //DTO초기화 코드 없으면 DTO인식이 안됨
-        model.addAttribute("memberFindUsernameDTO", new MemberFindUsernameDTO());
+
         return "username_find";
     }
 
@@ -207,8 +207,12 @@ public class MemberController {
             e.printStackTrace();
             bindingResult.reject("findFailed", "회원 정보를 다시 확인해 주세요.");
             return "username_find";
+        } catch (Exception e) {
+            bindingResult.reject("Failed", "정보를 다시 확인해 주세요.");
+            return "username_find";
         }
-        
+
+
         return "username_get";
     }
 
