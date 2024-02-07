@@ -38,19 +38,27 @@
                 </tr>
                 </thead>
                 <tbody>
+<<<<<<< HEAD:src/main/resources/templates/mypage/mypage-post.html
                 <tr th:each="posts : ${posts}">
                     <td th:text="${posts.id}"></td>
                     <td><a th:href="@{/post/detail/{postId}(postId=${posts.id})}" th:text="${posts.title}">혁명전사를 찾습니다</a>
                     </td>
                     <td th:text="${#temporals.format(posts.createDate, 'yyyy-MM-dd HH:mm')}"></td>
 
+=======
+                <tr th:each="reviews : ${reviews}">
+                    <td th:text="${reviews.id}">1</td>
+<<<<<<< HEAD
+                    <td><a th:href="@{|reviews/${reviews.id}|}" th:text="${reviews.title}"></a></td>
+=======
+                    <td><a th:href="@{|reviews/${reviews.id}|}" th:text="${reviews.title}">혁명전사를 찾습니다</a></td>
+>>>>>>> 5c1a0f36688b0a0cdba958af976c81b29944f65a
+                    <td th:text="${#temporals.format(reviews.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+>>>>>>> f1724c4bbe7bb5f4d1cafadd0f7b272b3e953091:src/main/resources/templates/mypage/mypage-review.html
                 </tr>
                 </tbody>
             </table>
-
-
         </div>
-
     </div>
 
 

@@ -114,12 +114,22 @@ public class MemberService {
 
     //비밀번호 찾기
     public Member findPassword(String email, String phoneNumber, String username) {
+
         return this.memberRepository.findByEmailAndPhoneNumberAndUsername(email, phoneNumber, username);
     }
 
 
     //아이디 찾기
     public Member findUsername(String email, String phoneNumber) {
+
+        if(!email.isBlank()) {
+            throw new DataNotFoundException("email not found");
+        }
+
+        if(!phoneNumber.isBlank()) {
+            throw new DataNotFoundException("phoneNumber not found");
+        }
+
         return this.memberRepository.findByEmailAndPhoneNumber(email, phoneNumber);
     }
 

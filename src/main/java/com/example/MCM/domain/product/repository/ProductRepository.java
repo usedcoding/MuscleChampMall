@@ -89,4 +89,16 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
   @Query("SELECT DISTINCT p.subCategory FROM Product p WHERE p.category = :category")
   List<String> findSubCategoriesByCategory(@Param("category") String category);
+
+  @Query("SELECT p FROM Product p WHERE p.category = 'GOODS' AND (p.subCategory = :subCategory OR :subCategory IS NULL) " +
+      "ORDER BY p.avgStarScore DESC")
+  Page<Product> findGoodsProductsOrderByPopularity(String kw, Pageable pageable, String subCategory);
+//
+//  @Query("SELECT p FROM Product p WHERE p.category = 'GOODS' AND (p.subCategory = :subCategory OR :subCategory IS NULL) " +
+//      "ORDER BY p.price DESC")
+//  Page<Product> findGoodsProductsOrderByHighPrice(String kw, Pageable pageable, @Param("subCategory") String subCategory);
+//
+//  @Query("SELECT p FROM Product p WHERE p.category = 'GOODS' AND (p.subCategory = :subCategory OR :subCategory IS NULL) " +
+//      "ORDER BY p.price ASC")
+//  Page<Product> findGoodsProductsOrderByLowPrice(String kw, Pageable pageable, String subCategory);
 }
