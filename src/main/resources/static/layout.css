@@ -1,0 +1,93 @@
+*{
+  margin: 0;
+  padding: 0;
+  background-color: black;
+}
+form {
+    text-align : center;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+ul,li{
+  text-decoration:none;
+  list-style:none;
+}
+
+/* 스타일 시작 */
+
+.container{
+  width: 1200px;
+  margin:0 auto;
+  color:white;
+}
+
+.container>nav{
+  width: 900px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:relative;
+}
+
+.container>nav>.logo-section{
+  width: 300px;
+}
+
+.container>nav>.logo-section>ul{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:25px;
+  font-weight:bold;
+}
+
+.container>nav>.logo{
+width:300px;
+text-align:center;
+}
+
+.container>nav>.logo>a>img{
+  width: 150px;
+  height: 150px;
+  display:inline-block;
+}
+nav>.member-section{
+    width:300px;
+}
+
+nav>.member-section>ul{
+  display:flex;
+  justify-content:end;
+  font-weight:bold;
+  font-size:25px;
+}
+
+nav>.member-section>ul>li{
+    margin-left:20px;
+}
+
+nav>.login-section{
+    position:absolute;
+      top:10px;
+      left:85%;
+}
+
+nav>.login-section>ul{
+    width:200px;
+    font-size:12px;
+    display:flex;
+    justify-content:space-between;
+}
+
+.footer-wrap{
+  width: 900px;
+  margin:auto;
+  margin-top: 100px;
+  color:white;
+}
+

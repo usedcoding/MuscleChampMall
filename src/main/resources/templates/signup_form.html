@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/signup.css}">
+    <title>회원가입</title>
+</head>
+<body>
+<form th:action="@{/member/signup}" th:object="${memberCreateDTO}" method="post">
+    <div class="form_errors" th:replace="~{form_errors :: formErrorsFragment}"></div>
+    <div class="big-wrap">
+        <div class="wrap">
+            <div class="content">
+                <div class="hello">
+                    <div class="hello-box">
+                        <div class="title">환영합니다! MCM 입니다.</div>
+
+                    </div>
+                </div>
+
+                <div class="signup-box">
+
+                    <div class="memberId-box">
+                        <div class="memberId-text">사용할 아이디 *</div>
+                        <div class="memberId">
+                            <input id="memberId" th:field="*{username}" required="" placeholder="사용할 아이디를 입력해주세요." value="">
+                        </div>
+                    </div>
+
+                    <div class="password-box">
+                        <div class="password-text">비밀번호 * </div>
+                        <div class="password">
+                            <input id="password-input" th:field="*{password1}" type="password" placeholder="비밀번호를 입력해주세요."
+                                   required="" value="">
+                            <div class="password-checkmark">✓</div>
+                            <i id="show-password" class="fa-solid fa-eye fa-lg" alt="Show Password"></i>
+                        </div>
+<!--                        <div id="password-error" style="display: none; color: red;">비밀번호는 영문, 숫자 8글자 이상을 입력하세요.</div>-->
+                    </div>
+
+                    <div class="password-check-box">
+                        <div class="password-check-text">비밀번호 확인 *</div>
+                        <div class="password-check">
+                            <input id="password-check-input" th:field="*{password2}" type="password"
+                                   placeholder="비밀번호를 입력해주세요." required="" value="">
+                            <div class="password-check-checkmark">✓</div>
+                        </div>
+                        <div id="password-match-error" style="display: none; color: red;">비밀번호와 일치하지 않습니다.</div>
+                    </div>
+
+
+                    <div class="email-box">
+                        <div class="email-text">이메일</div>
+                        <div class="email">
+                            <input id="email" th:field="*{email}" type="email" placeholder="ex) example@example.com" required="" value="">
+                            <div class="email-checkmark">✓</div>
+                            <button type="button" id="send-verification" onclick="sendEmailConfirmation()">인증번호 전송</button>
+                        </div>
+                        <div id="email-format-error" style="display: none; color: red;">이메일 형식으로 작성해주세요.</div>
+                    </div>
+
+
+                    <div class="email-check-box">
+                        <div class="email-check-text">이메일 인증 *</div>
+                        <div class="email-check">
+                            <input id="mailKey" th:field="*{mailKey}" type="text" placeholder="인증번호">
+<!--                            <input id="genMailKey" th:field="*{genMailKey}" type="hidden" placeholder="인증번호">-->
+                            <div class="email-check-checkmark">✓</div>
+                            <div id="timer">03:00</div>
+                            <div id="timer-expired" style="display: none; color: red;">인증시간이 만료되었습니다.</div>
+                            <div id="mail-key-errorMessage " style="display: none; color: red;">메일 키가 일치하지 않아요</div>
+                        </div>
+                    </div>
+
+                    <div class="phoneNumber-box">
+                        <div class="phoneNumber-text">휴대폰 번호*</div>
+                        <div class="phoneNumber">
+                            <input th:field="*{phoneNumber}" placeholder="ex) 01012341234"
+                                   class="email-input" required="" value="">
+                        </div>
+                    </div>
+
+                    <div class="nickname-box">
+                        <div class="nickname-text">닉네임 *</div>
+                        <div class="nickname">
+                            <div class="nickname2">
+                                <input th:field="*{nickname}" type="text" placeholder="닉네임을 입력해주세요." class="nickname-input" required="" value="" id="nicknameInput">
+                            </div>
+                            <button type="button" class="btn btn-primary" id="checkDuplicateBtn">중복확인</button>
+                        </div>
+                        <div id="nicknameCheckResult" style="margin-top: 10px;"></div>
+                    </div>
+
+                    <div class="signup-btn">
+                        <button type="submit" class="btn btn-primary" onclick="showPopup()">회원가입</button>
+                    </div>
+                    <div class="cancel-btn">
+                        <button type="submit" class="btn2 btn-primary"><a th:href="@{|/|}">취소하기</a></button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+</body>
+<script>
+    function sendEmailConfirmation() {
+        // 이메일 주소 가져오기
+        var email = $("#email").val();
+        // AJAX 요청 보내기
+        $.ajax({
+            url: "/mailCheck", // 이메일 인증번호를 보낼 서버의 URL
+            method: "GET",
+            data: {email: email}, // 이메일 주소를 서버로 전달
+            success: function(response) {
+                alert("이메일 인증번호를 전송했습니다.");
+            },
+            error: function(xhr, status, error) {
+                alert("이메일 인증번호 전송에 실패했습니다. 다시 시도해주세요.");
+            }
+        });
+    }
+</script>
+</html>

@@ -1,0 +1,106 @@
+*{
+  margin: 0;
+  padding: 0;
+   background-color: black;
+}
+form {
+    text-align : center;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+ul,li{
+  text-decoration:none;
+  list-style:none;
+}
+
+
+.container{
+  width: 1200px;
+  margin:auto;
+
+}
+
+.container>.nav-bar{
+  width: 900px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  color:white;
+}
+
+.nav-bar>.left{
+  width: 400px;
+  display:flex;
+  justify-content:space-around;
+}
+
+.nav-bar>.right{
+  width: 200px;
+  display:flex;
+  justify-content:space-between;
+}
+
+.img-section{
+  margin:auto;
+  text-align:center;
+}
+
+.img-section>img{
+  width: 900px;
+  height: 500px;
+}
+
+.info-section{
+  width: 900px;
+  margin:auto;
+  color:white;
+  display:flex;
+  margin-top: 20px;
+}
+
+.info-section>.menu{
+  width: 20%;
+}
+
+.info-section>.menu>a>li{
+  margin-bottom: 30px;
+}
+
+.info-section>.info{
+  margin-left: 100px;
+}
+
+.info-section>.info>a {
+
+}
+
+.info-section>.info>a>button{
+  color: white;
+  height: 70px;
+  width: 100px;
+  margin: 50px;
+
+}
+
+.info-section>.info>li{
+  display:flex;
+  font-size: 30px;
+  margin-bottom: 30px;
+
+}
+
+.info-section>.info>li:first-child{
+  margin-top: 30px;
+}
+
+.info-section>.info>li>div{
+  margin-right: 10px;
+}
+
+hr{
+  color:white;
+}

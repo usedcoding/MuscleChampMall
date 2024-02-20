@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/mypage/mypage-cart.css"/>
+    <link rel="stylesheet" href="/layout.css">
+</head>
+<body>
+
+<div th:replace="/navbar.html"></div>
+
+<div layout:fragment="content"  class="container">
+
+    <div class="img-section">
+        <img src="https://i.ytimg.com/vi/-gBA_HA9sV0/maxresdefault.jpg" alt="">
+    </div>
+    <div class="info-section">
+        <ul class="menu">
+            <a th:href="@{/mypage/me}"><li> 회원정보</li></a>
+            <a th:href="@{/mypage/order}"><li> 내가 주문한 상품</li></a>
+            <a th:href="@{/mypage/cart}"><li> 장바구니</li></a>
+            <a th:href="@{/mypage/post}"><li> 내가 쓴 게시글</li></a>
+            <a th:href="@{/mypage/edit}"><li> 개인정보 변경</li></a>
+        </ul>
+
+        <div class="ment" th:if="${mycart == null || #lists.isEmpty(mycart)}">
+            <p>장바구니가 비어있습니다.</p>
+        </div>
+
+        <ul th:if="${mycart != null && not #lists.isEmpty(mycart)}" class=info>
+            <div class="title">나의 장바구니</div>
+            <li th:each="mycart : ${mycart}">
+                <div class="product-img">
+                    <a th:href="@{|/product/${mycart.product.id}|}">
+                        <img th:src="${mycart.product.imgPath}" alt="">
+                    </a>
+                </div>
+                <div class="product-info">
+                    <div class="name">
+                        <a th:text="${mycart.product.name}" th:href="@{|/mycart/${mycart.product.id}|}"></a>
+                    </div>
+                    <div class="price" th:text="${mycart.product.price} + 원"></div>
+                    <div class="amount" th:text="${mycart.count} + 개"></div>
+                    <div id="memberId" th:data-member-id="${memberId}"></div>
+                    <form th:action="@{/order/detail}">
+                        <input type="hidden" name="productsId" th:value="${mycart.product.id}">
+                            <button type="submit" class="buy" style="color:white;">구매하기</button>
+                    </form>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+<div th:replace="/footer.html"></div>
+
+</body>
+</html>

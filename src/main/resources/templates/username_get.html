@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/get_username.css}">
+</head>
+<body>
+<div class="container">
+    <div class="wrap">
+        <div class="title">
+            아이디 찾기
+        </div>
+        <div class="result">
+            <div class="id">
+                <span>회원님 ID: </span>
+                <div th:text="${member.username}"></div>
+            </div>
+        </div>
+    </div>
+    <button> <a th:href="@{|/|}"> 메인으로 </a></button>
+</div>
+</body>
+</html>

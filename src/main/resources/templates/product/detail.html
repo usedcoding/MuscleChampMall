@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/product_detail.css">
+  <link rel="stylesheet" href="/layout.css"/>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <title>Title</title>
+</head>
+<body>
+
+
+<div th:replace="/navbar.html"></div>
+
+<div layout:fragment="content" class="container">
+  <div class="product-box">
+    <div class="product">
+      <div class="product-img">
+        <img th:src="${product.imgPath}" alt="">
+      </div>
+      <div class="product-info">
+        <div class="name" th:text="${product.name}"></div>
+<!--        <div class="averageScore"><span>점</span></div>-->
+        <div class="cost" th:text="${product.price}"><span>원</span></div>
+        <div th:text="${product.viewCount}"></div>
+
+        <div class="bd_ADEkA"><div class="bd_33paV">
+          <div class="bd_2cuha"><button type="button" class="bd_EZ05h bd_3ex46 bd_2jhSJ N=a:pcs.quantity" >
+            <span class="blind"> 빼기</span></button>
+            <input type="number" class=" shet bd_2eiJL N=a:pcs.quantity" value="1">
+            <button type="button" class="bd_EZ05h bd_2nJMW N=a:pcs.quantity">
+              <span class="blind">추가</span></button>
+          </div>
+        </div>
+        </div>
+
+        <div class="form-section">
+            <form sec:authorize="isAuthenticated()" th:if="${#authentication.principal}"
+                  th:action="@{/member/cart/{id}/{productId}(id=${member.id}, productId=${product.id})}"
+                  method="post">
+              <input class="form-control text-center me-3" id="amount" name="amount" type="hidden"
+                     value="1" style="max-width: 3rem"/>
+              <button class="cart add-to-cart-btn">장바구니 담기</button>
+            </form>
+
+            <div id="memberId" th:data-member-id="${memberId}"></div>
+            <form th:action="@{/order/detail}">
+              <input type="hidden" name="productsId" th:value="${product.id}">
+              <a href=""><button type="submit" class="buy">구매하기</button></a>
+            </form>
+          </div>
+
+      </div>
+    </div>
+    <div class="product-infosection">
+      <ul>
+        <li class="info">
+          <div class="title">간단 설명</div>
+          <div class="text" th:text="${product.description}"></div>
+        </li>
+      </ul>
+      <div>상세 설명</div>
+      <div class="big-info" th:text="${product.content}"></div>
+    </div>
+    <div class="product-review">
+      <div class="review-create">
+        <a th:href="@{/product/{productId}/review/create(productId=${product.id})}" class="review-btn">리뷰등록하기</a>
+      </div>
+
+      <div id="modal">
+        <form th:action="@{/product/{productId}/review/create(productId=${productId})}" th:object="${reviewCreateDTO}" method="post" th:if="${productId != null}">
+          <div class="modal-content">
+            <div class="main-title">Review</div>
+
+            <div class="subject">제목</div>
+            <hr>
+            <input th:field="${title}" type="text">
+
+            <div class="score-title">평점</div>
+            <hr>
+            <div name="starScore" class="score">
+              <input th:field="${starScore}" type="radio" value="5">5점
+              <input th:field="${starScore}" type="radio" value="4">4점
+              <input th:field="${tarScore}" type="radio" value="3">3점
+              <input th:field="${starScore}" type="radio" value="2">2점
+              <input th:field="${starScore}" type="radio" value="1">1점
+            </div>
+
+            <div class="content">내용</div>
+            <hr>
+            <textarea th:field="${content}" id="content" cols="30" rows="10"></textarea>
+
+            <div class="btn-section">
+              <button type="submit">저장하기</button>
+              <button>취소하기</button>
+            </div>
+          </div>
+        </form>
+
+
+      </div>
+
+
+      <ul th:each="review : ${review}">
+        <li class="review">
+          <div th:text="${review.content}" class="content"></div>
+
+          <div class="content-info">
+            <div th:text="${review.author.username}" class="author"></div>\
+            <div th:text="${review.starScore}"></div>/
+            <div th:text="${#temporals.format(review.createDate, 'yyyy-MM-dd HH:mm')}" class="create-date"></div>
+          </div>
+        </li>
+      </ul>
+<!--      <div th:if="${!paging.isEmpty()}" style="text-align: center;">-->
+<!--        <ul class=" page-btn pagination1 justify-content-center">-->
+<!--          <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">-->
+<!--            <a class="page-link1" th:href="${paging.hasPrevious} ? @{|?page=${paging.number-1}|} : @{|?page=0|}">-->
+<!--              <span><</span>-->
+<!--            </a>-->
+<!--          </li>-->
+<!--          <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"-->
+<!--              th:if="${page >= paging.number-5 and page <= paging.number+5}"-->
+<!--              th:classappend="${page == paging.number} ? 'active'"-->
+<!--              class="page-item">-->
+<!--            <a th:text="${page+1}" class="page-link1" th:href="@{|?page=${page}|}"></a>-->
+<!--          </li>-->
+<!--          <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">-->
+<!--            <a class="page-link1" th:href="@{|?page=${paging.number+1}|}">-->
+<!--              <span>></span>-->
+<!--            </a>-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--      </div>-->
+    </div>
+  </div>
+</div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var decreaseButton = document.querySelector('.bd_3ex46'); // 수량 빼기 버튼
+        var increaseButton = document.querySelector('.bd_2nJMW'); // 수량 추가 버튼
+        var quantityInput = document.querySelector('.bd_2eiJL'); // 수량 입력란
+
+        // 수량 입력란 값이 변경될 때마다 수량 빼기 버튼을 활성화/비활성화
+        quantityInput.addEventListener('input', function() {
+            var currentValue = parseInt(quantityInput.value); // 현재 수량 값
+
+            // 수량이 2 이상이면 수량 빼기 버튼을 활성화
+            if (currentValue >= 2) {
+                decreaseButton.removeAttribute('disabled');
+            } else { // 수량이 1일 때는 수량 빼기 버튼 비활성화
+                decreaseButton.setAttribute('disabled', 'disabled');
+            }
+        });
+
+        // 수량 빼기 버튼 클릭 시 동작
+        decreaseButton.addEventListener('click', function() {
+            var currentValue = parseInt(quantityInput.value); // 현재 수량 값
+            if (currentValue > 1) { // 수량이 1보다 크면
+                quantityInput.value = currentValue - 1; // 수량 1 감소
+            }
+        });
+
+        // 수량 추가 버튼 클릭 시 동작
+        increaseButton.addEventListener('click', function() {
+            var currentValue = parseInt(quantityInput.value); // 현재 수량 값
+            quantityInput.value = currentValue + 1; // 수량 1 증가
+        });
+    });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var modal = document.getElementById("modal");
+    var reviewBtn = document.querySelector(".review-btn");
+    var saveBtn = document.querySelector("#modal form button:first-of-type");
+    var cancelBtn = document.querySelector("#modal form button:last-of-type");
+
+    // 리뷰 등록하기 버튼 클릭 시 모달 표시
+    reviewBtn.addEventListener("click", function() {
+        modal.style.display = "block";
+    });
+
+    // 저장하기 버튼 클릭 시
+    saveBtn.addEventListener("click", function() {
+        // 여기에 Ajax를 사용하여 데이터를 서버에 전송하는 코드 작성
+        // 저장 완료 후 모달 닫기
+        modal.style.display = "none";
+    });
+
+    // 취소하기 버튼 클릭 시
+    cancelBtn.addEventListener("click", function() {
+        // 모달 닫기
+        modal.style.display = "none";
+    });
+});
+
+  $(document).ready(function () {
+  // 장바구니 버튼 클릭 이벤트 핸들러 등록
+  $('.add-to-cart-btn').on('click', function (event) {
+      event.preventDefault();
+      var memberId = document.getElementById('memberId').getAttribute('data-member-id');
+      console.log('Member ID:', memberId);
+      const form = $(this).closest('form');
+
+      if (confirm('이 상품을 장바구니에 추가하시겠습니까?')) {
+          $.ajax({
+              type: 'POST',
+              url: form.attr('action'),
+              data: form.serialize(),
+              success: function () {
+                  alert("상품이 장바구니에 추가되었습니다.");
+                  if (confirm('장바구니에 상품이 담겼습니다. 장바구니로 이동하시겠습니까?')) {
+                      var cartUrl = '/mypage/cart';
+                      window.location.href = cartUrl;
+                  }
+              },
+              error: function () {
+                  alert("상품 추가에 실패하였습니다.");
+              }
+          });
+      }
+  });
+});
+
+</script>
+
+<div th:replace="/footer.html"></div>
+</body>
+</html>

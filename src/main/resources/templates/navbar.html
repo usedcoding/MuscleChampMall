@@ -1,0 +1,33 @@
+<div class="container">
+    <nav>
+        <div class="logo-section">
+            <ul>
+                <li><a href="/product/list?category=GOODS">용품</a></li>
+                <li><a href="/product/list?category=EQUIPMENT">기구</a></li>
+                <li><a href="/product/list?category=FOOD">식품</a></li>
+            </ul>
+        </div>
+        <div class="logo">
+            <a th:href="@{/}"><img src="https://i.imgur.com/S8oMBKh.png" alt=""></a>
+        </div>
+        <div class="member-section">
+            <ul>
+                <li><a th:href="@{/post/list}">커뮤니티</a></li>
+                <li><a th:href="@{/notice/list}">공지사항</a></li>
+            </ul>
+        </div>
+        <div class="login-section">
+            <ul>
+                <li><a th:href="@{/admin/notice}" sec:authorize="isAuthenticated()"
+                       th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
+                    관리자 페이지</a></li>
+                <li><a th:href="@{/mypage}" sec:authorize="isAuthenticated()">마이페이지</a></li>
+                <li><a th:href="@{/member/logout}" sec:authorize="isAuthenticated()">로그아웃</a></li>
+                <li><a th:href="@{/member/signup}" sec:authorize="isAnonymous()">회원가입</a></li>
+                <li><a th:href="@{/member/login}" sec:authorize="isAnonymous()">로그인</a></li>
+            </ul>
+
+        </div>
+    </nav>
+
+</div>

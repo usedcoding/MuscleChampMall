@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/notice_detail.css">
+  <title>공지사항 상세페이지</title>
+</head>
+<body>
+<div class="container">
+  <div class="notice">
+    <div class="notice-subject" th:text="${notice.subject}"></div>
+    <span class="create-date" th:text="${#temporals.format(notice.createDate, 'yyyy-MM-dd HH:mm')}"></span>
+    <div class="notice-content" th:text="${notice.content}"></div>
+    <div class="list">
+      <a th:href="@{/notice/list}">목록</a>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

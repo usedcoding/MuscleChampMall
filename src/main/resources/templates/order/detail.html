@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/order/order-detail.css">
+  <link rel="stylesheet" href="/layout.css"/>
+  <title>결제 페이지</title>
+</head>
+<body>
+<div th:replace="/navbar.html"></div>
+
+<div layout:fragment="content" class="container">
+  <div class="wrap">
+    <div class="title">상품구매</div>
+    <form th:action="@{/order/detail}" method="post">
+      <div class="product-section">
+        <div class="title">상품정보</div>
+        <hr>
+        <div class="info-section">
+          <div class="img-box">
+            <img th:src="${product.imgPath}" alt="">
+          </div>
+          <div class="info">
+            <div class="name">
+              <span>상품명: </span>
+              <span th:text="${product.name}"></span>
+            </div>
+            <div class="price"><span>가격: </span><span th:text="${product.price} + ' 원'"></span></div>
+          </div>
+        </div>
+
+      </div>
+      <div class="customer-section">
+        <div class="title">회원정보</div>
+        <hr>
+        <div class="user-info">
+          <div class="userId">
+            <span>회원ID: </span> <span th:text="${member.nickname}"></span>
+          </div>
+          <div class="userName">
+            <span>구매자명: </span> <input type="text" placeholder="구매자명을 입력해주세요.">
+          </div>
+          <div class="userEmail">
+            <span>E-mail: </span> <input type="text" placeholder="구매자명을 입력해주세요.">
+          </div>
+        </div>
+
+      </div>
+      <div class="payments-section">
+        <div class="title">결재방식</div>
+        <hr>
+        <div class="paymethod">
+          <div class="Bank-transfer">
+            <input type="checkbox"> 무통장 입금
+          </div>
+          <div class="toss-pay">
+            <input type="checkbox"> 토스페이
+          </div>
+        </div>
+      </div>
+
+      <div class="button">
+        <div id="memberId" th:data-member-id="${memberId}"></div>
+        <form th:action="@{/order/detail}">
+          <input type="hidden" name="productsId" th:value="${product.id}">
+          <button type="button" onclick="pay()" class="btn btn-primary text-white">구매하기</button>
+        </form>
+        <button>취소하기</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+<script src="https://js.tosspayments.com/v1"></script>
+<script th:inline="javascript">
+
+  let amount = /*[[${product.price}]]*/;
+  let orderName = /*[[${product.name}]]*/;
+  let productId = /*[[${product.id}]]*/;
+
+  let tossPayments = TossPayments("test_ck_ZLKGPx4M3M41oaJJ5zo8BaWypv1o");
+
+  let path = "/order/" + productId + "/";
+  let successUrl = window.location.origin + path + "success";
+  let failUrl = window.location.origin + path + "fail";
+  let callbackUrl = window.location.origin + path + "va_callback";
+  let orderId = new Date().getTime();
+
+  function pay() {
+
+<!--        const productId = document.getElementById("productId").value;-->
+
+      const method = "카드";
+
+      const requestJson = {
+          "amount": amount,
+          "orderId": "sample-" + orderId,
+          "orderName": orderName,
+          "successUrl": successUrl,
+          "failUrl": failUrl,
+          "cardCompany": null,
+          "cardInstallmentPlan": null,
+          "maxCardInstallmentPlan": null,
+          "useCardPoint": false,
+          "customerName": "박토스",
+          "customerEmail": null,
+          "customerMobilePhone": null,
+          "taxFreeAmount": null,
+          "useInternationalCardOnly": false,
+          "flowMode": "DEFAULT",
+          "discountCode": null,
+          "appScheme": null
+      }
+      tossPayments.requestPayment(method, requestJson)
+          .catch(function (error) {
+
+              if (error.code === "USER_CANCEL") {
+                  alert('유저가 취소했습니다.');
+              } else {
+                  alert(error.message);
+              }
+
+          });
+  }
+
+
+</script>
+
+<div th:replace="/footer.html"></div>
+</body>
+</html>

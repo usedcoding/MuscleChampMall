@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/admin/admin_post.css">
+  <title>Title</title>
+</head>
+<body>
+<div id="wrapper">
+  <!-- Sidebar -->
+  <div id="sidebar-wrapper">
+    <ul class="sidebar-nav nav-pills nav-stacked" id="menu">
+      <li>
+        <a th:href="@{/}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-cart-plus fa-stack-1x "></i></span>메인 페이지</a>
+      </li>
+      <li>
+        <a th:href="@{/admin/order}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-cart-plus fa-stack-1x "></i></span>주문 관리</a>
+      </li>
+      <li>
+        <a th:href="@{/admin/product}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-cart-plus fa-stack-1x "></i></span>상품 관리</a>
+      </li>
+      <li>
+        <a th:href="@{/admin/member}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-wrench fa-stack-1x "></i></span>회원 관리</a>
+      </li>
+      <li>
+        <a th:href="@{/admin/review}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-server fa-stack-1x "></i></span>리뷰 관리</a>
+      </li>
+      <li>
+        <a th:href="@{/admin/notice}"><span class="fa-stack fa-lg pull-left"><i class="fa fa-server fa-stack-1x "></i></span>공지사항 관리</a>
+      </li>
+    </ul>
+  </div>
+  <!-- /#sidebar-wrapper -->
+  <!-- Page Content -->
+  <div id="page-content-wrapper">
+    <div class="container-fluid xyz">
+      <div class="row">
+        <div class="col-lg-12">
+          <h1>커뮤니티 관리</h1>
+
+          <div class="date_content">
+            <div class="date_title"><p>상품</p></div>
+            <div>
+              <table class="date_data">
+                <thead>
+                <th>No.</th>
+                <th>제목</th>
+                <th>조회수</th>
+                <th>등록일</th>
+                <th>수정</th>
+                <th>삭제</th>
+                </thead>
+                <tbodt th:each="notice : ${postList}">
+                  <tr>
+                    <td th:text="${post.id}"></td>
+                    <td>
+                      <a th:text="${post.subject}" th:href="@{|/post/${post.id}|}"></a>
+                    </td>
+<!--                    <td th:text="${notice.viewCount}"></td>-->
+                    <td th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+                    <td>
+                      <a th:href="@{|/post/modify/${post.id}}">
+                        <button>수정</button>
+                      </a>
+                    </td>
+                    <td>
+                      <a th:href="@{|/post/delete/${post.id}}">
+                        <button>삭제</button>
+                      </a>
+                    </td>
+                  </tr>
+                </tbodt>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /#page-content-wrapper -->
+</div>
+</body>
+</html>
+</body>
+</html>

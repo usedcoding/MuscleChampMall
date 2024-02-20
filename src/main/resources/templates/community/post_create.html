@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/post_create.css}">
+    <link rel="stylesheet" href="/nav.css"/>
+    <link rel="stylesheet" href="/layout.css"/>
+</head>
+<body>
+
+<div th:replace="/navbar.html"></div>
+
+content<div layout:fragment="content" class="container">
+    <div class="create-section">
+        <div class="title">게시글 등록</div>
+        <form th:action="@{/post/create}" th:object="${postCreateDTO}" method="post">
+            <div class="form_errors" th:replace="~{form_errors :: formErrorsFragment}"></div>
+            <div class="form-container">
+                <div class="menu">제목</div>
+                <input type="text" th:field="*{title}" name="title" class="notice-subject" placeholder=" 제목을 입력해주세요.">
+            </div>
+            <div class="form-container">
+                <div class="menu">내용</div>
+                <textarea name="content" id="" cols="30" rows="10" th:field="*{content}" placeholder=" 내용을 입력해주세요." class="content"></textarea>
+            </div>
+
+            <div class="button">
+                <button type="submit">저장하기</button>
+                <button type="submit"><a th:href="@{/post/list}">취소하기</a></button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div th:replace="/footer.html"></div>
+</body>
+</html>

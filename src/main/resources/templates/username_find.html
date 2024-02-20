@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/find_username.css}">
+</head>
+<body>
+<div class="container">
+    <div class="wrap">
+        <div class="title">
+            아이디 찾기
+        </div>
+        <form th:action="@{/member/findUsername}"  th:object="${memberFindUsernameDTO}" method="post">
+            <div class="form_errors" th:replace="~{form_errors :: formErrorsFragment}"></div>
+            <div class="find-section">
+                <div class="find-id-title">
+                    이름
+                </div>
+                <input type="text" class="id-name"  placeholder="니 이메일">
+                <div class="find-id-title">
+                    번호
+                </div>
+                <input type="text" class="id-phoneNumber"   placeholder="니 번호 열한자">
+            </div>
+            <div class="btn-section">
+                <button type="submit">아이디 찾기</button>
+                <button><a th:href="@{|/|}">취소</a></button>
+            </div>
+        </form>
+
+    </div>
+</div>
+</body>
+</html>

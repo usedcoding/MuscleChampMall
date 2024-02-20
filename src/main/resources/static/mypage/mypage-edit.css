@@ -1,0 +1,198 @@
+*{
+  margin: 0;
+  padding: 0;
+   background-color: black;
+  color:white;
+}
+form {
+    text-align : center;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+ul,li{
+  text-decoration:none;
+  list-style:none;
+}
+
+
+.container{
+  width: 1200px;
+  margin:auto;
+
+}
+
+.container>.nav-bar{
+  width: 900px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  color:white;
+}
+
+.nav-bar>.left{
+  width: 400px;
+  display:flex;
+  justify-content:space-around;
+}
+
+.nav-bar>.right{
+  width: 200px;
+  display:flex;
+  justify-content:space-between;
+}
+
+.img-section{
+  margin:auto;
+  text-align:center;
+}
+
+.img-section>img{
+  width: 900px;
+  height: 500px;
+}
+
+.info-section{
+  width: 900px;
+  margin:auto;
+  color:white;
+  display:flex;
+  margin-top: 20px;
+}
+
+.info-section>.menu{
+  width: 20%;
+}
+
+.info-section>.menu>a>li{
+  margin-bottom: 30px;
+}
+
+.info-section>.info{
+  margin-left: 100px;
+}
+
+.info-section>.edit-section{
+  width: 100%;
+  display:flex;
+  justify-content:center;
+  margin-top: 40px;
+}
+
+.info-section>.edit-section>.title{
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.info-section>.edit-section>form{
+  margin-top: 60px;
+}
+
+.info-section>.edit-section>form>.pw-title{
+  text-align:left;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.info-section>.edit-section>form>.pw{
+  padding: 5px;
+  width: 250px;
+}
+
+.info-section>.edit-section>form>.pw-check-title{
+  text-align:left;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.info-section>.edit-section>form>.pw-check{
+  padding: 5px;
+  width: 250px;
+}
+
+
+
+.info-section>.edit-section>form>.nickName-title{
+  text-align:left;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.info-section>.edit-section>form>.nickName{
+  padding: 5px;
+  width: 250px;
+}
+
+.info-section>.edit-section>form>.email-title{
+  text-align:left;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.info-section>.edit-section>form>.email{
+  padding: 5px;
+  width: 250px;
+}
+
+.info-section>.edit-section>form>.phone-title{
+  text-align:left;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.info-section>.edit-section>form>.phone{
+  padding: 5px;
+  width: 250px;
+}
+
+.info-section>.edit-section>form>.address-title{
+  text-align:left;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.info-section>.edit-section>form>.adr-section{
+  position:relative;
+}
+
+.info-section>.edit-section>form>.adr-section>.address{
+  padding: 5px;
+  width: 250px;
+}
+
+.info-section>.edit-section>form>.adr-section>.adr-find{
+  padding: 5px;
+  width: 100px;
+  position:absolute;
+  left:100%;
+}
+
+.num{
+  display:block;
+  margin-top: 10px;
+  padding: 5px;
+  width: 250px;
+}
+
+
+.info-section>.edit-section>.edit-user>.button{
+  display:flex;
+}
+
+
+.info-section>.edit-section>.edit-user>.button>button{
+  display:block;
+  margin-top: 30px;
+  height: 30px;
+  width: 132px;
+  color:white;
+  background-color: rgb(30, 30, 30);
+  margin-bottom: 150px;
+}
+
+hr{
+  color:white;
+}

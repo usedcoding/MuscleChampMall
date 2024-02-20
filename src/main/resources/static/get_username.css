@@ -1,0 +1,47 @@
+*{
+  margin: 0;
+  padding: 0;
+   background-color: black;
+  color:white;
+}
+form {
+    text-align : left;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+ul,li{
+  text-decoration:none;
+  list-style:none;
+}
+
+
+/* 스타일시작 */
+
+.container{
+  width: 1200px;
+  margin:auto;
+
+}
+
+.container>.wrap{
+  width: 900px;
+  margin:auto;
+}
+
+.container>.wrap>.title{
+  margin-top: 30px;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+
+.container>.wrap>.result{
+  text-align:center;
+  margin-top: 150px;
+  font-size: 25px;
+  font-weight: bold;
+}
